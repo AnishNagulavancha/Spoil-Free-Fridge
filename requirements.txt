@@ -1,0 +1,17 @@
+# FoodSense / Spoil-Free Fridge — ML pipeline
+# Python 3.9+
+
+# Core data & numerics
+numpy>=1.24,<3
+pandas>=2.0
+scipy>=1.10
+
+# ML: training & evaluation
+scikit-learn>=1.3
+joblib>=1.3
+
+# Optional: TFLite for future TinyML deployment
+# tensorflow>=2.14
+
+# Serial / data logging (for Data LoggingScript.py)
+pyserial>=3.5
