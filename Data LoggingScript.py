@@ -8,7 +8,7 @@ PREHEAT_MINUTES = 30
 LOG_MINUTES = 60         
 FRESHNESS_LABEL = "Fresh"  
 
-SAVE_FOLDER = r"C:\Users\anish\Documents\SensorLogs"  
+SAVE_FOLDER = r"C:\Users\yasho\OneDrive\Documents\Spoil Free Fridge"  
 
 timestamp_str = time.strftime("%Y%m%d_%H%M%S")
 CSV_FILENAME = f"{SAVE_FOLDER}\\sensor_log_{timestamp_str}.csv"
