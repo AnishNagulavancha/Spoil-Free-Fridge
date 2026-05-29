@@ -2349,6 +2349,26 @@
 	)
 	(wire
 		(pts
+			(xy 92.71 78.74) (xy 130.81 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0614d94d-7ad2-46cd-a75c-3fc110ec9950")
+	)
+	(wire
+		(pts
+			(xy 129.54 99.06) (xy 106.68 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "08ac9a9f-c043-4a74-86f8-f1c0dfb21a15")
+	)
+	(wire
+		(pts
 			(xy 121.92 101.6) (xy 121.92 106.68)
 		)
 		(stroke
@@ -2399,16 +2419,6 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 100.33) (xy 92.71 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1c25f69b-400d-4bbb-b6e0-9f8ed5cf217f")
-	)
-	(wire
-		(pts
 			(xy 80.01 66.04) (xy 130.81 66.04)
 		)
 		(stroke
@@ -2446,16 +2456,6 @@
 			(type default)
 		)
 		(uuid "258399fd-73d4-414c-bc09-0ae52c8a9fe9")
-	)
-	(wire
-		(pts
-			(xy 113.03 81.28) (xy 130.81 81.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2de2d197-924c-472e-bb64-e01b66ca7222")
 	)
 	(wire
 		(pts
@@ -2629,16 +2629,6 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 78.74) (xy 130.81 78.74)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "68d246a0-5144-47fc-af95-6ccf2527114c")
-	)
-	(wire
-		(pts
 			(xy 95.25 140.97) (xy 95.25 146.05)
 		)
 		(stroke
@@ -2666,6 +2656,16 @@
 			(type default)
 		)
 		(uuid "7540e110-9fd0-4fff-9c36-c7eb36455263")
+	)
+	(wire
+		(pts
+			(xy 92.71 100.33) (xy 92.71 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7f1ff921-3ce3-4d41-9358-28bcf0d84020")
 	)
 	(wire
 		(pts
@@ -2769,16 +2769,6 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 76.2) (xy 130.81 76.2)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9ece6ecd-c372-4ff4-95be-920221c397cb")
-	)
-	(wire
-		(pts
 			(xy 152.4 116.84) (xy 157.48 116.84)
 		)
 		(stroke
@@ -2806,16 +2796,6 @@
 			(type default)
 		)
 		(uuid "a4989baa-d95d-44e6-bc16-ec37ff04afe3")
-	)
-	(wire
-		(pts
-			(xy 105.41 99.06) (xy 105.41 78.74)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a9d7bdfc-3547-4751-999c-2fbb58d24c1e")
 	)
 	(wire
 		(pts
@@ -2879,6 +2859,16 @@
 	)
 	(wire
 		(pts
+			(xy 106.68 81.28) (xy 130.81 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cc9a5fb1-bdfd-4cd0-b459-675ee7f592f6")
+	)
+	(wire
+		(pts
 			(xy 134.62 127) (xy 134.62 140.97)
 		)
 		(stroke
@@ -2896,16 +2886,6 @@
 			(type default)
 		)
 		(uuid "ceeb3ff0-8593-4539-96b7-2987878b5d8a")
-	)
-	(wire
-		(pts
-			(xy 129.54 99.06) (xy 105.41 99.06)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cfcd2a8c-3a7a-459e-8683-00fe88f6aeb5")
 	)
 	(wire
 		(pts
@@ -2959,13 +2939,13 @@
 	)
 	(wire
 		(pts
-			(xy 113.03 91.44) (xy 113.03 81.28)
+			(xy 113.03 91.44) (xy 113.03 83.82)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e46440f2-9711-44aa-aef5-c36afa438f2a")
+		(uuid "e435cc93-a629-4318-8665-bacfe63a5de3")
 	)
 	(wire
 		(pts
@@ -2986,6 +2966,26 @@
 			(type default)
 		)
 		(uuid "e764b92f-05c6-4eea-8883-0e0397b1819b")
+	)
+	(wire
+		(pts
+			(xy 113.03 83.82) (xy 130.81 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f89b227d-24cf-451f-bf9f-dbfeb0af180c")
+	)
+	(wire
+		(pts
+			(xy 106.68 99.06) (xy 106.68 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fb03890e-cc30-4d9d-bfe0-d12e35e8dd1e")
 	)
 	(label "3V3"
 		(at 121.92 157.48 180)
@@ -3067,7 +3067,7 @@
 		)
 		(uuid "273354e1-c181-4d46-a286-0827aa345685")
 	)
-	(label "A2"
+	(label "A3"
 		(at 163.83 97.79 180)
 		(effects
 			(font
@@ -3157,7 +3157,7 @@
 		)
 		(uuid "5e0bf281-9439-490e-8e27-2fac3a5b282b")
 	)
-	(label "A1"
+	(label "A2"
 		(at 129.54 99.06 180)
 		(effects
 			(font
@@ -3237,7 +3237,7 @@
 		)
 		(uuid "8bca10a3-0f58-41a5-96c0-42fd8abccca1")
 	)
-	(label "3.3V"
+	(label "3V3"
 		(at 130.81 60.96 180)
 		(effects
 			(font
@@ -3257,7 +3257,7 @@
 		)
 		(uuid "95eaed2c-57af-4dd1-adc4-97acb1888f44")
 	)
-	(label "D1"
+	(label "D7"
 		(at 219.71 58.42 180)
 		(effects
 			(font
@@ -3297,7 +3297,7 @@
 		)
 		(uuid "b122cc48-cdeb-4339-bb9d-0e30e9ac85bf")
 	)
-	(label "A0"
+	(label "A1"
 		(at 92.71 100.33 180)
 		(effects
 			(font
