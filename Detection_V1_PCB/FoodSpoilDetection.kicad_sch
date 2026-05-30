@@ -1295,6 +1295,113 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Connector:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.762)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 0 6.858 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 5.08 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "test point"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "test point tp"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Pin* Test*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:LED"
 			(pin_numbers
 				(hide yes)
@@ -1598,6 +1705,351 @@
 				(pin passive line
 					(at 0 -2.54 90)
 					(length 1.016)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Mechanical:Fiducial"
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "FID"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Fiducial"
+				(at 0 3.175 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Fiducial Marker"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "fiducial marker"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Fiducial*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Fiducial_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Mechanical:MountingHole_Pad"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "H"
+				(at 0 6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole_Pad"
+				(at 0 4.445 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Mounting Hole with connection"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*Pad*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "MountingHole_Pad_0_1"
+				(circle
+					(center 0 1.27)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "MountingHole_Pad_1_1"
+				(pin input line
+					(at 0 -2.54 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Switch:SW_DIP_x01"
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "SW"
+				(at 0 3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "SW_DIP_x01"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "1x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "dip switch"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "SW?DIP?x1*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SW_DIP_x01_0_0"
+				(circle
+					(center -2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.524 0.127) (xy 2.3622 1.1684)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "SW_DIP_x01_0_1"
+				(rectangle
+					(start -3.81 2.54)
+					(end 3.81 -2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "SW_DIP_x01_1_1"
+				(pin passive line
+					(at -7.62 0 0)
+					(length 5.08)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 0 180)
+					(length 5.08)
 					(name "~"
 						(effects
 							(font
@@ -2832,6 +3284,179 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "power:GNDPWR"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GNDPWR"
+				(at 0 -3.302 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 -1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 -1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GNDPWR\" , global ground"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global ground"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GNDPWR_0_1"
+				(polyline
+					(pts
+						(xy -1.016 -1.27) (xy -1.27 -2.032) (xy -1.27 -2.032)
+					)
+					(stroke
+						(width 0.2032)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -0.508 -1.27) (xy -0.762 -2.032) (xy -0.762 -2.032)
+					)
+					(stroke
+						(width 0.2032)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy 0 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.27) (xy -0.254 -2.032) (xy -0.254 -2.032)
+					)
+					(stroke
+						(width 0.2032)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.508 -1.27) (xy 0.254 -2.032) (xy 0.254 -2.032)
+					)
+					(stroke
+						(width 0.2032)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.016 -1.27) (xy -1.016 -1.27) (xy -1.016 -1.27)
+					)
+					(stroke
+						(width 0.2032)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.016 -1.27) (xy 0.762 -2.032) (xy 0.762 -2.032) (xy 0.762 -2.032)
+					)
+					(stroke
+						(width 0.2032)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GNDPWR_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "power:PWR_FLAG"
 			(power)
 			(pin_numbers
@@ -2935,16 +3560,16 @@
 		)
 	)
 	(junction
+		(at 175.26 93.98)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0b77a5c2-cddf-4edd-8dd3-44e0e55b5c02")
+	)
+	(junction
 		(at 130.81 21.59)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "0d1b4029-034d-4d66-b4f4-491f0dc8f381")
-	)
-	(junction
-		(at 246.38 74.93)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "2740bb51-5fc8-44b2-9a2b-1a348307f717")
 	)
 	(junction
 		(at 66.04 36.83)
@@ -2953,10 +3578,34 @@
 		(uuid "293c438c-400f-4a53-bc5f-60863fe085a0")
 	)
 	(junction
+		(at 241.3 116.84)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2c81fd18-7a48-470e-aa1f-427526e7cbf3")
+	)
+	(junction
+		(at 175.26 90.17)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2f2624da-11ae-44ad-8373-34f8c22c3d34")
+	)
+	(junction
 		(at 246.38 82.55)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "33d10a5b-d461-4902-9ff2-70f64b10a2e6")
+	)
+	(junction
+		(at 255.27 78.74)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3834e1b3-46a2-4b47-b742-19f2f2d0046b")
+	)
+	(junction
+		(at 215.9 116.84)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3896c01d-f8c6-49d9-9531-6af10d547513")
 	)
 	(junction
 		(at 99.06 93.98)
@@ -2983,6 +3632,18 @@
 		(uuid "5b648447-2634-4574-b02e-59d31c4ad034")
 	)
 	(junction
+		(at 189.23 116.84)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5bf2f8ec-6b91-4e3a-9afd-329912139ba6")
+	)
+	(junction
+		(at 69.85 116.84)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "65539f94-3f8e-40b2-b1fc-fb7ca1a1064a")
+	)
+	(junction
 		(at 93.98 36.83)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3007,6 +3668,12 @@
 		(uuid "91bcf041-2235-4a00-bfe8-e048d21bee75")
 	)
 	(junction
+		(at 135.89 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "96273ff2-798b-448d-9e44-9c37652450c3")
+	)
+	(junction
 		(at 118.11 156.21)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3017,6 +3684,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9b091008-3781-499b-a017-a9bb744c4c93")
+	)
+	(junction
+		(at 240.03 82.55)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9efc1068-8c54-443b-a953-2a4586b80c66")
 	)
 	(junction
 		(at 62.23 168.91)
@@ -3047,6 +3720,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e156dc73-afaf-422e-bbb0-c2a62a25fa94")
+	)
+	(junction
+		(at 95.25 121.92)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e7d8da62-a39e-4c04-a581-ead00fcfb860")
 	)
 	(junction
 		(at 57.15 115.57)
@@ -3110,13 +3789,23 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 121.92) (xy 83.82 121.92)
+			(xy 106.68 121.92) (xy 95.25 121.92)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "08ac9a9f-c043-4a74-86f8-f1c0dfb21a15")
+	)
+	(wire
+		(pts
+			(xy 189.23 116.84) (xy 182.88 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0c00c119-d9a9-4623-a959-a5ea2cf3b84e")
 	)
 	(wire
 		(pts
@@ -3160,6 +3849,16 @@
 	)
 	(wire
 		(pts
+			(xy 173.99 93.98) (xy 175.26 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "17b6a089-078e-4cd8-a021-a8429dac35ea")
+	)
+	(wire
+		(pts
 			(xy 57.15 88.9) (xy 107.95 88.9)
 		)
 		(stroke
@@ -3170,7 +3869,7 @@
 	)
 	(wire
 		(pts
-			(xy 246.38 74.93) (xy 232.41 74.93)
+			(xy 232.41 74.93) (xy 248.92 74.93)
 		)
 		(stroke
 			(width 0)
@@ -3220,6 +3919,16 @@
 	)
 	(wire
 		(pts
+			(xy 135.89 114.3) (xy 90.17 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "375daff0-bd71-4de7-8885-fe6bd63b264d")
+	)
+	(wire
+		(pts
 			(xy 143.51 49.53) (xy 149.86 49.53)
 		)
 		(stroke
@@ -3227,6 +3936,16 @@
 			(type default)
 		)
 		(uuid "384a0d64-c015-497f-927a-b3c63032fc82")
+	)
+	(wire
+		(pts
+			(xy 175.26 90.17) (xy 185.42 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3bbd97a7-9024-4e6b-87fe-685b325c336e")
 	)
 	(wire
 		(pts
@@ -3290,6 +4009,16 @@
 	)
 	(wire
 		(pts
+			(xy 215.9 116.84) (xy 241.3 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d457842-981e-4b58-8621-3f2be7689bf5")
+	)
+	(wire
+		(pts
 			(xy 140.97 123.19) (xy 135.89 123.19)
 		)
 		(stroke
@@ -3310,7 +4039,7 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 114.3) (xy 90.17 114.3)
+			(xy 140.97 114.3) (xy 135.89 114.3)
 		)
 		(stroke
 			(width 0)
@@ -3327,6 +4056,16 @@
 			(type default)
 		)
 		(uuid "54a838ee-a55f-4ce5-90a9-7e6f6701d792")
+	)
+	(wire
+		(pts
+			(xy 240.03 82.55) (xy 246.38 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5650b27c-29f2-4e5e-8d0f-b17121faa78a")
 	)
 	(wire
 		(pts
@@ -3367,6 +4106,16 @@
 			(type default)
 		)
 		(uuid "67099cba-4817-409f-b272-502445e951f0")
+	)
+	(wire
+		(pts
+			(xy 255.27 78.74) (xy 232.41 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "68340e99-81cf-462a-836a-3bd7b7b91d12")
 	)
 	(wire
 		(pts
@@ -3430,6 +4179,16 @@
 	)
 	(wire
 		(pts
+			(xy 241.3 116.84) (xy 265.43 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "74801d24-231a-406e-ba8a-f00f82d92506")
+	)
+	(wire
+		(pts
 			(xy 62.23 91.44) (xy 107.95 91.44)
 		)
 		(stroke
@@ -3440,7 +4199,17 @@
 	)
 	(wire
 		(pts
-			(xy 69.85 123.19) (xy 69.85 101.6)
+			(xy 95.25 121.92) (xy 83.82 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "79d388c1-8c36-4227-afbc-a1101d698383")
+	)
+	(wire
+		(pts
+			(xy 69.85 123.19) (xy 69.85 116.84)
 		)
 		(stroke
 			(width 0)
@@ -3497,6 +4266,16 @@
 			(type default)
 		)
 		(uuid "8ecf06e0-b4b9-4d99-a504-e9ed3877844b")
+	)
+	(wire
+		(pts
+			(xy 259.08 78.74) (xy 255.27 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8fa45778-f985-4254-b9f9-dd936ff791cb")
 	)
 	(wire
 		(pts
@@ -3627,6 +4406,16 @@
 			(type default)
 		)
 		(uuid "ae229dc6-7283-484a-a92a-6801c86c4173")
+	)
+	(wire
+		(pts
+			(xy 175.26 93.98) (xy 185.42 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af4c1a6d-653a-421f-bb18-81f50adb59cb")
 	)
 	(wire
 		(pts
@@ -3780,7 +4569,17 @@
 	)
 	(wire
 		(pts
-			(xy 232.41 82.55) (xy 246.38 82.55)
+			(xy 173.99 90.17) (xy 175.26 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d832ce83-4060-4cdf-a5a5-623d3d7dd381")
+	)
+	(wire
+		(pts
+			(xy 232.41 82.55) (xy 240.03 82.55)
 		)
 		(stroke
 			(width 0)
@@ -3807,16 +4606,6 @@
 			(type default)
 		)
 		(uuid "e00830a8-985f-4603-b4f0-3008825f4884")
-	)
-	(wire
-		(pts
-			(xy 248.92 74.93) (xy 246.38 74.93)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e00a34ab-d9a0-41f1-8171-e256483beb95")
 	)
 	(wire
 		(pts
@@ -3850,6 +4639,26 @@
 	)
 	(wire
 		(pts
+			(xy 182.88 116.84) (xy 182.88 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f185d00d-bf56-4cb1-88d8-dfbd99f1cf24")
+	)
+	(wire
+		(pts
+			(xy 189.23 116.84) (xy 215.9 116.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f82c9efa-bc1b-42c7-b31d-0c7e5ac44abc")
+	)
+	(wire
+		(pts
 			(xy 147.32 147.32) (xy 147.32 151.13)
 		)
 		(stroke
@@ -3877,6 +4686,16 @@
 			(type default)
 		)
 		(uuid "f9b97c9d-976f-40f8-80ea-79b5b8629693")
+	)
+	(wire
+		(pts
+			(xy 69.85 116.84) (xy 69.85 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fa22fde0-d490-4b0e-89a0-7de91b530ca0")
 	)
 	(wire
 		(pts
@@ -4112,7 +4931,7 @@
 	)
 	(global_label "SDA"
 		(shape input)
-		(at 185.42 90.17 180)
+		(at 173.99 90.17 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4122,7 +4941,7 @@
 		)
 		(uuid "3137b024-3fe6-4775-a19d-6cd23f73496d")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 178.8667 90.17 0)
+			(at 167.4367 90.17 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4266,7 +5085,7 @@
 	)
 	(global_label "SCL"
 		(shape input)
-		(at 185.42 93.98 180)
+		(at 173.99 93.98 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4276,7 +5095,7 @@
 		)
 		(uuid "8a656d45-29a8-405c-b106-29abc2215e09")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 178.9272 93.98 0)
+			(at 167.4972 93.98 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4554,7 +5373,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "08cff6de-0258-4adf-89c8-27bc8451382b")
-		(property "Reference" "R11"
+		(property "Reference" "R7"
 			(at 120.65 160.0199 0)
 			(effects
 				(font
@@ -4608,7 +5427,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "R11")
+					(reference "R7")
 					(unit 1)
 				)
 			)
@@ -4624,7 +5443,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0a6ab060-26c5-4d43-9339-7ad2f03fa278")
-		(property "Reference" "#PWR06"
+		(property "Reference" "#PWR08"
 			(at 160.02 152.4 0)
 			(effects
 				(font
@@ -4674,7 +5493,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "#PWR06")
+					(reference "#PWR08")
 					(unit 1)
 				)
 			)
@@ -4690,7 +5509,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "14a0f2f4-56e8-46f9-b7ba-748a49e52f9a")
-		(property "Reference" "J3"
+		(property "Reference" "J1"
 			(at 76.2 124.4599 0)
 			(effects
 				(font
@@ -4747,7 +5566,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "J3")
+					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -4921,7 +5740,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1e1fd250-cf11-48ff-827a-b44bc592fd64")
-		(property "Reference" "#PWR03"
+		(property "Reference" "#PWR06"
 			(at 134.62 125.73 0)
 			(effects
 				(font
@@ -4972,7 +5791,276 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "#PWR03")
+					(reference "#PWR06")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 240.03 82.55 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "247e3b18-495b-4801-a256-68e133076eca")
+		(property "Reference" "3v1"
+			(at 242.57 84.5819 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 242.57 87.1219 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D1.80mm_Drill1.0mm_Beaded"
+			(at 234.95 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 234.95 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 240.03 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a1a0cb82-46e5-44a9-843d-8e6399fdac24")
+		)
+		(instances
+			(project ""
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "3v1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 135.89 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2ed16090-3f3e-42fb-9a0f-66392ee4ea70")
+		(property "Reference" "TP1"
+			(at 138.43 109.7279 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "A3"
+			(at 138.43 112.2679 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D1.80mm_Drill1.0mm_Beaded"
+			(at 140.97 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 140.97 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 135.89 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f8707d90-49cd-4e4d-9927-553cfffe1d8c")
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "TP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 265.43 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2f459e5a-bdf9-40eb-911d-32fcc6b43c21")
+		(property "Reference" "H4"
+			(at 267.97 111.7599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole_Pad"
+			(at 267.97 114.2999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad_TopBottom"
+			(at 265.43 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 265.43 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole with connection"
+			(at 265.43 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c4c8bd7c-bc27-441a-9788-5fb7d67b5abd")
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "H4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Switch:SW_DIP_x01")
+		(at 153.67 91.44 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "38e94203-d0c6-4a7d-b4e0-55f6f5bf3565")
+		(property "Reference" "SW1"
+			(at 153.67 83.82 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SW_DIP_x01"
+			(at 153.67 86.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Button_Switch_SMD:SW_SPDT_PCM12"
+			(at 153.67 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 153.67 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "1x DIP Switch, Single Pole Single Throw (SPST) switch, small symbol"
+			(at 153.67 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6579fb26-0b51-48b0-8fab-a08c2d106c29")
+		)
+		(pin "2"
+			(uuid "49a4872f-0ee6-4d96-8c25-35f78f85d81b")
+		)
+		(instances
+			(project ""
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "SW1")
 					(unit 1)
 				)
 			)
@@ -5140,7 +6228,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4600c698-a672-403f-8608-b7688386074e")
-		(property "Reference" "#PWR010"
+		(property "Reference" "#PWR07"
 			(at 157.48 60.96 0)
 			(effects
 				(font
@@ -5190,7 +6278,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "#PWR010")
+					(reference "#PWR07")
 					(unit 1)
 				)
 			)
@@ -5261,6 +6349,137 @@
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
 					(reference "R2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 69.85 116.84 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4bda47b6-f933-49ce-989b-cf32571aadfd")
+		(property "Reference" "A1"
+			(at 74.93 115.5699 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 74.93 118.1099 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D1.80mm_Drill1.0mm_Beaded"
+			(at 69.85 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 69.85 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 69.85 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4cd6ca7f-6a99-4f23-80f6-9cd8d33435b9")
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "A1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:Fiducial")
+		(at 217.17 148.59 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "501ed9e4-9838-4ca9-881d-1de94f2c7ae2")
+		(property "Reference" "FID3"
+			(at 219.71 147.3199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Fiducial"
+			(at 219.71 149.8599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Fiducial:Fiducial_1.5mm_Mask3mm"
+			(at 217.17 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 217.17 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Fiducial Marker"
+			(at 217.17 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "FID3")
 					(unit 1)
 				)
 			)
@@ -5415,7 +6634,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "5a3f3166-fd93-44af-9d4b-17cb66c56e39")
-		(property "Reference" "#FLG02"
+		(property "Reference" "#FLG01"
 			(at 246.38 80.645 0)
 			(effects
 				(font
@@ -5465,7 +6684,71 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "#FLG02")
+					(reference "#FLG01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:Fiducial")
+		(at 186.69 148.59 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5bda5051-503c-4e29-8baf-d0a9b1ef5282")
+		(property "Reference" "FID1"
+			(at 189.23 147.3199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Fiducial"
+			(at 189.23 149.8599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Fiducial:Fiducial_1.5mm_Mask3mm"
+			(at 186.69 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 186.69 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Fiducial Marker"
+			(at 186.69 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project ""
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "FID1")
 					(unit 1)
 				)
 			)
@@ -5473,7 +6756,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 232.41 78.74 90)
+		(at 259.08 78.74 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5481,8 +6764,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "61a38ec0-a3c9-4f29-965c-06f824cf15de")
-		(property "Reference" "#PWR01"
-			(at 238.76 78.74 0)
+		(property "Reference" "#PWR010"
+			(at 265.43 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5491,7 +6774,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 236.22 78.7399 90)
+			(at 262.89 78.7399 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5500,7 +6783,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 232.41 78.74 0)
+			(at 259.08 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5509,7 +6792,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 232.41 78.74 0)
+			(at 259.08 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5518,7 +6801,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 232.41 78.74 0)
+			(at 259.08 78.74 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5532,7 +6815,7 @@
 		(instances
 			(project ""
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "#PWR01")
+					(reference "#PWR010")
 					(unit 1)
 				)
 			)
@@ -5548,7 +6831,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "61b609f1-c387-4ece-a9b7-2854a6760361")
-		(property "Reference" "Q2"
+		(property "Reference" "Q3"
 			(at 163.83 138.4299 0)
 			(effects
 				(font
@@ -5608,7 +6891,7 @@
 		(instances
 			(project ""
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "Q2")
+					(reference "Q3")
 					(unit 1)
 				)
 			)
@@ -5624,7 +6907,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "62c409e9-03fa-487d-8a1a-e214dac879aa")
-		(property "Reference" "J9"
+		(property "Reference" "J5"
 			(at 114.3 93.9799 0)
 			(effects
 				(font
@@ -5702,7 +6985,7 @@
 		(instances
 			(project ""
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "J9")
+					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -5717,7 +7000,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "65b3b669-5b46-47a7-9d64-db83068c7537")
-		(property "Reference" "Q1"
+		(property "Reference" "Q2"
 			(at 161.29 48.2599 0)
 			(effects
 				(font
@@ -5777,7 +7060,7 @@
 		(instances
 			(project ""
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "Q1")
+					(reference "Q2")
 					(unit 1)
 				)
 			)
@@ -5941,7 +7224,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6d5343e9-1705-4ad6-b80e-40900a8bd392")
-		(property "Reference" "J7"
+		(property "Reference" "J3"
 			(at 101.6 158.7499 0)
 			(effects
 				(font
@@ -6007,7 +7290,74 @@
 		(instances
 			(project ""
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "J7")
+					(reference "J3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 175.26 93.98 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "759e8e4a-99d2-4cc8-abce-5ff4b3e44569")
+		(property "Reference" "SCL1"
+			(at 177.8 96.0119 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 177.8 98.5519 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D1.80mm_Drill1.0mm_Beaded"
+			(at 170.18 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 170.18 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 175.26 93.98 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f82cddfc-3d3d-4748-89d3-2d0453ce7489")
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "SCL1")
 					(unit 1)
 				)
 			)
@@ -6023,7 +7373,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "78bb2f19-6903-4417-a885-2314148c8491")
-		(property "Reference" "R7"
+		(property "Reference" "R8"
 			(at 133.35 30.4799 0)
 			(effects
 				(font
@@ -6077,7 +7427,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "R7")
+					(reference "R8")
 					(unit 1)
 				)
 			)
@@ -6093,7 +7443,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7e639f91-04fe-4555-ab3a-88ec0763edcb")
-		(property "Reference" "Q3"
+		(property "Reference" "Q1"
 			(at 134.62 154.9399 0)
 			(effects
 				(font
@@ -6153,7 +7503,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "Q3")
+					(reference "Q1")
 					(unit 1)
 				)
 			)
@@ -6169,7 +7519,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "809ca314-c6b7-4f55-b7cb-c3c7361ffdc5")
-		(property "Reference" "#PWR05"
+		(property "Reference" "#PWR01"
 			(at 63.5 128.27 0)
 			(effects
 				(font
@@ -6220,7 +7570,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "#PWR05")
+					(reference "#PWR01")
 					(unit 1)
 				)
 			)
@@ -6306,7 +7656,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "82fc88a6-3e1b-4f23-a8a2-f70c202ad671")
-		(property "Reference" "#PWR07"
+		(property "Reference" "#PWR02"
 			(at 66.04 158.75 0)
 			(effects
 				(font
@@ -6357,7 +7707,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "#PWR07")
+					(reference "#PWR02")
 					(unit 1)
 				)
 			)
@@ -6373,7 +7723,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8d0486eb-0938-490f-adbd-99ff99203290")
-		(property "Reference" "#PWR09"
+		(property "Reference" "#PWR03"
 			(at 91.44 96.52 0)
 			(effects
 				(font
@@ -6424,7 +7774,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "#PWR09")
+					(reference "#PWR03")
 					(unit 1)
 				)
 			)
@@ -6569,6 +7919,140 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 189.23 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "98b4a04f-bd2d-45e7-9435-93b10d277703")
+		(property "Reference" "H1"
+			(at 191.77 111.7599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole_Pad"
+			(at 191.77 114.2999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad_TopBottom"
+			(at 189.23 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 189.23 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole with connection"
+			(at 189.23 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "fe609f24-385f-408a-8e9f-d5838398c65d")
+		)
+		(instances
+			(project ""
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "H1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 241.3 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9dbe4151-928d-4bc3-848f-c75a530a415c")
+		(property "Reference" "H3"
+			(at 243.84 111.7599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole_Pad"
+			(at 243.84 114.2999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad_TopBottom"
+			(at 241.3 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 241.3 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole with connection"
+			(at 241.3 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6cd1144f-165c-4e09-af84-ec3b162aeda6")
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "H3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Connector:Conn_01x04_Socket")
 		(at 77.47 158.75 0)
 		(unit 1)
@@ -6577,7 +8061,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9ec4f406-62a7-47c2-a13e-bf5fba5e6582")
-		(property "Reference" "J5"
+		(property "Reference" "J2"
 			(at 78.74 158.7499 0)
 			(effects
 				(font
@@ -6637,7 +8121,74 @@
 		(instances
 			(project ""
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "J5")
+					(reference "J2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 255.27 78.74 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a3a4f3f3-7ba9-41bc-be8d-a122398c023d")
+		(property "Reference" "GND1"
+			(at 257.81 80.7719 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 257.81 83.3119 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D1.80mm_Drill1.0mm_Beaded"
+			(at 250.19 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 250.19 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 255.27 78.74 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ac76d991-4a36-41e0-9511-13e9f42e365f")
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "GND1")
 					(unit 1)
 				)
 			)
@@ -6802,6 +8353,72 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GNDPWR")
+		(at 182.88 121.92 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ac821cad-c6ea-4496-98cd-f60cda094313")
+		(property "Reference" "#PWR09"
+			(at 182.88 127 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GNDPWR"
+			(at 182.753 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 182.88 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 182.88 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GNDPWR\" , global ground"
+			(at 182.88 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0a4554d0-6c51-46b1-86cd-2b396bf3a088")
+		)
+		(instances
+			(project ""
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "#PWR09")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_Small_US")
 		(at 147.32 144.78 180)
 		(unit 1)
@@ -6811,7 +8428,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b4bee14f-d5eb-443b-8122-8f66f44db885")
-		(property "Reference" "R10"
+		(property "Reference" "R11"
 			(at 149.86 143.5099 0)
 			(effects
 				(font
@@ -6865,7 +8482,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "R10")
+					(reference "R11")
 					(unit 1)
 				)
 			)
@@ -6881,7 +8498,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c2920c16-8e35-4234-afb0-08e82dc1fac9")
-		(property "Reference" "R8"
+		(property "Reference" "R10"
 			(at 144.78 30.4799 0)
 			(effects
 				(font
@@ -6935,7 +8552,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "R8")
+					(reference "R10")
 					(unit 1)
 				)
 			)
@@ -7094,6 +8711,73 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 95.25 121.92 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c7063e98-eefb-4e3f-8bac-56222cd69f1d")
+		(property "Reference" "A2"
+			(at 97.79 117.3479 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 97.79 119.8879 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D1.80mm_Drill1.0mm_Beaded"
+			(at 100.33 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 100.33 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 95.25 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "590ed30c-6f5e-40ea-9ae2-651e21c28e6a")
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "A2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:LED")
 		(at 52.07 25.4 270)
 		(unit 1)
@@ -7173,71 +8857,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:PWR_FLAG")
-		(at 246.38 74.93 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "d03666c5-b382-4fe6-8c97-abc33f96b982")
-		(property "Reference" "#FLG01"
-			(at 246.38 73.025 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "PWR_FLAG"
-			(at 246.38 70.612 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 246.38 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 246.38 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 246.38 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "80abf104-10c8-48bd-b45c-caac6533734d")
-		)
-		(instances
-			(project "FoodSpoilDetection"
-				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "#FLG01")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 106.68 127 270)
 		(unit 1)
@@ -7305,6 +8924,204 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector:TestPoint")
+		(at 175.26 90.17 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e05a178d-2203-4007-be1a-f6c86a19cad8")
+		(property "Reference" "SDA1"
+			(at 177.8 85.5979 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TestPoint"
+			(at 177.8 88.1379 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "TestPoint:TestPoint_Loop_D1.80mm_Drill1.0mm_Beaded"
+			(at 180.34 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 180.34 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "test point"
+			(at 175.26 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "874ba6da-a4ee-481a-a060-2681e0e5dff2")
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "SDA1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 215.9 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f0841865-7a97-40db-8ced-1aa64ad0bf76")
+		(property "Reference" "H2"
+			(at 218.44 111.7599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole_Pad"
+			(at 218.44 114.2999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad_TopBottom"
+			(at 215.9 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 215.9 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Mounting Hole with connection"
+			(at 215.9 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "aa10296a-aec5-4bd4-a581-12e243547434")
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "H2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:Fiducial")
+		(at 201.93 148.59 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "fa3b1711-a3b9-4a19-90a9-e8b971878e65")
+		(property "Reference" "FID2"
+			(at 204.47 147.3199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Fiducial"
+			(at 204.47 149.8599 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Fiducial:Fiducial_1.5mm_Mask3mm"
+			(at 201.93 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 201.93 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Fiducial Marker"
+			(at 201.93 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "FID2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 130.81 162.56 0)
 		(unit 1)
@@ -7314,7 +9131,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fd83f8c6-d623-4c16-a45f-971d63aa961b")
-		(property "Reference" "#PWR08"
+		(property "Reference" "#PWR05"
 			(at 130.81 168.91 0)
 			(effects
 				(font
@@ -7364,7 +9181,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "#PWR08")
+					(reference "#PWR05")
 					(unit 1)
 				)
 			)
