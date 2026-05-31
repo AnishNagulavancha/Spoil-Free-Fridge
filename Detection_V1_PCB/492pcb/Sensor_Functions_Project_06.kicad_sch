@@ -1736,6 +1736,12 @@
 					(unit 1)
 				)
 			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "U2")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -1802,6 +1808,12 @@
 					(unit 1)
 				)
 			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "TP1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -1814,7 +1826,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0f9c7568-05ef-4ef7-9eee-382c6e6e4704")
-		(property "Reference" "#PWR013"
+		(property "Reference" "#PWR011"
 			(at 165.1 114.3 0)
 			(effects
 				(font
@@ -1865,6 +1877,12 @@
 			(project "Project_06"
 				(path "/11956ba0-23db-4b20-a7a8-1fb058e5b257/05b5715b-d52e-4d83-9fbf-6d3c053d6a62/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
 					(reference "#PWR013")
+					(unit 1)
+				)
+			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "#PWR011")
 					(unit 1)
 				)
 			)
@@ -1934,6 +1952,12 @@
 					(unit 1)
 				)
 			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "TP2")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -1946,7 +1970,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "18062b5c-d7ef-4d35-8272-eb42af6cdf53")
-		(property "Reference" "U4"
+		(property "Reference" "U3"
 			(at 156.21 99.0599 0)
 			(effects
 				(font
@@ -2019,6 +2043,12 @@
 					(unit 1)
 				)
 			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "U3")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -2031,7 +2061,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1dad2951-d259-465d-b92e-954d9acd398d")
-		(property "Reference" "#PWR04"
+		(property "Reference" "#PWR08"
 			(at 106.68 121.92 0)
 			(effects
 				(font
@@ -2082,6 +2112,12 @@
 			(project "Project_06"
 				(path "/11956ba0-23db-4b20-a7a8-1fb058e5b257/05b5715b-d52e-4d83-9fbf-6d3c053d6a62/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
 					(reference "#PWR04")
+					(unit 1)
+				)
+			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "#PWR08")
 					(unit 1)
 				)
 			)
@@ -2151,6 +2187,12 @@
 					(unit 1)
 				)
 			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "TP3")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -2162,7 +2204,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "55f18d2d-c5d4-4b8a-bfdf-5f5d86fe0bcc")
-		(property "Reference" "J14"
+		(property "Reference" "J8"
 			(at 224.79 90.17 0)
 			(effects
 				(font
@@ -2242,6 +2284,12 @@
 					(unit 1)
 				)
 			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "J8")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -2253,7 +2301,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "67beb852-cdcd-4b0d-9eec-cca770d9bb93")
-		(property "Reference" "#PWR06"
+		(property "Reference" "#PWR010"
 			(at 127 81.28 0)
 			(effects
 				(font
@@ -2308,6 +2356,12 @@
 					(unit 1)
 				)
 			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "#PWR010")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -2320,7 +2374,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "81c17745-7860-445f-a030-b663dcc47412")
-		(property "Reference" "#PWR014"
+		(property "Reference" "#PWR012"
 			(at 215.9 114.3 0)
 			(effects
 				(font
@@ -2374,6 +2428,12 @@
 					(unit 1)
 				)
 			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "#PWR012")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -2386,7 +2446,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b35647b0-d286-4501-ab6a-fc6fe13f3a3d")
-		(property "Reference" "#PWR05"
+		(property "Reference" "#PWR09"
 			(at 111.76 121.92 0)
 			(effects
 				(font
@@ -2437,6 +2497,12 @@
 			(project "Project_06"
 				(path "/11956ba0-23db-4b20-a7a8-1fb058e5b257/05b5715b-d52e-4d83-9fbf-6d3c053d6a62/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
 					(reference "#PWR05")
+					(unit 1)
+				)
+			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "#PWR09")
 					(unit 1)
 				)
 			)
@@ -2502,6 +2568,12 @@
 		(instances
 			(project "Project_06"
 				(path "/11956ba0-23db-4b20-a7a8-1fb058e5b257/05b5715b-d52e-4d83-9fbf-6d3c053d6a62/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
+					(reference "TP4")
+					(unit 1)
+				)
+			)
+			(project "Processor_Schematic_Project_06"
+				(path "/7cd6380d-12c8-4529-8126-c1d91df0fbc9/19d3cce4-1283-4e98-b8c5-4082ee9eca09"
 					(reference "TP4")
 					(unit 1)
 				)
