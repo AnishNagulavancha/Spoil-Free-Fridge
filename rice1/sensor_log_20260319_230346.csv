@@ -1,2 +1,0 @@
-Timestamp,NH3_raw,NH3_V,CH4_raw,CH4_V,H2S_raw,H2S_V,Temp_C,Pressure_Pa,Humidity_pct,GasRes,Label
-23:03:48,1795,0.337,12114,2.271,6204,1.163,28.35,100877.00,76.54,64100.00,Warmup
