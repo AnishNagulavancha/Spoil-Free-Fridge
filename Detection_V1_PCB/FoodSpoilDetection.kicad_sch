@@ -4951,7 +4951,7 @@
 			)
 		)
 	)
-	(global_label "D0"
+	(global_label "D2"
 		(shape input)
 		(at 115.57 156.21 180)
 		(fields_autoplaced yes)
@@ -5215,7 +5215,7 @@
 			)
 		)
 	)
-	(global_label "D2"
+	(global_label "D0"
 		(shape input)
 		(at 132.08 49.53 180)
 		(fields_autoplaced yes)
@@ -5807,7 +5807,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "247e3b18-495b-4801-a256-68e133076eca")
-		(property "Reference" "3v1"
+		(property "Reference" "3v3"
 			(at 242.57 84.5819 0)
 			(effects
 				(font
@@ -5858,7 +5858,7 @@
 		(instances
 			(project ""
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "3v1")
+					(reference "3v3")
 					(unit 1)
 				)
 			)
@@ -5874,7 +5874,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2ed16090-3f3e-42fb-9a0f-66392ee4ea70")
-		(property "Reference" "TP1"
+		(property "Reference" "A3"
 			(at 138.43 109.7279 0)
 			(effects
 				(font
@@ -5883,7 +5883,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "A3"
+		(property "Value" "TestPoint"
 			(at 138.43 112.2679 0)
 			(effects
 				(font
@@ -5925,7 +5925,7 @@
 		(instances
 			(project "FoodSpoilDetection"
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "TP1")
+					(reference "A3")
 					(unit 1)
 				)
 			)
