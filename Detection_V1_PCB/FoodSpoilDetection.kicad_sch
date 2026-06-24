@@ -3707,6 +3707,12 @@
 		(uuid "a48748b8-5e1a-4ee4-b50f-26de859535e4")
 	)
 	(junction
+		(at 52.07 128.27)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "afe542ed-6989-46cc-a4c1-1c9620c4dc6e")
+	)
+	(junction
 		(at 207.01 43.18)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4368,7 +4374,7 @@
 	)
 	(wire
 		(pts
-			(xy 49.53 128.27) (xy 69.85 128.27)
+			(xy 49.53 128.27) (xy 52.07 128.27)
 		)
 		(stroke
 			(width 0)
@@ -4815,6 +4821,16 @@
 			(type default)
 		)
 		(uuid "f199e806-6730-453a-809d-eb641e303066")
+	)
+	(wire
+		(pts
+			(xy 52.07 128.27) (xy 69.85 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f3b0c9a2-2a03-4f88-bc30-f862b67ff73c")
 	)
 	(wire
 		(pts
@@ -5316,6 +5332,28 @@
 			)
 		)
 	)
+	(global_label "3v3"
+		(shape input)
+		(at 160.02 146.05 270)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "ed8b7b1d-2b83-45fd-8d67-706324831cc1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 160.02 152.4218 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
 	(symbol
 		(lib_id "esp32:XIAO-ESP32-S3-DIP")
 		(at 187.96 69.85 0)
@@ -5556,72 +5594,6 @@
 			(project ""
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
 					(reference "SW1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 160.02 146.05 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "0a6ab060-26c5-4d43-9339-7ad2f03fa278")
-		(property "Reference" "#PWR08"
-			(at 160.02 152.4 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 160.02 151.13 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 160.02 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 160.02 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 160.02 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "ac5d6298-7657-4183-b81a-33fa6fbacdfe")
-		)
-		(instances
-			(project "FoodSpoilDetection"
-				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
-					(reference "#PWR08")
 					(unit 1)
 				)
 			)
@@ -5932,7 +5904,6 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "1e1fd250-cf11-48ff-827a-b44bc592fd64")
 		(property "Reference" "#PWR06"
 			(at 134.62 125.73 0)
@@ -5944,7 +5915,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 137.16 125.7299 90)
+			(at 142.24 128.27 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7417,6 +7388,71 @@
 			(project ""
 				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
 					(reference "J3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 52.07 128.27 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6debb600-1d8e-43f1-99a7-9f4d32860459")
+		(property "Reference" "#FLG02"
+			(at 52.07 126.365 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 52.07 123.952 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 52.07 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 52.07 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 52.07 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e14b81be-a5ba-4fc2-83e8-18b271672091")
+		)
+		(instances
+			(project "FoodSpoilDetection"
+				(path "/c75a24f2-505a-4b46-bef6-5f083fa261c0"
+					(reference "#FLG02")
 					(unit 1)
 				)
 			)
@@ -9197,7 +9233,6 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "d6e43e61-ecfd-4eb7-b0cc-ac9278081523")
 		(property "Reference" "#PWR04"
 			(at 100.33 127 0)
@@ -9209,7 +9244,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 102.87 126.9999 90)
+			(at 104.14 127 90)
 			(effects
 				(font
 					(size 1.27 1.27)
