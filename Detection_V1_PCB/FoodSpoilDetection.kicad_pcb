@@ -2946,7 +2946,7 @@
 			)
 		)
 		(property "Value" "AO3401A"
-			(at 0 0 0)
+			(at -0.2175 0.82 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(uuid "757ece6b-d092-4390-be2a-35518772229e")
