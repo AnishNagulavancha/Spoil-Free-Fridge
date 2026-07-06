@@ -1,0 +1,1 @@
+timestamp_iso,elapsed_s,session_id,food_category,food_name,phase,adc_NH3,v_NH3,adc_CH4,v_CH4,adc_H2S,v_H2S,temp_C,pressure_Pa,humidity_pct,bme_gas_ohms,image_filename

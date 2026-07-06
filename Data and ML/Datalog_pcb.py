@@ -2,28 +2,55 @@ import serial
 import time
 import csv
 import json
+import requests
 from pathlib import Path
 from datetime import datetime
 
-# ================= USER SETTINGS =================
-COM_PORT = "COM4"          # Change this to your ESP32 port
-BAUD_RATE = 115200         # Must match Serial.begin(115200)
+# ============================================================
+# COMBINED ESP32 DATA LOGGER
+# Same ESP32 does:
+#   1. Sensor CSV over USB Serial
+#   2. Camera capture over Wi-Fi /capture
+#   3. LEDs ON/OFF inside Arduino capture handler
+# ============================================================
 
-SAVE_ROOT = Path(r"C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data")
+# ================= USER SETTINGS =================
+COM_PORT = "COM4"
+BAUD_RATE = 115200
+
+SAVE_ROOT = Path(
+    r"C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data"
+)
 
 SESSION_ID = "S0001"
 CONTAINER_ID = "board_A"
 
-FOOD_CATEGORY = "unknown"  # protein, fruit, bread, leftovers, etc.
-FOOD_NAME = "unknown"      # chicken, rice, apple, etc.
-LABEL = "Unlabeled"        # Fresh, Warmup, Test, etc.
+FOOD_CATEGORY = "unknown"
+FOOD_NAME = "unknown"
+LABEL = "Unlabeled"
 
-PREHEAT_MINUTES = 30       # logged as Warmup
-LOG_MINUTES = None         # None = log until Ctrl+C
+PREHEAT_MINUTES = 30
+LOG_MINUTES = None          # None = run until Ctrl+C
 
 EXPECTED_FIELDS = 10
+
 # Expected ESP32 CSV:
 # adc_NH3,v_NH3,adc_CH4,v_CH4,adc_H2S,v_H2S,temp_C,pressure_Pa,humidity_pct,bme_gas_ohms
+
+# ================= CAMERA SETTINGS =================
+CAMERA_ENABLED = True
+
+# Use the IP printed by the combined ESP32 Serial Monitor
+CAMERA_CAPTURE_URL = "http://192.168.1.102/capture"
+
+# Testing: 30 sec
+# Real experiment: 300 sec = 5 min
+IMAGE_INTERVAL_SEC = 30
+
+# Since opening Serial resets the ESP32, wait before first camera capture
+FIRST_IMAGE_DELAY_SEC = 25
+
+CAMERA_TIMEOUT_SEC = 20
 
 # ================= SESSION SETUP =================
 timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -31,10 +58,12 @@ session_name = f"{SESSION_ID}_{FOOD_NAME}_{timestamp_str}"
 
 session_dir = SAVE_ROOT / session_name
 images_dir = session_dir / "images"
+
 session_dir.mkdir(parents=True, exist_ok=True)
 images_dir.mkdir(parents=True, exist_ok=True)
 
 csv_path = session_dir / "sensor_log.csv"
+image_log_path = session_dir / "image_log.csv"
 metadata_path = session_dir / "metadata.json"
 
 metadata = {
@@ -47,23 +76,37 @@ metadata = {
     "log_minutes": LOG_MINUTES,
     "baud_rate": BAUD_RATE,
     "com_port": COM_PORT,
+    "expected_fields": EXPECTED_FIELDS,
+    "camera_enabled": CAMERA_ENABLED,
+    "camera_capture_url": CAMERA_CAPTURE_URL,
+    "image_interval_sec": IMAGE_INTERVAL_SEC,
+    "first_image_delay_sec": FIRST_IMAGE_DELAY_SEC,
+    "camera_timeout_sec": CAMERA_TIMEOUT_SEC,
     "start_time": datetime.now().isoformat(),
-    "notes": "Prototype 1 laptop sensor logging. Camera image sync not enabled yet."
+    "notes": (
+        "Combined ESP32 logger. Sensor data over USB serial. "
+        "Camera images captured over Wi-Fi /capture. "
+        "Arduino handles LED ON -> capture -> LED OFF."
+    )
 }
 
 with open(metadata_path, "w") as f:
     json.dump(metadata, f, indent=4)
 
+print("================================")
+print("DATA LOGGER STARTING")
+print("================================")
 print(f"Session folder: {session_dir}")
-print(f"CSV file: {csv_path}")
-print(f"Metadata file: {metadata_path}")
+print(f"Sensor CSV:     {csv_path}")
+print(f"Image log CSV:  {image_log_path}")
+print(f"Metadata file:  {metadata_path}")
+print(f"Images folder:  {images_dir}")
+print(f"Camera URL:     {CAMERA_CAPTURE_URL}")
+print(f"Image interval: {IMAGE_INTERVAL_SEC} sec")
+print("================================")
 
-# ================= SERIAL SETUP =================
-ser = serial.Serial(COM_PORT, BAUD_RATE, timeout=1)
-time.sleep(2)
 
-start_time = time.time()
-
+# ================= HELPER FUNCTIONS =================
 def parse_sensor_line(line):
     parts = line.split(",")
 
@@ -76,12 +119,100 @@ def parse_sensor_line(line):
     except ValueError:
         return None
 
+
+def capture_image(image_number, elapsed_s):
+    image_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    image_filename = f"img_{image_number:06d}_{image_timestamp}.jpg"
+    image_path = images_dir / image_filename
+
+    try:
+        response = requests.get(
+            CAMERA_CAPTURE_URL,
+            timeout=CAMERA_TIMEOUT_SEC
+        )
+
+        content_type = response.headers.get("Content-Type", "")
+
+        if response.status_code == 200 and content_type.startswith("image"):
+            with open(image_path, "wb") as img_file:
+                img_file.write(response.content)
+
+            print(f"[IMAGE] Saved {image_filename}")
+
+            return {
+                "status": "success",
+                "filename": image_filename,
+                "path": str(image_path),
+                "http_status": response.status_code,
+                "content_type": content_type,
+                "elapsed_s": elapsed_s,
+                "timestamp_iso": datetime.now().isoformat(timespec="seconds")
+            }
+
+        else:
+            print(
+                f"[IMAGE ERROR] Bad response: "
+                f"status={response.status_code}, content_type={content_type}"
+            )
+
+            return {
+                "status": "bad_response",
+                "filename": "capture_failed",
+                "path": "",
+                "http_status": response.status_code,
+                "content_type": content_type,
+                "elapsed_s": elapsed_s,
+                "timestamp_iso": datetime.now().isoformat(timespec="seconds")
+            }
+
+    except Exception as e:
+        print(f"[IMAGE ERROR] {e}")
+
+        return {
+            "status": f"error: {e}",
+            "filename": "capture_failed",
+            "path": "",
+            "http_status": "",
+            "content_type": "",
+            "elapsed_s": elapsed_s,
+            "timestamp_iso": datetime.now().isoformat(timespec="seconds")
+        }
+
+
+# ================= SERIAL SETUP =================
+print("\nOpening serial port...")
+
+try:
+    ser = serial.Serial(COM_PORT, BAUD_RATE, timeout=1)
+except Exception as e:
+    print(f"\n[SERIAL ERROR] Could not open {COM_PORT}: {e}")
+    print("Check COM port and close Arduino Serial Monitor.")
+    raise
+
+# Opening serial usually resets the ESP32
+print("Waiting for ESP32 reset/startup...")
+time.sleep(5)
+
+try:
+    ser.reset_input_buffer()
+except Exception:
+    pass
+
+start_time = time.time()
+
+next_image_time = FIRST_IMAGE_DELAY_SEC
+image_count = 0
+pending_image_filename = "none"
+
+last_no_data_print = -999
+
 # ================= LOGGING =================
 try:
-    with open(csv_path, "w", newline="") as f:
-        writer = csv.writer(f)
+    with open(csv_path, "w", newline="") as sensor_file, open(image_log_path, "w", newline="") as image_file:
+        sensor_writer = csv.writer(sensor_file)
+        image_writer = csv.writer(image_file)
 
-        writer.writerow([
+        sensor_writer.writerow([
             "timestamp_iso",
             "elapsed_s",
             "session_id",
@@ -101,6 +232,20 @@ try:
             "image_filename"
         ])
 
+        image_writer.writerow([
+            "timestamp_iso",
+            "elapsed_s",
+            "image_number",
+            "image_filename",
+            "status",
+            "http_status",
+            "content_type",
+            "image_path"
+        ])
+
+        sensor_file.flush()
+        image_file.flush()
+
         print("\nLogging started. Press Ctrl+C to stop.\n")
 
         while True:
@@ -112,12 +257,47 @@ try:
                 phase = LABEL
 
             if LOG_MINUTES is not None:
-                if elapsed_s > (PREHEAT_MINUTES + LOG_MINUTES) * 60:
+                total_duration_s = (PREHEAT_MINUTES + LOG_MINUTES) * 60
+                if elapsed_s > total_duration_s:
+                    print("Reached scheduled logging duration.")
                     break
 
+            # ================= CAMERA CAPTURE =================
+            # Independent of serial data.
+            if CAMERA_ENABLED and elapsed_s >= next_image_time:
+                image_count += 1
+                print(f"[IMAGE] Requesting capture #{image_count} at t={elapsed_s:.1f}s")
+
+                result = capture_image(image_count, elapsed_s)
+                pending_image_filename = result["filename"]
+
+                image_writer.writerow([
+                    result["timestamp_iso"],
+                    round(result["elapsed_s"], 2),
+                    image_count,
+                    result["filename"],
+                    result["status"],
+                    result["http_status"],
+                    result["content_type"],
+                    result["path"]
+                ])
+                image_file.flush()
+
+                next_image_time += IMAGE_INTERVAL_SEC
+
+                if next_image_time < elapsed_s:
+                    next_image_time = elapsed_s + IMAGE_INTERVAL_SEC
+
+            # ================= SENSOR SERIAL READ =================
             raw_line = ser.readline().decode("utf-8", errors="ignore").strip()
 
             if not raw_line:
+                if elapsed_s - last_no_data_print > 5:
+                    print(
+                        f"[NO SERIAL DATA] t={elapsed_s:.1f}s "
+                        f"- check COM port / Arduino Serial Monitor closed"
+                    )
+                    last_no_data_print = elapsed_s
                 continue
 
             values = parse_sensor_line(raw_line)
@@ -140,9 +320,8 @@ try:
             ] = values
 
             timestamp_iso = datetime.now().isoformat(timespec="seconds")
-            image_filename = "none"
 
-            writer.writerow([
+            sensor_writer.writerow([
                 timestamp_iso,
                 round(elapsed_s, 2),
                 SESSION_ID,
@@ -159,10 +338,10 @@ try:
                 pressure_Pa,
                 humidity_pct,
                 bme_gas_ohms,
-                image_filename
+                pending_image_filename
             ])
 
-            f.flush()
+            sensor_file.flush()
 
             print(
                 f"[{phase}] "
@@ -171,12 +350,21 @@ try:
                 f"CH4={v_CH4:.3f}V, "
                 f"H2S={v_H2S:.3f}V, "
                 f"T={temp_C:.2f}C, "
-                f"RH={humidity_pct:.2f}%"
+                f"RH={humidity_pct:.2f}%, "
+                f"IMG={pending_image_filename}"
             )
+
+            pending_image_filename = "none"
 
 except KeyboardInterrupt:
     print("\nLogging stopped by user.")
 
 finally:
     ser.close()
-    print(f"Data saved to: {csv_path}")
+
+    print("\n================================")
+    print("DATA LOGGER STOPPED")
+    print("================================")
+    print(f"Sensor data saved to: {csv_path}")
+    print(f"Image log saved to:   {image_log_path}")
+    print(f"Images saved to:      {images_dir}")
