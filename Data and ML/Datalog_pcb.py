@@ -349,6 +349,7 @@ try:
                 f"NH3={v_NH3:.3f}V, "
                 f"CH4={v_CH4:.3f}V, "
                 f"H2S={v_H2S:.3f}V, "
+                f"BME={bme_gas_ohms}, "
                 f"T={temp_C:.2f}C, "
                 f"RH={humidity_pct:.2f}%, "
                 f"IMG={pending_image_filename}"

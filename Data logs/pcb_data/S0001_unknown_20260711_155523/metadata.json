@@ -1,0 +1,19 @@
+{
+    "session_id": "S0001",
+    "container_id": "board_A",
+    "food_category": "unknown",
+    "food_name": "unknown",
+    "label": "Unlabeled",
+    "preheat_minutes": 30,
+    "log_minutes": null,
+    "baud_rate": 115200,
+    "com_port": "COM4",
+    "expected_fields": 10,
+    "camera_enabled": true,
+    "camera_capture_url": "http://192.168.1.102/capture",
+    "image_interval_sec": 30,
+    "first_image_delay_sec": 25,
+    "camera_timeout_sec": 20,
+    "start_time": "2026-07-11T15:55:23.102647",
+    "notes": "Combined ESP32 logger. Sensor data over USB serial. Camera images captured over Wi-Fi /capture. Arduino handles LED ON -> capture -> LED OFF."
+}

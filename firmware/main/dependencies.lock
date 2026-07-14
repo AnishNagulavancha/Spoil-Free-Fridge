@@ -1,0 +1,18 @@
+dependencies:
+  bammer187/ads1115:
+    component_hash: 068f6511b663f9e1034c5cb34ba8f168351ac418279496642e3a9df731e86833
+    dependencies: []
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 1.0.1
+  idf:
+    source:
+      type: idf
+    version: 6.0.2
+direct_dependencies:
+- bammer187/ads1115
+- idf
+manifest_hash: 500ef4e0c5b980ff7a50f0457ea266cf4538c634185edddfaf8ced8703d78cd5
+target: esp32s3
+version: 3.0.0

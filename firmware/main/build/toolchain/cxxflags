@@ -1,0 +1,6 @@
+-mlongcalls
+-fno-builtin-memcpy
+-fno-builtin-memset
+-fno-builtin-bzero
+"-specs=C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/specs/picolibc.specs"
+-fno-rtti
