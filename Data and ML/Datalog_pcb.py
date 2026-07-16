@@ -30,7 +30,8 @@ FOOD_NAME = "unknown"
 LABEL = "Unlabeled"
 
 PREHEAT_MINUTES = 30
-LOG_MINUTES = None          # None = run until Ctrl+C
+FOOD_BASELINE_MINUTES = 30
+LOG_MINUTES = 300          # None = run until Ctrl+C
 
 EXPECTED_FIELDS = 10
 
@@ -43,11 +44,11 @@ CAMERA_ENABLED = True
 # Use the IP printed by the combined ESP32 Serial Monitor
 CAMERA_CAPTURE_URL = "http://192.168.1.102/capture"
 
-# Testing: 30 sec
-# Real experiment: 300 sec = 5 min
-IMAGE_INTERVAL_SEC = 30
+# After chicken insertion, capture every 5 minutes.
+IMAGE_INTERVAL_SEC = 300
 
-# Since opening Serial resets the ESP32, wait before first camera capture
+# Empty-chamber reference image. Opening Serial resets the ESP32, so allow the
+# camera time to become available before requesting this first image.
 FIRST_IMAGE_DELAY_SEC = 25
 
 CAMERA_TIMEOUT_SEC = 20
@@ -73,6 +74,7 @@ metadata = {
     "food_name": FOOD_NAME,
     "label": LABEL,
     "preheat_minutes": PREHEAT_MINUTES,
+    "food_baseline_minutes": FOOD_BASELINE_MINUTES,
     "log_minutes": LOG_MINUTES,
     "baud_rate": BAUD_RATE,
     "com_port": COM_PORT,
@@ -179,6 +181,24 @@ def capture_image(image_number, elapsed_s):
         }
 
 
+def capture_and_record(image_writer, image_file, image_number, elapsed_s):
+    """Capture one image, append its result to image_log.csv, and flush it."""
+    print(f"[IMAGE] Requesting capture #{image_number} at t={elapsed_s:.1f}s")
+    result = capture_image(image_number, elapsed_s)
+    image_writer.writerow([
+        result["timestamp_iso"],
+        round(result["elapsed_s"], 2),
+        image_number,
+        result["filename"],
+        result["status"],
+        result["http_status"],
+        result["content_type"],
+        result["path"]
+    ])
+    image_file.flush()
+    return result["filename"]
+
+
 # ================= SERIAL SETUP =================
 print("\nOpening serial port...")
 
@@ -200,9 +220,12 @@ except Exception:
 
 start_time = time.time()
 
-next_image_time = FIRST_IMAGE_DELAY_SEC
+next_image_time = None
 image_count = 0
 pending_image_filename = "none"
+empty_reference_captured = False
+food_inserted = False
+food_inserted_time = None
 
 last_no_data_print = -999
 
@@ -251,42 +274,76 @@ try:
         while True:
             elapsed_s = time.time() - start_time
 
-            if elapsed_s < PREHEAT_MINUTES * 60:
+            if not food_inserted:
                 phase = "Warmup"
             else:
-                phase = LABEL
+                logging_elapsed_s = time.time() - food_inserted_time
+                if logging_elapsed_s < FOOD_BASELINE_MINUTES * 60:
+                    phase = "Baseline"
+                else:
+                    phase = LABEL
 
-            if LOG_MINUTES is not None:
-                total_duration_s = (PREHEAT_MINUTES + LOG_MINUTES) * 60
-                if elapsed_s > total_duration_s:
+            if food_inserted and LOG_MINUTES is not None:
+                if logging_elapsed_s > LOG_MINUTES * 60:
                     print("Reached scheduled logging duration.")
                     break
 
             # ================= CAMERA CAPTURE =================
-            # Independent of serial data.
-            if CAMERA_ENABLED and elapsed_s >= next_image_time:
+            # Take one empty reference during warmup.
+            if (
+                CAMERA_ENABLED
+                and not empty_reference_captured
+                and elapsed_s >= FIRST_IMAGE_DELAY_SEC
+            ):
                 image_count += 1
-                print(f"[IMAGE] Requesting capture #{image_count} at t={elapsed_s:.1f}s")
+                pending_image_filename = capture_and_record(
+                    image_writer, image_file, image_count, elapsed_s
+                )
+                empty_reference_captured = True
 
-                result = capture_image(image_count, elapsed_s)
-                pending_image_filename = result["filename"]
+            # Warmup ends with an explicit insertion event. Waiting for Enter
+            # prevents the baseline image from being taken while the chamber is
+            # still open or the chicken is being positioned.
+            if not food_inserted and elapsed_s >= PREHEAT_MINUTES * 60:
+                print("\n================================")
+                print("SENSOR WARMUP COMPLETE")
+                print("Insert the chicken and close the chamber.")
+                input("Press Enter when the chicken is positioned: ")
+                try:
+                    ser.reset_input_buffer()
+                except Exception:
+                    pass
+                food_inserted = True
+                food_inserted_time = time.time()
+                elapsed_s = food_inserted_time - start_time
+                phase = "Baseline"
+                metadata["food_inserted_time"] = datetime.now().isoformat()
+                metadata["actual_warmup_elapsed_s"] = round(elapsed_s, 2)
+                with open(metadata_path, "w") as metadata_file:
+                    json.dump(metadata, metadata_file, indent=4)
+                if CAMERA_ENABLED:
+                    image_count += 1
+                    pending_image_filename = capture_and_record(
+                        image_writer, image_file, image_count, elapsed_s
+                    )
+                    next_image_time = food_inserted_time + IMAGE_INTERVAL_SEC
+                print("Food baseline logging started.\n")
 
-                image_writer.writerow([
-                    result["timestamp_iso"],
-                    round(result["elapsed_s"], 2),
-                    image_count,
-                    result["filename"],
-                    result["status"],
-                    result["http_status"],
-                    result["content_type"],
-                    result["path"]
-                ])
-                image_file.flush()
-
+            # Continue at five-minute intervals relative to insertion.
+            if (
+                CAMERA_ENABLED
+                and food_inserted
+                and next_image_time is not None
+                and time.time() >= next_image_time
+            ):
+                elapsed_s = time.time() - start_time
+                image_count += 1
+                pending_image_filename = capture_and_record(
+                    image_writer, image_file, image_count, elapsed_s
+                )
                 next_image_time += IMAGE_INTERVAL_SEC
-
-                if next_image_time < elapsed_s:
-                    next_image_time = elapsed_s + IMAGE_INTERVAL_SEC
+                if next_image_time < time.time():
+                    next_image_time = time.time() + IMAGE_INTERVAL_SEC
 
             # ================= SENSOR SERIAL READ =================
             raw_line = ser.readline().decode("utf-8", errors="ignore").strip()

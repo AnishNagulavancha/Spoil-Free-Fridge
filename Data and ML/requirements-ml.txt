@@ -1,0 +1,7 @@
+pandas>=2.2
+numpy>=2.0
+scikit-learn>=1.5
+scipy>=1.13
+joblib>=1.4
+hmmlearn>=0.3.2
+lifelines>=0.30
