@@ -1,3 +1,48 @@
+"""Combined sensor and camera logger for the chicken proof-of-concept trial.
+
+BEFORE EACH RUN
+1. Treat this as a controlled room-temperature deterioration experiment. The
+   chicken is experimental waste and must never be cooked, tasted, or eaten.
+2. Clean the chamber, install an empty sample tray, and keep the chicken
+   refrigerated until the insertion prompt appears.
+3. Set COM_PORT and CAMERA_CAPTURE_URL below. Close Arduino Serial Monitor so
+   this script can open the serial port.
+4. Set a unique SESSION_ID and the correct CONTAINER_ID. For this trial use:
+       FOOD_CATEGORY = "poultry"
+       FOOD_NAME = "chicken"
+       LABEL = "Unlabeled"
+       LOG_MINUTES = 300
+5. Confirm that SAVE_ROOT has enough space and that the camera, LEDs, sensors,
+   and ESP32 are powered. Do not move the camera or change lighting during a run.
+
+RUN PROCEDURE
+1. Start this script with the chamber empty. Opening serial resets the ESP32.
+2. The script captures one empty-chamber reference image after the camera startup
+   delay, while sensor rows are recorded with phase="Warmup".
+3. Wait for the complete 30-minute warmup. Do not insert chicken early.
+4. When prompted, insert and position the chicken, close the chamber, and only
+   then press Enter. Avoid touching the camera or sensors.
+5. The script records the insertion time, captures the initial chicken image,
+   and begins a 30-minute phase="Baseline" period.
+6. After baseline, rows use LABEL as their phase. Images are captured every five
+   minutes relative to insertion. Leave the chamber closed for the entire run.
+7. Let LOG_MINUTES stop the experiment or press Ctrl+C once if an early stop is
+   necessary. Do not close the terminal or disconnect the ESP32 abruptly.
+
+AFTER THE RUN
+1. Verify sensor_log.csv, image_log.csv, metadata.json, and the images folder in
+   the new session directory.
+2. Discard the chicken without tasting or re-refrigerating it. Keep it sealed
+   during handling and clean potentially contaminated surfaces appropriately.
+3. Run: python analyze_session.py "<session folder>"
+4. Copy observations_template.csv to the session as observations.csv and replace
+   its example with actual timestamped observations before supervised modeling.
+
+Timing is relative to chicken insertion for LOG_MINUTES and image scheduling.
+Warmup data is retained for diagnostics but excluded by analyze_session.py.
+This prototype estimates deterioration signals; it is not a food-safety test.
+"""
+
 import serial
 import time
 import csv
