@@ -25,6 +25,7 @@ NUMERIC_COLUMNS = (
 @dataclass(frozen=True)
 class AnalysisConfig:
     baseline_minutes: float = 30.0
+    feature_resample_seconds: int = 60
     slope_windows_minutes: tuple[int, ...] = (5, 15, 30)
     min_window_points: int = 5
     # Initial protein-food weights; these must be tuned from the three runs.
@@ -113,7 +114,15 @@ def _activation(value: pd.Series, scale: float) -> pd.Series:
 def build_features(
     clean: pd.DataFrame, config: AnalysisConfig
 ) -> tuple[pd.DataFrame, dict]:
-    data = clean.copy()
+    numeric = clean.select_dtypes(include=[np.number]).resample(
+        f"{config.feature_resample_seconds}s"
+    ).median()
+    nonnumeric = clean.select_dtypes(exclude=[np.number]).resample(
+        f"{config.feature_resample_seconds}s"
+    ).first()
+    data = numeric.join(nonnumeric, how="left").dropna(
+        subset=["elapsed_s", *GAS_COLUMNS, "temp_C", "bme_gas_ohms"]
+    )
     logging_start_s = float(data["elapsed_s"].min())
     baseline_end_s = logging_start_s + config.baseline_minutes * 60.0
     baseline_mask = data["elapsed_s"].le(baseline_end_s)
@@ -203,6 +212,8 @@ def build_features(
         "baseline_start_elapsed_s": logging_start_s,
         "baseline_end_elapsed_s": baseline_end_s,
         "baseline_rows": int(len(baseline)),
+        "feature_rows": int(len(data)),
+        "feature_resample_seconds": config.feature_resample_seconds,
         "baseline_means": {key: float(value) for key, value in means.items()},
         "baseline_coefficients_of_variation": {
             key: (None if pd.isna(value) else float(value))

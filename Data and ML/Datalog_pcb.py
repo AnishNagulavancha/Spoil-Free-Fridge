@@ -8,10 +8,11 @@ BEFORE EACH RUN
 3. Set COM_PORT and CAMERA_CAPTURE_URL below. Close Arduino Serial Monitor so
    this script can open the serial port.
 4. Set a unique SESSION_ID and the correct CONTAINER_ID. For this trial use:
+       SESSION_ROLE = "control", "pilot", or "confirmation"
        FOOD_CATEGORY = "poultry"
        FOOD_NAME = "chicken"
        LABEL = "Unlabeled"
-       LOG_MINUTES = 300
+       LOG_MINUTES = 720
 5. Confirm that SAVE_ROOT has enough space and that the camera, LEDs, sensors,
    and ESP32 are powered. Do not move the camera or change lighting during a run.
 
@@ -20,8 +21,9 @@ RUN PROCEDURE
 2. The script captures one empty-chamber reference image after the camera startup
    delay, while sensor rows are recorded with phase="Warmup".
 3. Wait for the complete 30-minute warmup. Do not insert chicken early.
-4. When prompted, insert and position the chicken, close the chamber, and only
-   then press Enter. Avoid touching the camera or sensors.
+4. For chicken runs, insert and position the chicken, close the chamber, and
+   only then press Enter. For controls, open the chamber for the same handling
+   time, close it without food, and press Enter.
 5. The script records the insertion time, captures the initial chicken image,
    and begins a 30-minute phase="Baseline" period.
 6. After baseline, rows use LABEL as their phase. Images are captured every five
@@ -69,6 +71,7 @@ SAVE_ROOT = Path(
 
 SESSION_ID = "S0001"
 CONTAINER_ID = "board_A"
+SESSION_ROLE = "pilot"  # control, pilot, or confirmation
 
 FOOD_CATEGORY = "unknown"
 FOOD_NAME = "unknown"
@@ -76,7 +79,7 @@ LABEL = "Unlabeled"
 
 PREHEAT_MINUTES = 30
 FOOD_BASELINE_MINUTES = 30
-LOG_MINUTES = 300          # None = run until Ctrl+C
+LOG_MINUTES = 720          # 12 hours after the insertion/control prompt
 
 EXPECTED_FIELDS = 10
 
@@ -99,8 +102,11 @@ FIRST_IMAGE_DELAY_SEC = 25
 CAMERA_TIMEOUT_SEC = 20
 
 # ================= SESSION SETUP =================
+if SESSION_ROLE not in {"control", "pilot", "confirmation"}:
+    raise ValueError("SESSION_ROLE must be control, pilot, or confirmation")
+
 timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
-session_name = f"{SESSION_ID}_{FOOD_NAME}_{timestamp_str}"
+session_name = f"{SESSION_ID}_{SESSION_ROLE}_{FOOD_NAME}_{timestamp_str}"
 
 session_dir = SAVE_ROOT / session_name
 images_dir = session_dir / "images"
@@ -115,6 +121,7 @@ metadata_path = session_dir / "metadata.json"
 metadata = {
     "session_id": SESSION_ID,
     "container_id": CONTAINER_ID,
+    "session_role": SESSION_ROLE,
     "food_category": FOOD_CATEGORY,
     "food_name": FOOD_NAME,
     "label": LABEL,
@@ -352,8 +359,12 @@ try:
             if not food_inserted and elapsed_s >= PREHEAT_MINUTES * 60:
                 print("\n================================")
                 print("SENSOR WARMUP COMPLETE")
-                print("Insert the chicken and close the chamber.")
-                input("Press Enter when the chicken is positioned: ")
+                if SESSION_ROLE == "control":
+                    print("CONTROL: open and close the chamber without adding food.")
+                    input("Press Enter when the empty chamber is closed: ")
+                else:
+                    print("Insert the chicken and close the chamber.")
+                    input("Press Enter when the chicken is positioned: ")
                 try:
                     ser.reset_input_buffer()
                 except Exception:
@@ -363,6 +374,7 @@ try:
                 elapsed_s = food_inserted_time - start_time
                 phase = "Baseline"
                 metadata["food_inserted_time"] = datetime.now().isoformat()
+                metadata["post_prompt_start_time"] = metadata["food_inserted_time"]
                 metadata["actual_warmup_elapsed_s"] = round(elapsed_s, 2)
                 with open(metadata_path, "w") as metadata_file:
                     json.dump(metadata, metadata_file, indent=4)
@@ -372,7 +384,7 @@ try:
                         image_writer, image_file, image_count, elapsed_s
                     )
                     next_image_time = food_inserted_time + IMAGE_INTERVAL_SEC
-                print("Food baseline logging started.\n")
+                print(f"{SESSION_ROLE.capitalize()} baseline logging started.\n")
 
             # Continue at five-minute intervals relative to insertion.
             if (
