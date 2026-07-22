@@ -1,0 +1,13 @@
+{
+    "session_id": "S0001",
+    "container_id": "board_A",
+    "food_category": "unknown",
+    "food_name": "unknown",
+    "label": "Unlabeled",
+    "preheat_minutes": 30,
+    "log_minutes": null,
+    "baud_rate": 115200,
+    "com_port": "COM4",
+    "start_time": "2026-06-27T11:16:27.174597",
+    "notes": "Prototype 1 laptop sensor logging. Camera image sync not enabled yet."
+}
