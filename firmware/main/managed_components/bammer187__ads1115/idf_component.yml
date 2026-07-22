@@ -1,0 +1,8 @@
+description: ESP-IDF compatible ADS1115 Library
+license: MIT
+repository: git://github.com/Bammer187/ADS1115.git
+repository_info:
+  commit_sha: 999d4618c8011dc0bc83f4e6e51497e7c1bd58f9
+  path: .
+url: https://github.com/Bammer187/ADS1115
+version: 1.0.1

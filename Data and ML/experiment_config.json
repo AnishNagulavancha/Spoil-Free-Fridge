@@ -1,0 +1,47 @@
+{
+  "protocol_version": "prototype_1_control_calibrated_v1",
+  "parameters_frozen": false,
+  "baseline_minutes": 30,
+  "aggregation_minutes": 5,
+  "primary_auc_hours": 12,
+  "minimum_auc_coverage": 0.95,
+  "maximum_interpolation_gap_minutes": 10,
+  "control": {
+    "minimum_sessions": 3,
+    "drift_smoothing_bins": 5,
+    "loo_scale_method": "mad",
+    "bootstrap_sessions": 2000,
+    "bootstrap_block_bins": 6,
+    "target_false_session_rate": 0.05
+  },
+  "cusum": {
+    "k": 0.5,
+    "h_candidates": [5, 6, 7, 8],
+    "persistence_bins": 3,
+    "primary_rule": "protein_gas_and_bme_voc"
+  },
+  "index": {
+    "full_scale_z": 5.0,
+    "full_scale_source": "excluded_chicken_pilot",
+    "negative_values": "clip_to_zero",
+    "weights": {
+      "NH3": 0.30,
+      "H2S": 0.35,
+      "CH4": 0.10,
+      "BME": 0.25
+    }
+  },
+  "sensor_direction": {
+    "NH3": 1,
+    "H2S": 1,
+    "CH4": 1,
+    "BME": 1
+  },
+  "sensor_direction_source": "must_be_verified_before_confirmation",
+  "camera": {
+    "baseline_minutes": 30,
+    "persistence_frames": 5,
+    "laplacian_ratio_minimum": 0.5,
+    "background_laplacian_ratio_minimum": 0.5
+  }
+}

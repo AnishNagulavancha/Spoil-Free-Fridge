@@ -1,0 +1,18 @@
+{
+    "session_id": "S0001",
+    "container_id": "board_A",
+    "food_category": "unknown",
+    "food_name": "unknown",
+    "label": "Unlabeled",
+    "preheat_minutes": 30,
+    "log_minutes": null,
+    "baud_rate": 115200,
+    "com_port": "COM4",
+    "expected_fields": 10,
+    "camera_enabled": true,
+    "camera_capture_url": "http://192.168.1.102/capture",
+    "image_interval_sec": 30,
+    "camera_timeout_sec": 15,
+    "start_time": "2026-06-29T16:35:27.330134",
+    "notes": "Prototype 1 laptop logger. Sensor data from USB serial. Camera images captured over Wi-Fi from /capture endpoint. Camera ESP32 handles LED ON -> capture -> LED OFF."
+}

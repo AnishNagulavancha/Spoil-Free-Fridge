@@ -1,0 +1,5 @@
+timestamp_iso,elapsed_s,image_number,image_filename,status,http_status,content_type,image_path
+2026-06-29T16:50:16,25.04,1,img_000001_20260629_165014.jpg,success,200,image/jpeg,C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data\S0001_unknown_20260629_164944\images\img_000001_20260629_165014.jpg
+2026-06-29T16:50:46,55.04,2,img_000002_20260629_165044.jpg,success,200,image/jpeg,C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data\S0001_unknown_20260629_164944\images\img_000002_20260629_165044.jpg
+2026-06-29T16:51:21,85.03,3,img_000003_20260629_165114.jpg,success,200,image/jpeg,C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data\S0001_unknown_20260629_164944\images\img_000003_20260629_165114.jpg
+2026-06-29T16:51:47,115.21,4,img_000004_20260629_165145.jpg,success,200,image/jpeg,C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data\S0001_unknown_20260629_164944\images\img_000004_20260629_165145.jpg
