@@ -14,12 +14,72 @@ from model_data import load_sessions
 from unsupervised_models import calibrate_controls, score_session
 
 
-def _roles(session_dirs: list[Path]) -> dict[str, str | None]:
-    roles = {}
+CALIBRATION_IDENTITY_FIELDS = (
+    "site_id", "pcb_design_id", "device_id", "container_id"
+)
+
+
+def _metadata(session_dirs: list[Path]) -> dict[str, dict]:
+    records = {}
     for path in session_dirs:
-        metadata = json.loads((path / "metadata.json").read_text(encoding="utf-8"))
-        roles[path.name] = metadata.get("session_role")
-    return roles
+        metadata_path = path / "metadata.json"
+        if not metadata_path.is_file():
+            raise FileNotFoundError(f"Missing session metadata: {metadata_path}")
+        records[path.name] = json.loads(metadata_path.read_text(encoding="utf-8"))
+    return records
+
+
+def _calibration_identity(records: dict[str, dict]) -> dict[str, str]:
+    identity = {}
+    for field in CALIBRATION_IDENTITY_FIELDS:
+        values = {str(item.get(field, "")).strip() for item in records.values()}
+        if "" in values:
+            raise ValueError(f"Every control metadata.json must define {field}")
+        if len(values) != 1:
+            raise ValueError(
+                f"Controls used in one calibration must share {field}; got {sorted(values)}"
+            )
+        identity[field] = values.pop()
+    return identity
+
+
+def _validate_protocol_metadata(records: dict[str, dict], config: dict) -> None:
+    expected_version = config.get("protocol_version")
+    expected_minutes = float(config["primary_auc_hours"]) * 60.0
+    expected_baseline = float(config["baseline_minutes"])
+    for name, item in records.items():
+        if item.get("protocol_version") != expected_version:
+            raise ValueError(
+                f"{name} protocol_version={item.get('protocol_version')!r}; "
+                f"expected {expected_version!r}"
+            )
+        try:
+            log_minutes = float(item.get("log_minutes", -1))
+            baseline_minutes = float(item.get("food_baseline_minutes", -1))
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"{name} has invalid duration metadata") from exc
+        if log_minutes != expected_minutes:
+            raise ValueError(
+                f"{name} log_minutes must be {expected_minutes:g} for this protocol"
+            )
+        if baseline_minutes != expected_baseline:
+            raise ValueError(
+                f"{name} food_baseline_minutes must be {expected_baseline:g}"
+            )
+
+
+def _require_matching_identity(metadata: dict, calibration: dict, session_name: str) -> None:
+    mismatch = {
+        field: {"target": metadata.get(field), "calibration": calibration.get(field)}
+        for field in CALIBRATION_IDENTITY_FIELDS
+        if str(metadata.get(field, "")).strip()
+        != str(calibration.get(field, "")).strip()
+    }
+    if mismatch:
+        raise ValueError(
+            f"Target {session_name} does not match its local control calibration: {mismatch}. "
+            "Calibrate each site/PCB/device/container from its own three empty controls."
+        )
 
 
 def main() -> None:
@@ -45,23 +105,37 @@ def main() -> None:
                 "Control calibration requires verified sensor_direction and a documented "
                 "sensor_direction_source before one-sided CUSUM calibration"
             )
-        control_roles = _roles(args.controls)
-        invalid = {name: role for name, role in control_roles.items()
-                   if role != "control"}
+        control_metadata = _metadata(args.controls)
+        _validate_protocol_metadata(control_metadata, config)
+        invalid = {
+            name: item.get("session_role")
+            for name, item in control_metadata.items()
+            if item.get("session_role") != "control"
+        }
         if invalid:
             raise ValueError(f"Control folders have non-control session_role values: {invalid}")
-        controls = load_sessions(args.controls, labelled=False,
-                                 resample_minutes=int(config["aggregation_minutes"]))
+        identity = _calibration_identity(control_metadata)
+        controls = load_sessions(
+            args.controls, resample_minutes=int(config["aggregation_minutes"])
+        )
         calibration = calibrate_controls(controls, config, args.random_state)
+        calibration.update(identity)
         loo = calibration.pop("loo_residuals")
         loo.to_csv(args.output_dir / "control_loo_residuals.csv", index=False)
         joblib.dump(calibration, args.output_dir / "control_calibration.joblib")
         calibration_summary = {
             "protocol_version": config.get("protocol_version"),
+            **identity,
+            "operators": sorted({
+                str(item.get("operator_id", "unknown"))
+                for item in control_metadata.values()
+            }),
             "control_sessions": calibration["control_sessions"],
             "loo_scales": calibration["scales"],
             "selected_cusum_h": calibration["cusum_h"],
             "bootstrap_false_session_rates": calibration["bootstrap_false_session_rates"],
+            "index_weights": config["index"]["weights"],
+            "index_weights_source": config["index"].get("weights_source"),
             "control_null_channel_correlation": (
                 loo[[f"z_{sensor}" for sensor in ("NH3", "H2S", "CH4", "BME")]]
                 .corr().to_dict()
@@ -79,11 +153,14 @@ def main() -> None:
     summaries = []
     target_roles = {}
     for target in args.targets:
-        role = _roles([target])[target.name]
+        metadata = _metadata([target])[target.name]
+        _validate_protocol_metadata({target.name: metadata}, config)
+        role = metadata.get("session_role")
         if role not in {"pilot", "confirmation"}:
             raise ValueError(
                 f"Target {target.name} must have session_role pilot or confirmation; got {role!r}"
             )
+        _require_matching_identity(metadata, calibration, target.name)
         target_roles[target.name] = role
         if role == "confirmation" and not config.get("parameters_frozen", False):
             raise ValueError(
@@ -97,9 +174,28 @@ def main() -> None:
                 "Confirmation scoring refused: sensor_direction_source must document "
                 "datasheet/independent testing or the excluded pilot"
             )
-        session = load_sessions([target], labelled=False,
-                                resample_minutes=int(config["aggregation_minutes"]))
+        session = load_sessions(
+            [target], resample_minutes=int(config["aggregation_minutes"])
+        )
         scored, summary = score_session(session, calibration, config)
+        summary.update({
+            "protocol_version": config.get("protocol_version"),
+            "parameters_frozen": bool(config.get("parameters_frozen", False)),
+            "recorded_session_id": metadata.get("session_id"),
+            "session_role": role,
+            "site_id": metadata.get("site_id"),
+            "pcb_design_id": metadata.get("pcb_design_id"),
+            "device_id": metadata.get("device_id"),
+            "container_id": metadata.get("container_id"),
+            "operator_id": metadata.get("operator_id"),
+            "sample_id": metadata.get("sample_id"),
+            "sample_cut": metadata.get("sample_cut"),
+            "sample_mass_g": metadata.get("sample_mass_g"),
+            "source_batch_id": metadata.get("source_batch_id"),
+            "index_weights": config["index"]["weights"],
+            "index_weights_source": config["index"].get("weights_source"),
+            "index_interpretation": config["index"].get("interpretation"),
+        })
         destination = args.output_dir / target.name
         destination.mkdir(parents=True, exist_ok=True)
         scored.to_csv(destination / "sensor_change_metrics.csv", index=False)

@@ -1,114 +1,198 @@
 # Prototype 1 control-calibrated workflow
 
-This pipeline measures chicken-associated gas and visible change relative to an
-early post-insertion reference. It does not determine microbiological safety or
-report a percentage spoiled.
+This pipeline measures chicken-associated gas and visible change relative to
+local empty controls and an early post-insertion reference. It does not
+determine microbiological safety, report a percentage spoiled, or estimate the
+exact time chicken becomes unsafe.
 
-## Experimental roles
+## Final four-hour protocol
 
-Collect sessions in this order where practical:
+Every session contains:
+
+```text
+30-minute empty-chamber warmup
+4-hour post-prompt recording
+  first 30 minutes: post-prompt baseline
+  remaining 3.5 hours: detection period
+images every 5 minutes
+```
+
+The four-hour window is a practical proof-of-concept choice. A sustained event
+within four hours supports sensor responsiveness. No event is inconclusive
+rather than proof that the sensors cannot work, because the measurable response
+may develop later. Every chicken sample is experimental waste and must not be
+eaten or re-refrigerated.
+
+For one development site, collect sessions in this order:
 
 ```text
 C1 empty control
 C2 empty control
-P1 excluded chicken pilot
 C3 empty control
-freeze every parameter
+P1 excluded chicken pilot
+freeze every global parameter
 P2 chicken confirmation
 P3 chicken confirmation
 ```
 
-Set `SESSION_ROLE` in `Datalog_pcb.py` to `control`, `pilot`, or
-`confirmation`. Every session uses a 30-minute empty warmup, a prompt event, a
-30-minute post-prompt baseline, five-minute images, and a 12-hour post-prompt
-duration. For controls, open and close the chamber without inserting food.
+`LOG_MINUTES` is 240 and is measured after the insertion/control prompt, so
+each complete session takes about 4.5 hours including warmup. Controls use the
+same prompt handling: open and close the chamber without adding food.
 
-Run feature engineering for every sensor session:
+Run feature engineering after every session:
 
 ```powershell
 python analyze_session.py "C:\path\to\session"
 ```
 
-## Frozen configuration
+## Multiple houses and PCBs
 
-`experiment_config.json` contains every analysis choice: five-minute
-aggregation, control smoothing, leave-one-control-out scale estimation, CUSUM
-candidate limits, persistence, channel directions, 0–100 mapping, fixed AUC
-window, missing-data rules, and camera quality thresholds.
+Set `PCB_DESIGN_ID` to the shared hardware design and assign unique `SITE_ID`,
+`DEVICE_ID`, `OPERATOR_ID`, `CONTAINER_ID`, and `SESSION_ID` values in
+`Datalog_pcb.py`. The same PCB design does not make two physical boards or
+houses identical. Record sample ID, cut, measured mass, and source batch for
+each chicken run.
 
-Before control calibration and confirmation scoring:
+Each site/PCB/device/container combination needs its own three four-hour empty
+controls and its own `control_calibration.joblib`. Local calibration estimates
+that setup's drift and noise. The global configuration—sensor directions,
+CUSUM rule, persistence, weights, scale mapping, and reporting times—must remain
+identical across houses.
 
-1. Verify `sensor_direction` independently of confirmation data. Benign mixed
-   odors may demonstrate responsiveness but do not identify analyte-specific
-   direction.
-2. Record the direction source in `sensor_direction_source` as
-   `datasheet_and_independent_response_test` or `excluded_chicken_pilot`.
-3. Use the excluded pilot to select `index.full_scale_z`.
-4. Re-run control calibration if a direction changes after an exploratory run.
-5. Set `parameters_frozen` to `true` before confirmation scoring.
-6. Do not edit the configuration after seeing confirmation results.
+Do not merge raw voltages from different houses. Compare or combine only
+session-level, locally standardized results such as detection latency,
+`AUC_0_4h`, and index values at 1, 2, 3, and 4 hours. If Houses A and B are used
+to develop the common rules, test the frozen procedure at an untouched House C
+before claiming external generalization. Evidence from two houses supports
+cross-site feasibility, not operation in every possible house.
 
-## Control calibration
+An efficient two-house confirmation layout is:
 
-After all three controls have `analysis/features.csv`, run:
-
-```powershell
-python run_models.py `
-  --controls "C:\data\C1" "C:\data\C2" "C:\data\C3" `
-  --output-dir "model_output"
+```text
+House A: 3 local controls + 1 excluded pilot + 1 confirmation
+House B: 3 local controls + 1 confirmation using the same frozen global rules
 ```
 
-Calibration performs the following for NH3, H2S, CH4, and inverted BME688
-resistance:
+Those two chicken confirmations count as independent cross-site replications.
+They provide less evidence about repeatability within either one house than two
+confirmations per house would.
 
-- five-minute median aggregation;
-- a pooled, smoothed control drift curve;
-- leave-one-control-out correction and robust MAD null scale;
-- block-bootstrap selection of the smallest CUSUM `h` meeting the configured
-  end-to-end false-session target;
-- PCA fitted only on control-null standardized channels;
-- Isolation Forest fitted only on control-null standardized channels.
+## Frozen configuration and weights
 
-The primary trigger is deliberately stringent:
+`experiment_config.json` is the single source of truth for five-minute
+aggregation, the four-hour AUC window, reporting times, control smoothing,
+leave-one-control-out scale estimation, CUSUM candidates, persistence, sensor
+directions, index mapping, channel weights, and camera quality thresholds.
+
+`analyze_session.py` creates individual sensor features only. It intentionally
+does not create a weighted `gas_state`. The only weighted score is the final
+0–100 Deterioration-Associated Change Index created by
+`unsupervised_models.py`.
+
+The current NH3/H2S/CH4/BME weights are a pre-registered protein-food
+engineering heuristic, not fitted coefficients. They affect the displayed
+index but do not determine the primary event. The primary event independently
+requires:
 
 ```text
 (NH3 or H2S protein-gas evidence) AND BME688 broad-VOC evidence
 ```
 
-CH4 is supporting evidence. Supporting channels are not described as
-independent; control and target correlation matrices are saved.
+CH4 remains supporting evidence. Zero means little control-adjusted movement;
+100 means the engineered channels reached the frozen full-scale response. It
+does not mean 0% or 100% spoiled.
+
+Before confirmation scoring:
+
+1. Verify `sensor_direction` independently of confirmation data.
+2. Record the direction source as
+   `datasheet_and_independent_response_test` or `excluded_chicken_pilot`.
+3. Use only the excluded pilot to select `index.full_scale_z`.
+4. Check the heuristic weights and document them before confirmation.
+5. Set `parameters_frozen` to `true`.
+6. Do not edit parameters after seeing confirmation results.
+
+If a confirmation result causes a parameter change, that session becomes
+development data and a new untouched confirmation is required.
+
+## Local control calibration
+
+After three controls from one site/device/container have
+`analysis/features.csv`, run:
+
+```powershell
+python run_models.py `
+  --controls "C:\data\house_A\C1" "C:\data\house_A\C2" "C:\data\house_A\C3" `
+  --output-dir "house_A_model"
+```
+
+The runner refuses to mix controls with different site, PCB design, device, or
+container IDs. Calibration performs:
+
+- five-minute median aggregation;
+- a pooled, smoothed local-control drift curve;
+- leave-one-control-out correction and robust MAD residual scale;
+- block-bootstrap selection of the smallest CUSUM `h` meeting the configured
+  end-to-end false-session target;
+- PCA fitted only on local control-null standardized channels; and
+- Isolation Forest fitted only on local control-null standardized channels.
 
 ## Pilot and confirmation scoring
 
-Score the excluded pilot with the saved control artifact:
+Score the excluded pilot with the matching local artifact:
 
 ```powershell
 python run_models.py `
-  --calibration "model_output\control_calibration.joblib" `
-  --targets "C:\data\P1" `
-  --output-dir "pilot_output"
+  --calibration "house_A_model\control_calibration.joblib" `
+  --targets "C:\data\house_A\P1" `
+  --output-dir "house_A_pilot"
 ```
 
-After freezing the config, score confirmations without recalibrating:
+After freezing the configuration, score untouched confirmations without
+recalibrating or changing parameters:
 
 ```powershell
 python run_models.py `
-  --calibration "model_output\control_calibration.joblib" `
-  --targets "C:\data\P2" "C:\data\P3" `
-  --output-dir "confirmation_output"
+  --calibration "house_A_model\control_calibration.joblib" `
+  --targets "C:\data\house_A\P2" "C:\data\house_A\P3" `
+  --output-dir "house_A_confirmation"
 ```
 
-Outputs include per-channel control-adjusted z-scores, explicit clipped channel
-indices, the 0–100 Deterioration-Associated Change Index, per-channel CUSUM,
-the protein/BME primary event, supporting-channel count, shared PCA coordinates,
-Isolation Forest anomaly score, fixed-time indices, detection latency, and
-fixed-window `AUC_0_12h`. AUC is invalidated when configured coverage or gap
-rules are not met; truncated runs are never compared as if they were 12 hours.
-Raw monotone trajectory correlation is intentionally not reported.
+The artifact can only score the same site/PCB/device/container identity as its
+controls. A second house follows the same commands with its own three controls
+and local artifact but the same frozen `experiment_config.json`.
 
-## Camera analysis
+Outputs include individual control-adjusted z-scores, clipped channel indices,
+the engineered 0–100 Change Index, per-channel CUSUM, the primary event,
+supporting-channel count, shared PCA coordinates, Isolation Forest anomaly
+score, detection latency, indices at 1–4 hours, and fixed-window `AUC_0_4h`.
+AUC is invalidated when coverage or gap rules fail. Raw monotone trajectory
+correlation is intentionally not reported.
 
-Run each session with one fixed chicken ROI and one stationary background ROI:
+After separately scoring frozen confirmations at multiple houses, combine only
+their session summaries:
+
+```powershell
+python aggregate_site_results.py `
+  "house_A_confirmation\P2" `
+  "house_B_confirmation\P2" `
+  --output "cross_site_summary.json"
+```
+
+The aggregator rejects pilots, unfrozen runs, protocol mismatches, and weight
+mismatches. It reports both overall and per-site descriptive metrics without
+pooling adjacent raw sensor rows.
+
+The current algorithm detects a sustained response after it appears. It does
+not yet forecast future deterioration. A suitable confirmation conclusion is:
+
+> The frozen model detected the expected deterioration-associated multi-sensor
+> pattern in an independent chicken session.
+
+## Camera analysis and observations
+
+Run each chicken session with one fixed chicken ROI and one stationary
+background ROI:
 
 ```powershell
 python run_camera_models.py "C:\path\to\session" `
@@ -116,36 +200,31 @@ python run_camera_models.py "C:\path\to\session" `
   --background-roi 0,0,1,.15
 ```
 
-The camera extracts baseline-relative color, histogram, texture, edge, and
-pixel-difference features. Isolation Forest is trained on the first 30 minutes
-of post-prompt images. Fog is suspected only when both the subject and fixed
-background Laplacian-variance ratios fall below their frozen thresholds.
-Unreliable frames cannot contribute to a sustained event. Sustained camera
-change requires five consecutive reliable anomalous frames. Reliability is
-reported by hour, not only as one aggregate percentage. Confirmation camera
-analysis refuses to run without a background ROI.
+The camera uses baseline-relative color, histogram, texture, edge, and pixel
+difference features. A per-session Isolation Forest is initialized from the
+first 30 post-prompt minutes. Fog is suspected only when both the subject and
+stationary background Laplacian-variance ratios fall below their frozen
+thresholds. Unreliable frames cannot build a sustained event, and reliability
+is reported by hour.
 
-Manual records use `observations_template.csv` and describe visible appearance
-only (`no_visible_change`, `minor_visible_change`, or `major_visible_change`).
-Do not use guessed `fresh` or `spoiled` labels, and do not open room-temperature
-chicken repeatedly for odor or texture checks.
+Manual records use `observations_template.csv` and describe only appearance
+visible through the closed chamber. Do not assign guessed `fresh`,
+`deteriorating`, or `spoiled` ground truth, and do not repeatedly open the
+chamber for smell or texture checks.
 
-## Future supervised and RUL work
+## Future supervised prediction
 
-Supervised classification, sequence, survival, and direct RUL prototypes are
-intentionally not included in this repository. Three chicken runs without
-independent reference measurements are not enough to train or validate those
-models. Add them only after collecting many independent sessions with ground
-truth such as APC/TVC, TVB-N, and pH, while splitting train and test data by
-session rather than by row.
+Supervised classification, survival, and direct RUL models are intentionally
+not included. The present algorithm performs control-calibrated detection.
+Predicting future state requires many independent sessions plus matched ground
+truth such as APC/TVC, TVB-N, and pH. Any future train/test split must be by
+complete session and site, never by adjacent sensor rows.
 
 ## Installation and learning
-
-Install the dependencies used by the active pipeline:
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
-See `LEARNING_RESOURCES.md` for a module-by-module reading path, theory links,
-and small implementation exercises.
+See `LEARNING_RESOURCES.md` for the theory, implementation references, and an
+accelerated two-week study plan.

@@ -119,6 +119,18 @@ def calibrate_controls(frame: pd.DataFrame, config: dict,
     minimum = int(config["control"]["minimum_sessions"])
     if len(sessions) < minimum:
         raise ValueError(f"Control calibration requires at least {minimum} sessions")
+    auc_h = float(config["primary_auc_hours"])
+    interval_h = float(config["aggregation_minutes"]) / 60.0
+    incomplete = {
+        str(session_id): float(group["session_time_h"].max())
+        for session_id, group in controls.groupby("session_id")
+        if group.empty or float(group["session_time_h"].max()) < auc_h - interval_h
+    }
+    if incomplete:
+        raise ValueError(
+            f"Control sessions do not cover the configured {auc_h:g}-hour window: "
+            f"{incomplete}"
+        )
     missing = [column for column in SENSOR_COLUMNS.values() if column not in controls]
     if missing:
         raise ValueError(f"Missing sensor delta features: {', '.join(missing)}")
@@ -247,12 +259,13 @@ def score_session(frame: pd.DataFrame, calibration: dict, config: dict) -> tuple
         ),
         "supporting_channels_are_not_assumed_independent": True,
     }
-    for hour in range(2, int(auc_h) + 1, 2):
+    for hour in config["fixed_reporting_hours"]:
         position = int((data["session_time_h"] - hour).abs().argmin())
         nearest = data.iloc[position]
-        summary["index_at_fixed_hours"][str(hour)] = (
+        key = f"{float(hour):g}"
+        summary["index_at_fixed_hours"][key] = (
             float(nearest["change_index"])
-            if abs(float(nearest["session_time_h"]) - hour) <= interval_h + 1e-9
+            if abs(float(nearest["session_time_h"]) - float(hour)) <= interval_h + 1e-9
             else None
         )
     return data, summary

@@ -12,7 +12,7 @@
 // =======================================================
 
 // ================= WIFI SETTINGS =================
-const char* wifi_ssid = "Airtel_Sridhar_EXT";
+const char* wifi_ssid = "Airtel_Sridhar";
 const char* wifi_password = "air12345";
 
 // ================= PCB PIN DEFINITIONS =================

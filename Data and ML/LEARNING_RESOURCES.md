@@ -15,15 +15,18 @@ ground truth.
    age.
 3. `experiment_config.json` and `experiment_config.py` — frozen experimental
    choices and validation.
-4. `model_data.py` — loading feature files and selecting model inputs.
+4. `model_data.py` — loading and resampling complete sessions without treating
+   adjacent rows as independent experiments.
 5. `unsupervised_models.py` — control drift correction, leave-one-control-out
    scale estimation, CUSUM calibration, PCA, Isolation Forest, and the change
    index.
 6. `run_models.py` — command-line orchestration and safeguards separating
    controls, pilot data, and confirmation data.
-7. `image_data.py` and `image_features.py` — image timestamps, ROIs, color,
+7. `aggregate_site_results.py` — session-level cross-house summaries without
+   pooling autocorrelated raw sensor rows.
+8. `image_data.py` and `image_features.py` — image timestamps, ROIs, color,
    histogram, texture, edge, blur, and baseline-relative features.
-8. `camera_models.py` and `run_camera_models.py` — camera baseline model,
+9. `camera_models.py` and `run_camera_models.py` — camera baseline model,
    condensation gate, anomaly persistence, and reliability by hour.
 
 Before reading the project, work through the
@@ -137,10 +140,13 @@ The model is fitted to corrected control-null data, so its question is
 
 The 0-100 change index is a transparent engineered metric: each directed,
 control-corrected z-score is clipped to 0-1 using the frozen `full_scale_z`,
-then the channels are combined with frozen weights. AUC is integrated only over
-the fixed 0-12 hour window and is invalidated when coverage rules fail. This
-keeps it comparable across complete sessions, but the index remains a prototype
-effect-size scale rather than a probability.
+then the channels are combined with the one weight set in
+`experiment_config.json`. Those weights are a documented protein-food
+heuristic, not learned coefficients. They affect the index but not the primary
+CUSUM agreement event. AUC is integrated only over the fixed 0-4 hour window
+and is invalidated when coverage rules fail. This keeps it comparable across
+complete sessions, but the index remains a prototype effect-size scale rather
+than a probability or percentage spoiled.
 
 Practice:
 
@@ -177,8 +183,8 @@ Practice:
 
 ## 7. Experimental validity and ground truth
 
-The most important modeling rule is to keep confirmation sessions untouched
-while choosing directions, thresholds, weights, and scales. Read scikit-learn's
+The most important modeling rule is to keep confirmation sessions and sites
+untouched while choosing directions, thresholds, weights, and scales. Read scikit-learn's
 [data-leakage guidance](https://scikit-learn.org/stable/common_pitfalls.html#data-leakage)
 and the OSF
 [registration guide](https://help.osf.io/article/330-welcome-to-registrations)
@@ -199,20 +205,39 @@ sensor agreement, camera reliability, and repeatability across independent
 sessions—not accuracy, sensitivity, specificity, freshness probability, or
 remaining shelf life.
 
-## 8. A manageable study plan
+## 8. Cross-house generalization
 
-- Week 1: Python, NumPy, pandas, and serial logging; trace one row from serial
+The portable design separates local calibration from global logic. Each
+site/device/container estimates its own baseline, drift, and residual noise;
+the sensor directions, CUSUM rule, persistence, index weights, and scale remain
+globally frozen. Never average raw voltages across houses. Compare standardized
+session-level metrics instead.
+
+If two houses influence model choices, both are development sites. Test the
+frozen procedure at an untouched third house to evaluate external transfer.
+Later, use leave-one-house-out validation: develop on every site except one and
+evaluate the complete calibration-and-detection procedure at the held-out site.
+
+## 9. Accelerated two-week study plan
+
+- Days 1–2: Python, NumPy, pandas, and serial logging; trace one row from serial
   input to `sensor_log.csv`.
-- Week 2: resampling, baselines, deltas, rolling statistics, and Q10; reproduce
-  one feature column in a notebook or short scratch script.
-- Week 3: robust scale, control drift, leave-one-control-out evaluation, and
-  block bootstrap.
-- Week 4: implement CUSUM from scratch and compare it with the project output.
-- Week 5: PCA and Isolation Forest on synthetic data, then on empty controls.
-- Week 6: image ROIs, color features, Laplacian variance, and anomaly
-  persistence.
-- Week 7: run the full control/pilot/confirmation workflow and write a results
-  report that separates measured evidence from interpretation.
+- Days 3–4: resampling, baselines, deltas, rolling statistics, MAD, and Q10;
+  reproduce one feature column in a scratch script.
+- Days 5–6: implement CUSUM from scratch and understand the primary agreement
+  rule.
+- Days 7–8: PCA and Isolation Forest on synthetic data, then empty controls.
+- Days 9–10: image ROIs, color features, Laplacian variance, condensation, and
+  anomaly persistence.
+- Days 11–12: run a short practice session through every command and inspect
+  each output.
+- Days 13–14: explain the design, assumptions, failure modes, and claims
+  without relying on the code.
+
+This is roughly 25–35 focused hours. You are not expected to reproduce every
+file from memory; you should be able to explain the major decisions, follow one
+reading through the pipeline, run it, interpret it, and make small documented
+changes.
 
 For every algorithm, use the same loop: derive the smallest formula, implement
 it on synthetic data, plot failure cases, then read the corresponding project

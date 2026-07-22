@@ -7,12 +7,16 @@ BEFORE EACH RUN
    refrigerated until the insertion prompt appears.
 3. Set COM_PORT and CAMERA_CAPTURE_URL below. Close Arduino Serial Monitor so
    this script can open the serial port.
-4. Set a unique SESSION_ID and the correct CONTAINER_ID. For this trial use:
+4. Set a unique SESSION_ID and the correct SITE_ID, PCB_DESIGN_ID, DEVICE_ID,
+   OPERATOR_ID, and CONTAINER_ID. Identical PCB designs still need distinct
+   DEVICE_ID values. Record the sample ID, cut, mass, and source batch for every
+   chicken run.
+   For this trial use:
        SESSION_ROLE = "control", "pilot", or "confirmation"
        FOOD_CATEGORY = "poultry"
        FOOD_NAME = "chicken"
        LABEL = "Unlabeled"
-       LOG_MINUTES = 720
+       LOG_MINUTES = 240
 5. Confirm that SAVE_ROOT has enough space and that the camera, LEDs, sensors,
    and ESP32 are powered. Do not move the camera or change lighting during a run.
 
@@ -37,12 +41,16 @@ AFTER THE RUN
 2. Discard the chicken without tasting or re-refrigerating it. Keep it sealed
    during handling and clean potentially contaminated surfaces appropriately.
 3. Run: python analyze_session.py "<session folder>"
-4. Copy observations_template.csv to the session as observations.csv and replace
-   its example with actual timestamped observations before supervised modeling.
+4. Keep any manual records limited to appearance visible through the closed
+   chamber. Use observations_template.csv as supporting annotation, not as
+   guessed fresh/spoiled ground truth.
 
 Timing is relative to chicken insertion for LOG_MINUTES and image scheduling.
 Warmup data is retained for diagnostics but excluded by analyze_session.py.
-This prototype estimates deterioration signals; it is not a food-safety test.
+Four hours at room temperature exceeds the normal consumer handling window.
+The sample remains experimental waste regardless of the model output. This
+prototype estimates deterioration-associated change; it is not a food-safety
+test.
 """
 
 import serial
@@ -69,17 +77,26 @@ SAVE_ROOT = Path(
     r"C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data"
 )
 
-SESSION_ID = "S0001"
-CONTAINER_ID = "board_A"
-SESSION_ROLE = "pilot"  # control, pilot, or confirmation
+SESSION_ID = "S0003_Anish"
+SITE_ID = "house_A"
+PCB_DESIGN_ID = "spoil_free_pcb_v1"
+DEVICE_ID = "pcb_A"
+OPERATOR_ID = "operator_A"
+CONTAINER_ID = "chamber_A"
+SESSION_ROLE = "control"  # control, pilot, or confirmation
 
-FOOD_CATEGORY = "unknown"
-FOOD_NAME = "unknown"
+FOOD_CATEGORY = "poultry"
+FOOD_NAME = "chicken"
+SAMPLE_ID = "sample_001"
+SAMPLE_CUT = "breast"
+SAMPLE_MASS_G = 0     # replace with measured mass for chicken runs
+SOURCE_BATCH_ID = "batch_A"
 LABEL = "Unlabeled"
 
 PREHEAT_MINUTES = 30
 FOOD_BASELINE_MINUTES = 30
-LOG_MINUTES = 720          # 12 hours after the insertion/control prompt
+LOG_MINUTES = 240          # 4 hours after the insertion/control prompt
+PROTOCOL_VERSION = "prototype_1_control_calibrated_4h_v2"
 
 EXPECTED_FIELDS = 10
 
@@ -90,7 +107,7 @@ EXPECTED_FIELDS = 10
 CAMERA_ENABLED = True
 
 # Use the IP printed by the combined ESP32 Serial Monitor
-CAMERA_CAPTURE_URL = "http://192.168.1.102/capture"
+CAMERA_CAPTURE_URL = "http://192.168.1.3/capture"
 
 # After chicken insertion, capture every 5 minutes.
 IMAGE_INTERVAL_SEC = 300
@@ -101,12 +118,38 @@ FIRST_IMAGE_DELAY_SEC = 25
 
 CAMERA_TIMEOUT_SEC = 20
 
+# Failed empty-reference captures retry throughout warmup. Post-prompt and
+# scheduled captures receive this many additional attempts without changing the
+# five-minute schedule.
+IMAGE_RETRY_DELAY_SEC = 10
+MAX_IMAGE_RETRIES = 3
+
 # ================= SESSION SETUP =================
 if SESSION_ROLE not in {"control", "pilot", "confirmation"}:
     raise ValueError("SESSION_ROLE must be control, pilot, or confirmation")
+for field_name, field_value in {
+    "SESSION_ID": SESSION_ID,
+    "SITE_ID": SITE_ID,
+    "PCB_DESIGN_ID": PCB_DESIGN_ID,
+    "DEVICE_ID": DEVICE_ID,
+    "OPERATOR_ID": OPERATOR_ID,
+    "CONTAINER_ID": CONTAINER_ID,
+}.items():
+    if not str(field_value).strip():
+        raise ValueError(f"{field_name} must not be blank")
+if SESSION_ROLE != "control":
+    if SAMPLE_MASS_G is None or float(SAMPLE_MASS_G) <= 0:
+        raise ValueError("Set SAMPLE_MASS_G to the measured chicken mass before this run")
+    if not all(str(value).strip() for value in (SAMPLE_ID, SAMPLE_CUT, SOURCE_BATCH_ID)):
+        raise ValueError("Set SAMPLE_ID, SAMPLE_CUT, and SOURCE_BATCH_ID before this run")
+
+LOGGED_FOOD_CATEGORY = "none" if SESSION_ROLE == "control" else FOOD_CATEGORY
+LOGGED_FOOD_NAME = "empty" if SESSION_ROLE == "control" else FOOD_NAME
 
 timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
-session_name = f"{SESSION_ID}_{SESSION_ROLE}_{FOOD_NAME}_{timestamp_str}"
+session_name = (
+    f"{SITE_ID}_{DEVICE_ID}_{SESSION_ID}_{SESSION_ROLE}_{LOGGED_FOOD_NAME}_{timestamp_str}"
+)
 
 session_dir = SAVE_ROOT / session_name
 images_dir = session_dir / "images"
@@ -119,11 +162,22 @@ image_log_path = session_dir / "image_log.csv"
 metadata_path = session_dir / "metadata.json"
 
 metadata = {
+    "protocol_version": PROTOCOL_VERSION,
     "session_id": SESSION_ID,
+    "site_id": SITE_ID,
+    "pcb_design_id": PCB_DESIGN_ID,
+    "device_id": DEVICE_ID,
+    "operator_id": OPERATOR_ID,
     "container_id": CONTAINER_ID,
     "session_role": SESSION_ROLE,
-    "food_category": FOOD_CATEGORY,
-    "food_name": FOOD_NAME,
+    "food_category": LOGGED_FOOD_CATEGORY,
+    "food_name": LOGGED_FOOD_NAME,
+    "target_food_category": FOOD_CATEGORY,
+    "target_food_name": FOOD_NAME,
+    "sample_id": None if SESSION_ROLE == "control" else SAMPLE_ID,
+    "sample_cut": None if SESSION_ROLE == "control" else SAMPLE_CUT,
+    "sample_mass_g": None if SESSION_ROLE == "control" else SAMPLE_MASS_G,
+    "source_batch_id": None if SESSION_ROLE == "control" else SOURCE_BATCH_ID,
     "label": LABEL,
     "preheat_minutes": PREHEAT_MINUTES,
     "food_baseline_minutes": FOOD_BASELINE_MINUTES,
@@ -136,6 +190,8 @@ metadata = {
     "image_interval_sec": IMAGE_INTERVAL_SEC,
     "first_image_delay_sec": FIRST_IMAGE_DELAY_SEC,
     "camera_timeout_sec": CAMERA_TIMEOUT_SEC,
+    "image_retry_delay_sec": IMAGE_RETRY_DELAY_SEC,
+    "max_image_retries": MAX_IMAGE_RETRIES,
     "start_time": datetime.now().isoformat(),
     "notes": (
         "Combined ESP32 logger. Sensor data over USB serial. "
@@ -151,6 +207,7 @@ print("================================")
 print("DATA LOGGER STARTING")
 print("================================")
 print(f"Session folder: {session_dir}")
+print(f"Site/device:    {SITE_ID} / {DEVICE_ID}")
 print(f"Sensor CSV:     {csv_path}")
 print(f"Image log CSV:  {image_log_path}")
 print(f"Metadata file:  {metadata_path}")
@@ -248,7 +305,7 @@ def capture_and_record(image_writer, image_file, image_number, elapsed_s):
         result["path"]
     ])
     image_file.flush()
-    return result["filename"]
+    return result
 
 
 # ================= SERIAL SETUP =================
@@ -276,8 +333,12 @@ next_image_time = None
 image_count = 0
 pending_image_filename = "none"
 empty_reference_captured = False
+next_reference_attempt_s = FIRST_IMAGE_DELAY_SEC
 food_inserted = False
 food_inserted_time = None
+image_retry_due = None
+image_retry_count = 0
+image_retry_reason = None
 
 last_no_data_print = -999
 
@@ -291,6 +352,10 @@ try:
             "timestamp_iso",
             "elapsed_s",
             "session_id",
+            "site_id",
+            "pcb_design_id",
+            "device_id",
+            "container_id",
             "food_category",
             "food_name",
             "phase",
@@ -345,13 +410,24 @@ try:
             if (
                 CAMERA_ENABLED
                 and not empty_reference_captured
-                and elapsed_s >= FIRST_IMAGE_DELAY_SEC
+                and not food_inserted
+                and elapsed_s >= next_reference_attempt_s
             ):
                 image_count += 1
-                pending_image_filename = capture_and_record(
+                result = capture_and_record(
                     image_writer, image_file, image_count, elapsed_s
                 )
-                empty_reference_captured = True
+                pending_image_filename = result["filename"]
+                if result["status"] == "success":
+                    empty_reference_captured = True
+                else:
+                    next_reference_attempt_s = (
+                        time.time() - start_time + IMAGE_RETRY_DELAY_SEC
+                    )
+                    print(
+                        f"[IMAGE RETRY] Empty reference will retry in "
+                        f"{IMAGE_RETRY_DELAY_SEC}s"
+                    )
 
             # Warmup ends with an explicit insertion event. Waiting for Enter
             # prevents the baseline image from being taken while the chamber is
@@ -373,31 +449,86 @@ try:
                 food_inserted_time = time.time()
                 elapsed_s = food_inserted_time - start_time
                 phase = "Baseline"
-                metadata["food_inserted_time"] = datetime.now().isoformat()
-                metadata["post_prompt_start_time"] = metadata["food_inserted_time"]
+                prompt_time = datetime.now().isoformat()
+                metadata["post_prompt_start_time"] = prompt_time
+                if SESSION_ROLE == "control":
+                    metadata["control_prompt_time"] = prompt_time
+                else:
+                    metadata["food_inserted_time"] = prompt_time
                 metadata["actual_warmup_elapsed_s"] = round(elapsed_s, 2)
+                metadata["empty_reference_captured"] = empty_reference_captured
                 with open(metadata_path, "w") as metadata_file:
                     json.dump(metadata, metadata_file, indent=4)
+                if CAMERA_ENABLED and not empty_reference_captured:
+                    print(
+                        "[IMAGE WARNING] No empty reference was captured during warmup. "
+                        "Sensor logging will continue, but camera analysis may be unavailable."
+                    )
                 if CAMERA_ENABLED:
                     image_count += 1
-                    pending_image_filename = capture_and_record(
+                    result = capture_and_record(
                         image_writer, image_file, image_count, elapsed_s
                     )
+                    pending_image_filename = result["filename"]
+                    if result["status"] != "success":
+                        image_retry_due = time.time() + IMAGE_RETRY_DELAY_SEC
+                        image_retry_count = 0
+                        image_retry_reason = "post-prompt baseline image"
                     next_image_time = food_inserted_time + IMAGE_INTERVAL_SEC
                 print(f"{SESSION_ROLE.capitalize()} baseline logging started.\n")
+
+            # Retry a failed post-prompt or scheduled capture between regular
+            # five-minute image times. Each retry is recorded in image_log.csv.
+            if (
+                CAMERA_ENABLED
+                and food_inserted
+                and image_retry_due is not None
+                and time.time() >= image_retry_due
+            ):
+                image_retry_count += 1
+                elapsed_s = time.time() - start_time
+                image_count += 1
+                print(
+                    f"[IMAGE RETRY] {image_retry_reason}: attempt "
+                    f"{image_retry_count}/{MAX_IMAGE_RETRIES}"
+                )
+                result = capture_and_record(
+                    image_writer, image_file, image_count, elapsed_s
+                )
+                pending_image_filename = result["filename"]
+                if result["status"] == "success":
+                    image_retry_due = None
+                    image_retry_count = 0
+                    image_retry_reason = None
+                elif image_retry_count < MAX_IMAGE_RETRIES:
+                    image_retry_due = time.time() + IMAGE_RETRY_DELAY_SEC
+                else:
+                    print(
+                        f"[IMAGE ERROR] Giving up on {image_retry_reason} after "
+                        f"{MAX_IMAGE_RETRIES} retries; the next scheduled capture will continue."
+                    )
+                    image_retry_due = None
+                    image_retry_count = 0
+                    image_retry_reason = None
 
             # Continue at five-minute intervals relative to insertion.
             if (
                 CAMERA_ENABLED
                 and food_inserted
                 and next_image_time is not None
+                and image_retry_due is None
                 and time.time() >= next_image_time
             ):
                 elapsed_s = time.time() - start_time
                 image_count += 1
-                pending_image_filename = capture_and_record(
+                result = capture_and_record(
                     image_writer, image_file, image_count, elapsed_s
                 )
+                pending_image_filename = result["filename"]
+                if result["status"] != "success":
+                    image_retry_due = time.time() + IMAGE_RETRY_DELAY_SEC
+                    image_retry_count = 0
+                    image_retry_reason = "scheduled image"
                 next_image_time += IMAGE_INTERVAL_SEC
                 if next_image_time < time.time():
                     next_image_time = time.time() + IMAGE_INTERVAL_SEC
@@ -439,8 +570,12 @@ try:
                 timestamp_iso,
                 round(elapsed_s, 2),
                 SESSION_ID,
-                FOOD_CATEGORY,
-                FOOD_NAME,
+                SITE_ID,
+                PCB_DESIGN_ID,
+                DEVICE_ID,
+                CONTAINER_ID,
+                LOGGED_FOOD_CATEGORY,
+                LOGGED_FOOD_NAME,
                 phase,
                 int(adc_NH3),
                 v_NH3,

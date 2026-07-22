@@ -35,7 +35,7 @@ def load_image_log(session_dir: Path) -> pd.DataFrame:
     if log.empty:
         raise ValueError("No successful image files were found")
 
-    inserted_raw = metadata.get("food_inserted_time")
+    inserted_raw = metadata.get("post_prompt_start_time") or metadata.get("food_inserted_time")
     inserted_time = pd.to_datetime(inserted_raw, errors="coerce") if inserted_raw else pd.NaT
     if pd.isna(inserted_time):
         if len(log) < 2:
@@ -53,4 +53,10 @@ def load_image_log(session_dir: Path) -> pd.DataFrame:
     food["is_image_baseline"] = food["minutes_since_insertion"].le(baseline_minutes)
     food["session_id"] = metadata.get("session_id", session_dir.name)
     food["session_role"] = metadata.get("session_role")
+    food["site_id"] = metadata.get("site_id")
+    food["pcb_design_id"] = metadata.get("pcb_design_id")
+    food["device_id"] = metadata.get("device_id")
+    food["container_id"] = metadata.get("container_id")
+    food["operator_id"] = metadata.get("operator_id")
+    food["protocol_version"] = metadata.get("protocol_version")
     return food.reset_index(drop=True)

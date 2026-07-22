@@ -14,5 +14,6 @@
     "--compile-commands-dir=c:\\Users\\anish\\Documents\\GitHub\\Spoil-Free-Fridge\\firmware\\main\\build"
   ],
   "idf.portWin": "COM4",
-  "idf.flashType": "JTAG"
+  "idf.flashType": "JTAG",
+  "idf.monitorPort": "COM4"
 }

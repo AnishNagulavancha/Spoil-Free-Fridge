@@ -38,6 +38,12 @@ def main() -> None:
     log = load_image_log(args.session)
     config = load_experiment_config(args.config)
     role = log["session_role"].iloc[0]
+    logged_protocol = log["protocol_version"].iloc[0]
+    if logged_protocol != config.get("protocol_version"):
+        raise ValueError(
+            f"Session protocol_version={logged_protocol!r}; "
+            f"expected {config.get('protocol_version')!r}"
+        )
     if role == "confirmation" and not config.get("parameters_frozen", False):
         raise ValueError("Confirmation camera scoring requires parameters_frozen=true")
     if role == "confirmation" and args.background_roi is None:
@@ -50,6 +56,10 @@ def main() -> None:
     artifacts["roi"] = args.roi
     artifacts["background_roi"] = args.background_roi
     artifacts["protocol_version"] = config.get("protocol_version")
+    artifacts["site_id"] = log["site_id"].iloc[0]
+    artifacts["pcb_design_id"] = log["pcb_design_id"].iloc[0]
+    artifacts["device_id"] = log["device_id"].iloc[0]
+    artifacts["container_id"] = log["container_id"].iloc[0]
     combined = pd.concat([combined, predictions], axis=1)
 
     output = args.output_dir or args.session / "camera_analysis"
@@ -72,6 +82,10 @@ def main() -> None:
         "sustained_change_detected": bool(combined["camera_sustained_change"].any()),
         "background_roi_supplied": args.background_roi is not None,
         "session_role": role,
+        "site_id": log["site_id"].iloc[0],
+        "pcb_design_id": log["pcb_design_id"].iloc[0],
+        "device_id": log["device_id"].iloc[0],
+        "container_id": log["container_id"].iloc[0],
         "warning": "Camera output describes visible change, not food safety.",
     }
     (output / "camera_summary.json").write_text(

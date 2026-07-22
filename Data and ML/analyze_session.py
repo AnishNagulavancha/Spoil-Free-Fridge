@@ -1,7 +1,8 @@
-"""Prototype spoilage feature pipeline for one Datalog_pcb.py session.
+"""Clean one logger session and create baseline-relative sensor features.
 
-Implements steps 1-6 of the prototype plan. Steps 7-9 require complete runs and
-manual observations, so they are deliberately not estimated here.
+This stage deliberately does not combine sensors into a deterioration score.
+The control-calibrated Change Index and event detection are produced later by
+run_models.py using the single frozen weight set in experiment_config.json.
 """
 
 from __future__ import annotations
@@ -14,6 +15,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from experiment_config import load_experiment_config
+
 
 GAS_COLUMNS = ("v_NH3", "v_H2S", "v_CH4")
 NUMERIC_COLUMNS = (
@@ -24,19 +27,11 @@ NUMERIC_COLUMNS = (
 
 @dataclass(frozen=True)
 class AnalysisConfig:
+    expected_protocol_version: str | None = None
     baseline_minutes: float = 30.0
     feature_resample_seconds: int = 60
     slope_windows_minutes: tuple[int, ...] = (5, 15, 30)
     min_window_points: int = 5
-    # Initial protein-food weights; these must be tuned from the three runs.
-    nh3_weight: float = 0.30
-    h2s_weight: float = 0.35
-    ch4_weight: float = 0.10
-    bme_weight: float = 0.25
-    # Changes giving roughly 63% activation under 1-exp(-x/scale).
-    voltage_delta_scale: float = 0.20
-    bme_log_delta_scale: float = 0.35
-    trend_per_hour_scale: float = 0.10
 
 
 def load_and_clean(session_dir: Path) -> tuple[pd.DataFrame, dict, dict]:
@@ -106,11 +101,6 @@ def _rolling_slope(
     return result
 
 
-def _activation(value: pd.Series, scale: float) -> pd.Series:
-    """Map positive movement smoothly to 0..1 without a hard clipping corner."""
-    return 1.0 - np.exp(-value.clip(lower=0) / scale)
-
-
 def build_features(
     clean: pd.DataFrame, config: AnalysisConfig
 ) -> tuple[pd.DataFrame, dict]:
@@ -173,36 +163,6 @@ def build_features(
         ((q10_factor + q10_factor.shift(1)) / 2).fillna(q10_factor) * dt_hours
     ).cumsum()
 
-    longest_window = max(config.slope_windows_minutes)
-    sensor_signals = {}
-    for column in GAS_COLUMNS:
-        delta = data[f"{column}_delta_pct"]
-        trend = data[f"{column}_slope_{longest_window}m"].fillna(0)
-        sensor_signals[column] = (
-            0.75 * _activation(delta, config.voltage_delta_scale)
-            + 0.25 * _activation(trend, config.trend_per_hour_scale)
-        )
-    bme_signal = (
-        0.75 * _activation(data["bme_delta_log_inverted"], config.bme_log_delta_scale)
-        + 0.25 * _activation(
-            data[f"bme_delta_log_inverted_slope_{longest_window}m"].fillna(0),
-            config.trend_per_hour_scale,
-        )
-    )
-    weights = {
-        "v_NH3": config.nh3_weight,
-        "v_H2S": config.h2s_weight,
-        "v_CH4": config.ch4_weight,
-        "bme": config.bme_weight,
-    }
-    weight_total = sum(weights.values())
-    data["gas_state"] = (
-        weights["v_NH3"] * sensor_signals["v_NH3"]
-        + weights["v_H2S"] * sensor_signals["v_H2S"]
-        + weights["v_CH4"] * sensor_signals["v_CH4"]
-        + weights["bme"] * bme_signal
-    ).div(weight_total).clip(0, 1)
-    data.loc[baseline_mask, "gas_state"] = 0.0
     data["is_baseline"] = baseline_mask
 
     baseline_cv = (baseline[list(baseline_columns)].std() / means).replace(
@@ -219,8 +179,6 @@ def build_features(
             key: (None if pd.isna(value) else float(value))
             for key, value in baseline_cv.items()
         },
-        "initial_weights": weights,
-        "latest_gas_state": float(data["gas_state"].iloc[-1]),
         "latest_biological_age_h": float(data["biological_age_h"].iloc[-1]),
     }
     return data, summary
@@ -228,12 +186,26 @@ def build_features(
 
 def analyze(session_dir: Path, output_dir: Path | None, config: AnalysisConfig) -> None:
     clean, metadata, cleaning_report = load_and_clean(session_dir)
+    if (
+        config.expected_protocol_version is not None
+        and metadata.get("protocol_version") != config.expected_protocol_version
+    ):
+        raise ValueError(
+            f"Session protocol_version={metadata.get('protocol_version')!r}; "
+            f"expected {config.expected_protocol_version!r}"
+        )
     features, summary = build_features(clean, config)
     destination = output_dir or session_dir / "analysis"
     destination.mkdir(parents=True, exist_ok=True)
     features.to_csv(destination / "features.csv", index=True)
     payload = {
+        "protocol_version": metadata.get("protocol_version"),
         "session_id": metadata.get("session_id"),
+        "session_role": metadata.get("session_role"),
+        "site_id": metadata.get("site_id"),
+        "pcb_design_id": metadata.get("pcb_design_id"),
+        "device_id": metadata.get("device_id"),
+        "container_id": metadata.get("container_id"),
         "food_name": metadata.get("food_name"),
         "status": "prototype_features_only_not_a_food_safety_assessment",
         "cleaning": cleaning_report,
@@ -251,12 +223,16 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("session_dir", type=Path, help="Folder containing session files")
     parser.add_argument("--output-dir", type=Path)
-    parser.add_argument("--baseline-minutes", type=float, default=30.0)
+    parser.add_argument("--config", type=Path, default=Path("experiment_config.json"))
     args = parser.parse_args()
+    experiment = load_experiment_config(args.config)
     analyze(
         args.session_dir,
         args.output_dir,
-        AnalysisConfig(baseline_minutes=args.baseline_minutes),
+        AnalysisConfig(
+            expected_protocol_version=experiment["protocol_version"],
+            baseline_minutes=float(experiment["baseline_minutes"]),
+        ),
     )
 
 

@@ -13,7 +13,8 @@ from sklearn.preprocessing import RobustScaler
 NON_FEATURES = {
     "timestamp", "timestamp_iso", "image_filename", "image_path", "status",
     "image_path_resolved", "session_id", "is_image_baseline", "image_number",
-    "content_type", "http_status",
+    "session_role", "site_id", "pcb_design_id", "device_id", "container_id", "operator_id",
+    "protocol_version", "content_type", "http_status",
 }
 
 

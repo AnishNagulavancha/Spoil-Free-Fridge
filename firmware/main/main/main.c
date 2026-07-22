@@ -4,7 +4,7 @@
 #include <esp_log.h>
 #include "led.h"
 #include "mems.h"
-#include "ads1115.h"
+#include "ads.h"
 #include "i2c_bus.h"
 
 // #define ADS_CHANNEL_COUNT 3U
@@ -14,6 +14,11 @@
 static const char *TAG = "spoil_free_fridge";
 // static ads1115_t ads = {0};
 
+static int16_t raw[3];
+static float volt[3];
+
+static uint16_t config_value;
+
 void app_main(void)
 {
 	ESP_LOGI(TAG, "Application started");
@@ -21,17 +26,11 @@ void app_main(void)
 	led_off();
 	// mems_init();
 
-	// i2c_master_init();
+	ESP_ERROR_CHECK(i2c_master_init());
 
-	// i2c_master_bus_handle_t bus = i2c_bus_get_handle();
+	ESP_ERROR_CHECK(ads_init());
 
-	// if (ads1115_init(&ads, &bus, ADS_I2C_ADDR_GND, I2C_FREQUENCY_HZ) != ESP_OK) {
-	// 	ESP_LOGE(TAG, "ADS1115 init failed!");
-	// 	return;
-	// }
 
-	// ads1115_set_gain(&ads, ADS_FSR_4_096V);
-	// ads1115_set_sps(&ads, ADS_SPS_128);
 
 	while (1) {
 		led_on();
@@ -39,16 +38,14 @@ void app_main(void)
 
 		led_off();
 		vTaskDelay(pdMS_TO_TICKS(READ_INTERVAL_MS));
-		
-		// mems_on();
-		// for (uint8_t channel = 0; channel < ADS_CHANNEL_COUNT; channel++) {
-		// 	uint16_t raw = ads1115_get_raw(&ads, channel);
-		// 	float voltage = ads1115_raw_to_voltage(&ads, (int16_t)raw);
 
-		// 	ESP_LOGI(TAG, "Channel %u: Raw: %u | Voltage: %.4f V",
-		// 		 (unsigned int)channel, (unsigned int)raw, voltage);
-		// }
-
+		for (uint16_t i = 0; i < 3; i++) {
+			ESP_ERROR_CHECK(ads_transmit(i + 1));
+			ESP_ERROR_CHECK(ads_poll_config(&config_value));
+			ESP_ERROR_CHECK(ads_read_raw(&raw[i]));
+			volt[i] = ads_convert_raw(raw[i]);
+	
+		}
 		
 	}
 }

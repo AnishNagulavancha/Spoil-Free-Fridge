@@ -1,2 +1,6 @@
 timestamp_iso,exposure_minutes,appearance_stage,color_score,moisture_score,visible_fog,notes
-2026-01-01T12:00:00,0,no_visible_change,0,0,no,Replace this example row
+2026-01-01T12:00:00,0,no_visible_change,0,0,no,Replace example timestamp and record through closed chamber
+2026-01-01T13:00:00,60,no_visible_change,0,0,no,Replace this example row
+2026-01-01T14:00:00,120,no_visible_change,0,0,no,Replace this example row
+2026-01-01T15:00:00,180,no_visible_change,0,0,no,Replace this example row
+2026-01-01T16:00:00,240,no_visible_change,0,0,no,Replace this example row
