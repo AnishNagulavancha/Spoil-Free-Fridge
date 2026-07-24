@@ -75,6 +75,8 @@
 		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/esp_timer/cmake_install.cmake",
 		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/esp_ringbuf/cmake_install.cmake",
 		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/esp_psram/cmake_install.cmake",
+		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/esp_psram/device/cmake_install.cmake",
+		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/esp_psram/xip_impl/cmake_install.cmake",
 		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/esp_driver_uart/cmake_install.cmake",
 		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/esp_driver_gptimer/cmake_install.cmake",
 		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/app_trace/cmake_install.cmake",
@@ -161,9 +163,11 @@
 		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/rt/cmake_install.cmake",
 		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/spiffs/cmake_install.cmake",
 		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/ulp/cmake_install.cmake",
+		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bme68x/cmake_install.cmake",
 		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/cmake_install.cmake",
-		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/main/cmake_install.cmake",
-		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bme68x/cmake_install.cmake"
+		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp_jpeg/cmake_install.cmake",
+		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp32-camera/cmake_install.cmake",
+		"C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/main/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

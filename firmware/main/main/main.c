@@ -6,6 +6,9 @@
 #include "mems.h"
 #include "ads.h"
 #include "i2c_bus.h"
+#include "bme688.h"
+#include "camera.h"
+#include "esp_camera.h"
 
 // #define ADS_CHANNEL_COUNT 3U
 // #define I2C_FREQUENCY_HZ 400000U
@@ -17,7 +20,14 @@ static const char *TAG = "spoil_free_fridge";
 static int16_t raw[3];
 static float volt[3];
 
+static struct bme68x_data data;
+
 static uint16_t config_value;
+
+#ifndef portTICK_RATE_MS
+#define portTICK_RATE_MS portTICK_PERIOD_MS
+#endif
+
 
 void app_main(void)
 {
@@ -30,7 +40,12 @@ void app_main(void)
 
 	ESP_ERROR_CHECK(ads_init());
 
+	ESP_ERROR_CHECK(bme688_init());
 
+	#if ESP_CAMERA_SUPPORTED
+    if(ESP_OK != init_camera()) {
+        return;
+    }
 
 	while (1) {
 		led_on();
@@ -46,6 +61,25 @@ void app_main(void)
 			volt[i] = ads_convert_raw(raw[i]);
 	
 		}
+
+		bme688_read(&data);
+
+		ESP_LOGI(TAG, "Taking picture...");
+        camera_fb_t *pic = esp_camera_fb_get();
+
+		if (pic == NULL) {
+			ESP_LOGE(TAG, "Camera Capture Failed");
+			led_off();
+			continue;
+		}
+
+        // use pic->buf to access the image
+        ESP_LOGI(TAG, "Picture taken! Its size was: %zu bytes", pic->len);
+        esp_camera_fb_return(pic);
+
+        vTaskDelay(pdMS_TO_TICKS(5000));
 		
 	}
+
+#endif
 }

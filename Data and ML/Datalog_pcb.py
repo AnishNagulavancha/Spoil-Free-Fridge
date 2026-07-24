@@ -77,7 +77,7 @@ SAVE_ROOT = Path(
     r"C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data"
 )
 
-SESSION_ID = "S0003_Anish"
+SESSION_ID = "S005_Anish"
 SITE_ID = "house_A"
 PCB_DESIGN_ID = "spoil_free_pcb_v1"
 DEVICE_ID = "pcb_A"
@@ -95,7 +95,7 @@ LABEL = "Unlabeled"
 
 PREHEAT_MINUTES = 30
 FOOD_BASELINE_MINUTES = 30
-LOG_MINUTES = 240          # 4 hours after the insertion/control prompt
+LOG_MINUTES = 480          # 4 hours after the insertion/control prompt
 PROTOCOL_VERSION = "prototype_1_control_calibrated_4h_v2"
 
 EXPECTED_FIELDS = 10

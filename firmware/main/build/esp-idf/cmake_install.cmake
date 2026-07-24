@@ -719,17 +719,27 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
+  include("C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bme68x/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
   include("C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/main/cmake_install.cmake")
+  include("C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp_jpeg/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bme68x/cmake_install.cmake")
+  include("C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp32-camera/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/main/cmake_install.cmake")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
