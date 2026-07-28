@@ -16,14 +16,15 @@ void mems_init(void)
     };
 
     gpio_config(&MEMS_conf);
+    mems_off();
 }
 
 void mems_on(void)
 {
-    gpio_set_level(MEMS_PIN, 1);
+    gpio_set_level(MEMS_PIN, 0);
 }
 
 void mems_off(void)
 {
-    gpio_set_level(MEMS_PIN, 0);
+    gpio_set_level(MEMS_PIN, 1);
 }

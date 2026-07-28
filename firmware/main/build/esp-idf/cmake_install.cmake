@@ -724,11 +724,6 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/cmake_install.cmake")
-endif()
-
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
   include("C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp_jpeg/cmake_install.cmake")
 endif()
 

@@ -6222,6 +6222,47 @@
     {
         "children": [
             {
+                "children": [],
+                "depends_on": null,
+                "help": null,
+                "id": "ESP_WIFI_SSID",
+                "name": "ESP_WIFI_SSID",
+                "range": null,
+                "title": "Wi-Fi SSID",
+                "type": "string"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": null,
+                "id": "ESP_WIFI_PASSWORD",
+                "name": "ESP_WIFI_PASSWORD",
+                "range": null,
+                "title": "Wi-Fi password",
+                "type": "string"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": null,
+                "id": "ESP_MAXIMUM_RETRY",
+                "name": "ESP_MAXIMUM_RETRY",
+                "range": [
+                    1,
+                    20
+                ],
+                "title": "Maximum connection retries",
+                "type": "int"
+            }
+        ],
+        "depends_on": null,
+        "id": "spoil-free-fridge-wi-fi-C:-Users-anish-Documents-GitHub-Spoil-Free-Fridge-firmware-main-main-Kconfig.projbuild-1",
+        "title": "Spoil-Free Fridge Wi-Fi",
+        "type": "menu"
+    },
+    {
+        "children": [
+            {
                 "children": [
                     {
                         "children": [],

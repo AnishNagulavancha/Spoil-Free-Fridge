@@ -1,11 +1,4 @@
 dependencies:
-  bammer187/ads1115:
-    component_hash: 068f6511b663f9e1034c5cb34ba8f168351ac418279496642e3a9df731e86833
-    dependencies: []
-    source:
-      registry_url: https://components.espressif.com/
-      type: service
-    version: 1.0.1
   espressif/esp32-camera:
     component_hash: bc9c8a6b51df777a014fa295825b3de5069bc0300c317acff20c97cf4a10ac7d
     dependencies:
@@ -35,9 +28,8 @@ dependencies:
       type: idf
     version: 6.0.2
 direct_dependencies:
-- bammer187/ads1115
 - espressif/esp32-camera
 - idf
-manifest_hash: 349939c32cbd03ee99e1bf56bed86efa3e351bbc197efa3852f637c3f18695a8
+manifest_hash: 30ec1d81fd6cc8d858ea91b7b2668fd6b7f3a12b5dbb9da6d1d08ecb35d15fe6
 target: esp32s3
 version: 3.0.0

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <esp_log.h>
 #include <esp_rom_sys.h>
+#include <driver/gpio.h>
 #include <driver/i2c_master.h>
 #include "i2c_bus.h"
 #include "bme688.h"
@@ -12,6 +13,33 @@ static struct bme68x_dev bme;
 static struct bme68x_conf conf;
 static struct bme68x_heatr_conf heater_conf;
 static const char *TAG = "BME688";
+
+#define BME688_POWER_PIN GPIO_NUM_3
+
+esp_err_t bme688_power_init(void) {
+    const gpio_config_t power_config = {
+        .pin_bit_mask = (1ULL << BME688_POWER_PIN),
+        .mode = GPIO_MODE_OUTPUT,
+        .pull_up_en = GPIO_PULLUP_DISABLE,
+        .pull_down_en = GPIO_PULLDOWN_DISABLE,
+        .intr_type = GPIO_INTR_DISABLE,
+    };
+
+    esp_err_t result = gpio_config(&power_config);
+    if (result != ESP_OK) {
+        return result;
+    }
+
+    return bme688_power_off();
+}
+
+esp_err_t bme688_power_on(void) {
+    return gpio_set_level(BME688_POWER_PIN, 0);
+}
+
+esp_err_t bme688_power_off(void) {
+    return gpio_set_level(BME688_POWER_PIN, 1);
+}
 
 static int8_t bme_read(uint8_t reg_addr, uint8_t *reg_data, uint32_t length, void *intf_ptr) {
     i2c_master_dev_handle_t handle = (i2c_master_dev_handle_t)intf_ptr;

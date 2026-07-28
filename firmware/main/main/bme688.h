@@ -14,3 +14,6 @@
 
 esp_err_t bme688_init(void);
 esp_err_t bme688_read(struct bme68x_data *data);
+esp_err_t bme688_power_init(void);
+esp_err_t bme688_power_on(void);
+esp_err_t bme688_power_off(void);

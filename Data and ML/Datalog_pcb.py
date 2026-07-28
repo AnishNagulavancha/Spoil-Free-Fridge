@@ -77,25 +77,25 @@ SAVE_ROOT = Path(
     r"C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data"
 )
 
-SESSION_ID = "S005_Anish"
+SESSION_ID = "S010_Anish_chickenreal1"
 SITE_ID = "house_A"
 PCB_DESIGN_ID = "spoil_free_pcb_v1"
 DEVICE_ID = "pcb_A"
 OPERATOR_ID = "operator_A"
 CONTAINER_ID = "chamber_A"
-SESSION_ROLE = "control"  # control, pilot, or confirmation
+SESSION_ROLE = "pilot"  # control, pilot, or confirmation
 
 FOOD_CATEGORY = "poultry"
 FOOD_NAME = "chicken"
 SAMPLE_ID = "sample_001"
 SAMPLE_CUT = "breast"
-SAMPLE_MASS_G = 0     # replace with measured mass for chicken runs
+SAMPLE_MASS_G = 70     # replace with measured mass for chicken runs
 SOURCE_BATCH_ID = "batch_A"
 LABEL = "Unlabeled"
 
 PREHEAT_MINUTES = 30
 FOOD_BASELINE_MINUTES = 30
-LOG_MINUTES = 480          # 4 hours after the insertion/control prompt
+LOG_MINUTES = 1440          # 4 hours after the insertion/control prompt
 PROTOCOL_VERSION = "prototype_1_control_calibrated_4h_v2"
 
 EXPECTED_FIELDS = 10
@@ -107,7 +107,7 @@ EXPECTED_FIELDS = 10
 CAMERA_ENABLED = True
 
 # Use the IP printed by the combined ESP32 Serial Monitor
-CAMERA_CAPTURE_URL = "http://192.168.1.3/capture"
+CAMERA_CAPTURE_URL = "http://192.168.1.9/capture"
 
 # After chicken insertion, capture every 5 minutes.
 IMAGE_INTERVAL_SEC = 300

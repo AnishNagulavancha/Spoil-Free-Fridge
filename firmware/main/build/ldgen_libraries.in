@@ -203,7 +203,6 @@ $<TARGET_FILE:idf::perfmon>
 $<TARGET_FILE:idf::rt>
 $<TARGET_FILE:idf::spiffs>
 $<TARGET_FILE:idf::bme68x>
-$<TARGET_FILE:idf::bammer187__ads1115>
 $<TARGET_FILE:idf::espressif__esp_jpeg>
 $<TARGET_FILE:idf::espressif__esp32-camera>
 $<TARGET_FILE:__idf_driver>
@@ -211,5 +210,4 @@ $<TARGET_FILE:__idf_esp_driver_ledc>
 $<TARGET_FILE:__idf_espressif__esp_jpeg>
 $<TARGET_FILE:idf::main>
 $<TARGET_FILE:__idf_bme68x>
-$<TARGET_FILE:__idf_bammer187__ads1115>
 $<TARGET_FILE:__idf_espressif__esp32-camera>

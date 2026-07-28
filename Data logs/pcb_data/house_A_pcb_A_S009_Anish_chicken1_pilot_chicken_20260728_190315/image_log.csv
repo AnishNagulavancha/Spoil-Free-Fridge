@@ -1,0 +1,2 @@
+timestamp_iso,elapsed_s,image_number,image_filename,status,http_status,content_type,image_path
+2026-07-28T19:03:47,25.04,1,img_000001_20260728_190346.jpg,success,200,image/jpeg,C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data\house_A_pcb_A_S009_Anish_chicken1_pilot_chicken_20260728_190315\images\img_000001_20260728_190346.jpg

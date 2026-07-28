@@ -1,0 +1,50 @@
+Command: cmake -G Ninja -B C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\firmware\main\build -DPYTHON_DEPS_CHECKED=1 -DPYTHON=C:\Espressif\tools\python\v6.0.2\venv\Scripts\python.exe -DESP_PLATFORM=1 -DCCACHE_ENABLE=True C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\firmware\main
+info: Default value for SPIRAM in sdkconfig is y but it is n according to Kconfig.
+Using default value from sdkconfig (y).
+Configuration Report                                                           
++-----------------------------------------------------------------------------+
+|  Parser Version: 1                                                          |
+|  Verbosity: default                                                         |
+|  Defaults policy: sdkconfig                                                 |
+|  Status: Finished with notifications                                        |
+|                                                                             |
+| Miscellaneous                                                               |
+| +-------------------------------------------------------------------------+ |
+| | * BT_NIMBLE_MESH_PROVISIONER (defined at                                | |
+| | C:/esp/v6.0.2/esp-idf/components/bt/host/nimble/Kconfig.in:1421):       | |
+| | 'default 0' is not a valid bool value (only 'y' and 'n' are allowed).   | |
+| | Value is treated as 'n'.                                                | |
+| | * FATFS_PRINT_LLI (defined at                                           | |
+| | C:/esp/v6.0.2/esp-idf/components/fatfs/Kconfig:230): 'default 0' is not | |
+| | a valid bool value (only 'y' and 'n' are allowed). Value is treated as  | |
+| | 'n'.                                                                    | |
+| | * FATFS_PRINT_FLOAT (defined at                                         | |
+| | C:/esp/v6.0.2/esp-idf/components/fatfs/Kconfig:235): 'default 0' is not | |
+| | a valid bool value (only 'y' and 'n' are allowed). Value is treated as  | |
+| | 'n'.                                                                    | |
+| +-------------------------------------------------------------------------+ |
+| Default Value Mismatch                                                      |
+| +-------------------------------------------------------------------------+ |
+| | Using sdkconfig default values                                       |  | |
+| | Config symbols with different default value between sdkconfig and    |  | |
+| | Kconfig                                                              |  | |
+| | SPIRAM: Kconfig default value: n, sdkconfig default value: y         |  | |
+| |                                                                      |  | |
+| | Choice symbols with different default selection between sdkconfig    |  | |
+| | and Kconfig                                                          |  | |
+| | SPIRAM_SPEED: Kconfig default selection: SPIRAM_SPEED_40M, sdkconfig |  | |
+| | default selection: SPIRAM_SPEED_80M                                  |  | |
+| | ESPTOOLPY_FLASHSIZE: Kconfig default selection:                      |  | |
+| | ESPTOOLPY_FLASHSIZE_2MB, sdkconfig default selection:                |  | |
+| | ESPTOOLPY_FLASHSIZE_8MB                                              |  | |
+| | SPIRAM_MODE: Kconfig default selection: SPIRAM_MODE_QUAD, sdkconfig  |  | |
+| | default selection: SPIRAM_MODE_OCT                                   |  | |
+| +-------------------------------------------------------------------------+ |
+| Multiple Assignments                                                        |
+| +-------------------------------------------------+                         |
+| | Choice ESPTOOLPY_FLASHSIZE:                     |                         |
+| |     ESPTOOLPY_FLASHSIZE_2MB (default selection) |                         |
+| |     ESPTOOLPY_FLASHSIZE_8MB (default selection) |                         |
+| |     -> using ESPTOOLPY_FLASHSIZE_8MB            |                         |
+| +-------------------------------------------------+                         |
++-----------------------------------------------------------------------------+

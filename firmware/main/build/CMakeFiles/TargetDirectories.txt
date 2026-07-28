@@ -1142,13 +1142,6 @@ C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bm
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bme68x/CMakeFiles/install.dir
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bme68x/CMakeFiles/install/local.dir
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bme68x/CMakeFiles/install/strip.dir
-C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/CMakeFiles/__idf_bammer187__ads1115.dir
-C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/CMakeFiles/edit_cache.dir
-C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/CMakeFiles/rebuild_cache.dir
-C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/CMakeFiles/list_install_components.dir
-C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/CMakeFiles/install.dir
-C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/CMakeFiles/install/local.dir
-C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/CMakeFiles/install/strip.dir
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp_jpeg/CMakeFiles/__idf_espressif__esp_jpeg.dir
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp_jpeg/CMakeFiles/edit_cache.dir
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp_jpeg/CMakeFiles/rebuild_cache.dir

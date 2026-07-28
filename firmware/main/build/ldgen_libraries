@@ -203,7 +203,6 @@ C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/pe
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/rt/librt.a
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/spiffs/libspiffs.a
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bme68x/libbme68x.a
-C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/libbammer187__ads1115.a
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp_jpeg/libespressif__esp_jpeg.a
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp32-camera/libespressif__esp32-camera.a
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/driver/libdriver.a
@@ -211,5 +210,4 @@ C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/es
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp_jpeg/libespressif__esp_jpeg.a
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/main/libmain.a
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bme68x/libbme68x.a
-C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/bammer187__ads1115/libbammer187__ads1115.a
 C:/Users/anish/Documents/GitHub/Spoil-Free-Fridge/firmware/main/build/esp-idf/espressif__esp32-camera/libespressif__esp32-camera.a
