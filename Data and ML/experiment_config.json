@@ -22,8 +22,8 @@
     "primary_rule": "protein_gas_and_bme_voc"
   },
   "index": {
-    "full_scale_z": 5.0,
-    "full_scale_source": "excluded_chicken_pilot",
+    "full_scale_z": 40.0,
+    "full_scale_source": "excluded_chicken_pilot_pooled_positive_z_p95_0_to_6h_rounded",
     "negative_values": "clip_to_zero",
     "weights_source": "pre_registered_protein_food_heuristic_not_learned",
     "interpretation": "engineered_change_scale_not_spoilage_percentage",

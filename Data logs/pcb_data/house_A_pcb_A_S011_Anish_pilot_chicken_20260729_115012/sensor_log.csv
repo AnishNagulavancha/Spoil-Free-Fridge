@@ -1,0 +1,5 @@
+timestamp_iso,elapsed_s,session_id,site_id,pcb_design_id,device_id,container_id,food_category,food_name,phase,adc_NH3,v_NH3,adc_CH4,v_CH4,adc_H2S,v_H2S,temp_C,pressure_Pa,humidity_pct,bme_gas_ohms,image_filename
+2026-07-29T11:50:17,0.0,S011_Anish,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,poultry,chicken,Warmup,954,0.119,6439,0.805,2575,0.322,29.12,93337.0,68.58,18700.0,none
+2026-07-29T11:50:19,1.04,S011_Anish,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,poultry,chicken,Warmup,958,0.12,6418,0.802,2576,0.322,29.15,93337.0,68.34,21800.0,none
+2026-07-29T11:50:21,3.05,S011_Anish,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,poultry,chicken,Warmup,953,0.119,6407,0.801,2578,0.322,29.18,93335.0,68.21,25200.0,none
+2026-07-29T11:50:23,5.04,S011_Anish,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,poultry,chicken,Warmup,947,0.118,6401,0.8,2578,0.322,29.2,93341.0,68.1,28000.0,none
