@@ -77,7 +77,7 @@ SAVE_ROOT = Path(
     r"C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data"
 )
 
-SESSION_ID = "S011_Anish"
+SESSION_ID = "S012_Anish_chicken2"
 SITE_ID = "house_A"
 PCB_DESIGN_ID = "spoil_free_pcb_v1"
 DEVICE_ID = "pcb_A"
