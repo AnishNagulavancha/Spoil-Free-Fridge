@@ -1,0 +1,94 @@
+{
+  "session_id": "house_A_pcb_A_S010_Anish_chickenreal1_pilot_chicken_20260728_193932",
+  "cusum_h": 30.0,
+  "time_to_sustained_change_h": 4.083333333333333,
+  "maximum_change_index": 91.40463060217627,
+  "index_at_fixed_hours": {
+    "1": 3.495080313594846,
+    "2": 3.8345744452272874,
+    "3": 4.564693338623584,
+    "4": 19.159631091958335,
+    "6": 80.44812006035728,
+    "8": 79.47381742046183
+  },
+  "auc_window_h": [
+    0,
+    8.0
+  ],
+  "auc_coverage": 1.0,
+  "auc_valid": true,
+  "auc_change_index_hours": 292.02978135802846,
+  "primary_event_detected": true,
+  "adjusted_sensor_correlation": {
+    "adjusted_NH3": {
+      "adjusted_NH3": 1.0,
+      "adjusted_H2S": 0.8525547802649965,
+      "adjusted_CH4": 0.7423021083747556,
+      "adjusted_BME": 0.6402541198549067
+    },
+    "adjusted_H2S": {
+      "adjusted_NH3": 0.8525547802649965,
+      "adjusted_H2S": 1.0,
+      "adjusted_CH4": 0.8449838521592578,
+      "adjusted_BME": 0.7990212239962841
+    },
+    "adjusted_CH4": {
+      "adjusted_NH3": 0.7423021083747556,
+      "adjusted_H2S": 0.8449838521592578,
+      "adjusted_CH4": 1.0,
+      "adjusted_BME": 0.48361702874938617
+    },
+    "adjusted_BME": {
+      "adjusted_NH3": 0.6402541198549067,
+      "adjusted_H2S": 0.7990212239962841,
+      "adjusted_CH4": 0.48361702874938617,
+      "adjusted_BME": 1.0
+    }
+  },
+  "supporting_channels_are_not_assumed_independent": true,
+  "role": "chicken_pilot",
+  "first_channel_activation_h": {
+    "NH3": 4.083333333333333,
+    "H2S": 4.166666666666667,
+    "CH4": 3.0,
+    "BME": 1.5
+  },
+  "channel_index_at_fixed_hours": {
+    "1": {
+      "NH3": 2.6430005549540687,
+      "H2S": 0.0,
+      "CH4": 4.931026217762675,
+      "BME": 8.836310101329431
+    },
+    "2": {
+      "NH3": 1.2458357005468637,
+      "H2S": 0.1174622843403266,
+      "CH4": 4.726034770160642,
+      "BME": 11.7884338341122
+    },
+    "3": {
+      "NH3": 0.0,
+      "H2S": 2.28149062521436,
+      "CH4": 6.344635026448761,
+      "BME": 12.52683246861473
+    },
+    "4": {
+      "NH3": 27.31427308777427,
+      "H2S": 17.56643275360404,
+      "CH4": 6.971780280407202,
+      "BME": 16.479678695295686
+    },
+    "6": {
+      "NH3": 100.0,
+      "H2S": 100.0,
+      "CH4": 17.732780429888557,
+      "BME": 54.69936806947374
+    },
+    "8": {
+      "NH3": 100.0,
+      "H2S": 87.81230347349016,
+      "CH4": 16.65050651604677,
+      "BME": 68.29784221254232
+    }
+  }
+}

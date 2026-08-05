@@ -1,0 +1,51 @@
+{
+  "session_id": "house_A_pcb_A_S012_Anish_chicken2_pilot_chicken_20260802_112823",
+  "cusum_h": 8.0,
+  "time_to_sustained_change_h": 2.3333333333333335,
+  "maximum_change_index": 91.17098780573765,
+  "index_at_fixed_hours": {
+    "1": 1.011460601810979,
+    "2": 3.940412108141174,
+    "3": 2.35323158004526,
+    "4": 17.217825928387377,
+    "6": 53.382427169103394,
+    "8": 89.52802108355881
+  },
+  "auc_window_h": [
+    0,
+    8.0
+  ],
+  "auc_coverage": 1.0,
+  "auc_valid": true,
+  "auc_change_index_hours": 264.6181523958225,
+  "primary_event_detected": true,
+  "adjusted_sensor_correlation": {
+    "adjusted_NH3": {
+      "adjusted_NH3": 1.0,
+      "adjusted_H2S": 0.9712671508007483,
+      "adjusted_CH4": 0.9177664901038178,
+      "adjusted_BME": 0.8676892690437152
+    },
+    "adjusted_H2S": {
+      "adjusted_NH3": 0.9712671508007483,
+      "adjusted_H2S": 1.0,
+      "adjusted_CH4": 0.9680244741020534,
+      "adjusted_BME": 0.9359272472666829
+    },
+    "adjusted_CH4": {
+      "adjusted_NH3": 0.9177664901038178,
+      "adjusted_H2S": 0.9680244741020534,
+      "adjusted_CH4": 1.0,
+      "adjusted_BME": 0.9672577322161098
+    },
+    "adjusted_BME": {
+      "adjusted_NH3": 0.8676892690437152,
+      "adjusted_H2S": 0.9359272472666829,
+      "adjusted_CH4": 0.9672577322161098,
+      "adjusted_BME": 1.0
+    }
+  },
+  "supporting_channels_are_not_assumed_independent": true,
+  "role": "chicken_pilot",
+  "source_folder": "house_A_pcb_A_S012_Anish_chicken2_pilot_chicken_20260802_112823"
+}

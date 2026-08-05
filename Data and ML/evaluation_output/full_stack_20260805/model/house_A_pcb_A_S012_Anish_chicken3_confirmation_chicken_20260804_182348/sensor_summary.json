@@ -1,0 +1,70 @@
+{
+  "session_id": "house_A_pcb_A_S012_Anish_chicken3_confirmation_chicken_20260804_182348",
+  "cusum_h": 30.0,
+  "time_to_sustained_change_h": 1.75,
+  "maximum_change_index": 90.22330506671268,
+  "index_at_fixed_hours": {
+    "1": 3.459068021532689,
+    "2": 16.12006814264328,
+    "3": 13.373473345106301,
+    "4": 21.299838875479676,
+    "6": 76.84314867576299,
+    "8": 80.17559600936579
+  },
+  "auc_window_h": [
+    0,
+    8.0
+  ],
+  "auc_coverage": 1.0,
+  "auc_valid": true,
+  "auc_change_index_hours": 313.9611670757339,
+  "primary_event_detected": true,
+  "adjusted_sensor_correlation": {
+    "adjusted_NH3": {
+      "adjusted_NH3": 1.0,
+      "adjusted_H2S": 0.9250501609808418,
+      "adjusted_CH4": 0.9561164889173727,
+      "adjusted_BME": 0.9832867975928509
+    },
+    "adjusted_H2S": {
+      "adjusted_NH3": 0.9250501609808418,
+      "adjusted_H2S": 1.0,
+      "adjusted_CH4": 0.8807605035380432,
+      "adjusted_BME": 0.8810974372022241
+    },
+    "adjusted_CH4": {
+      "adjusted_NH3": 0.9561164889173727,
+      "adjusted_H2S": 0.8807605035380432,
+      "adjusted_CH4": 1.0,
+      "adjusted_BME": 0.9619796330356554
+    },
+    "adjusted_BME": {
+      "adjusted_NH3": 0.9832867975928509,
+      "adjusted_H2S": 0.8810974372022241,
+      "adjusted_CH4": 0.9619796330356554,
+      "adjusted_BME": 1.0
+    }
+  },
+  "supporting_channels_are_not_assumed_independent": true,
+  "protocol_version": "prototype_1_control_calibrated_4h_v2",
+  "parameters_frozen": true,
+  "recorded_session_id": "S012_Anish_chicken3",
+  "session_role": "confirmation",
+  "site_id": "house_A",
+  "pcb_design_id": "spoil_free_pcb_v1",
+  "device_id": "pcb_A",
+  "container_id": "chamber_A",
+  "operator_id": "operator_A",
+  "sample_id": "sample_003",
+  "sample_cut": "breast",
+  "sample_mass_g": 70,
+  "source_batch_id": "batch_C",
+  "index_weights": {
+    "NH3": 0.3,
+    "H2S": 0.35,
+    "CH4": 0.1,
+    "BME": 0.25
+  },
+  "index_weights_source": "pre_registered_protein_food_heuristic_not_learned",
+  "index_interpretation": "engineered_change_scale_not_spoilage_percentage"
+}

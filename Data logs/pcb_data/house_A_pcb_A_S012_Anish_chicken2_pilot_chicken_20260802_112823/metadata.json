@@ -30,5 +30,9 @@
     "image_retry_delay_sec": 10,
     "max_image_retries": 3,
     "start_time": "2026-08-02T11:28:23.781209",
-    "notes": "Combined ESP32 logger. Sensor data over USB serial. Camera images captured over Wi-Fi /capture. Arduino handles LED ON -> capture -> LED OFF."
+    "notes": "Combined ESP32 logger. Sensor data over USB serial. Camera images captured over Wi-Fi /capture. Arduino handles LED ON -> capture -> LED OFF.",
+    "post_prompt_start_time": "2026-08-02T12:01:11.343536",
+    "food_inserted_time": "2026-08-02T12:01:11.343536",
+    "actual_warmup_elapsed_s": 1962.55,
+    "empty_reference_captured": true
 }

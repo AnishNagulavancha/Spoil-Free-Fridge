@@ -53,6 +53,14 @@ def aggregate(paths: list[Path]) -> dict:
             "Cross-site confirmations must use one protocol version, PCB design, "
             "and weight set"
         )
+    auc_windows = {
+        tuple(float(value) for value in item.get("auc_window_h", []))
+        for item in sessions
+    }
+    if any(len(window) != 2 for window in auc_windows) or len(auc_windows) != 1:
+        raise ValueError("Confirmation summaries must use one recorded AUC window")
+    auc_window = next(iter(auc_windows))
+    auc_label = f"auc_{auc_window[0]:g}_{auc_window[1]:g}h"
 
     by_site: dict[str, list[dict]] = defaultdict(list)
     for item in sessions:
@@ -81,22 +89,24 @@ def aggregate(paths: list[Path]) -> dict:
                 if item.get("index_at_fixed_hours", {}).get(hour) is not None
             ]
             fixed[hour] = _stats(values)
-        return {
+        result = {
             "confirmation_runs": len(items),
             "primary_events_detected": sum(
                 bool(item.get("primary_event_detected")) for item in items
             ),
             "detection_latency_h": _stats(detections),
             "valid_auc_runs": len(valid_auc),
-            "auc_0_4h": _stats(valid_auc),
             "change_index_at_fixed_hours": fixed,
         }
+        result[auc_label] = _stats(valid_auc)
+        return result
 
     return {
         "protocol_version": sessions[0]["protocol_version"],
         "pcb_design_id": sessions[0]["pcb_design_id"],
         "index_weights": sessions[0].get("index_weights"),
         "index_interpretation": sessions[0].get("index_interpretation"),
+        "auc_window_h": list(auc_window),
         "sites": sorted(by_site),
         "devices": sorted({str(item["device_id"]) for item in sessions}),
         "overall": summarize(sessions),

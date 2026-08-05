@@ -58,9 +58,10 @@ def _validate_protocol_metadata(records: dict[str, dict], config: dict) -> None:
             baseline_minutes = float(item.get("food_baseline_minutes", -1))
         except (TypeError, ValueError) as exc:
             raise ValueError(f"{name} has invalid duration metadata") from exc
-        if log_minutes != expected_minutes:
+        if log_minutes < expected_minutes:
             raise ValueError(
-                f"{name} log_minutes must be {expected_minutes:g} for this protocol"
+                f"{name} log_minutes must be at least {expected_minutes:g} "
+                "for this reporting window"
             )
         if baseline_minutes != expected_baseline:
             raise ValueError(

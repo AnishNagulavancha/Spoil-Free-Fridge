@@ -1,0 +1,15 @@
+{
+  "overall_reliable_fraction": 0.8372093023255814,
+  "fogged_frames": 21,
+  "sustained_change_detected": true,
+  "background_roi_supplied": true,
+  "session_role": "pilot",
+  "site_id": "house_A",
+  "pcb_design_id": "spoil_free_pcb_v1",
+  "device_id": "pcb_A",
+  "container_id": "chamber_A",
+  "warning": "Camera output describes visible change, not food safety.",
+  "recorded_session_role": "pilot",
+  "corrected_session_role": "confirmation",
+  "role_correction_file": "../role_correction.json"
+}

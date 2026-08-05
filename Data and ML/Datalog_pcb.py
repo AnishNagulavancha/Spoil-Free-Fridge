@@ -77,20 +77,20 @@ SAVE_ROOT = Path(
     r"C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data"
 )
 
-SESSION_ID = "S012_Anish_chicken2"
+SESSION_ID = "S012_Anish_chicken3"
 SITE_ID = "house_A"
 PCB_DESIGN_ID = "spoil_free_pcb_v1"
 DEVICE_ID = "pcb_A"
 OPERATOR_ID = "operator_A"
 CONTAINER_ID = "chamber_A"
-SESSION_ROLE = "pilot"  # control, pilot, or confirmation
+SESSION_ROLE = "confirmation"  # control, pilot, or confirmation
 
 FOOD_CATEGORY = "poultry"
 FOOD_NAME = "chicken"
-SAMPLE_ID = "sample_001"
+SAMPLE_ID = "sample_003"
 SAMPLE_CUT = "breast"
 SAMPLE_MASS_G = 70     # replace with measured mass for chicken runs
-SOURCE_BATCH_ID = "batch_A"
+SOURCE_BATCH_ID = "batch_C"
 LABEL = "Unlabeled"
 
 PREHEAT_MINUTES = 30

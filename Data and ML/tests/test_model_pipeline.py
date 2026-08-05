@@ -243,7 +243,7 @@ def test_target_identity_must_match_its_control_calibration():
         _require_matching_identity(mismatched, identity, "target")
 
 
-def test_protocol_metadata_requires_matching_duration():
+def test_protocol_metadata_requires_at_least_reporting_duration():
     config = _small_scoring_config()
     config["baseline_minutes"] = 30
     record = {
@@ -254,6 +254,9 @@ def test_protocol_metadata_requires_matching_duration():
 
     _validate_protocol_metadata({"S1": record}, config)
 
+    record["log_minutes"] = 60
+    _validate_protocol_metadata({"S1": record}, config)
+
     record["log_minutes"] = 9
-    with pytest.raises(ValueError, match="log_minutes must be 10"):
+    with pytest.raises(ValueError, match="log_minutes must be at least 10"):
         _validate_protocol_metadata({"S1": record}, config)
