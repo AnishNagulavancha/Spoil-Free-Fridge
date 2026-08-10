@@ -7,6 +7,7 @@ from pathlib import Path
 
 
 SENSORS = ("NH3", "H2S", "CH4", "BME")
+PRIMARY_RULES = ("protein_gas_and_bme_voc", "h2s_and_bme_voc")
 
 
 def load_experiment_config(path: Path) -> dict:
@@ -34,6 +35,10 @@ def load_experiment_config(path: Path) -> dict:
         raise ValueError("This protocol requires index.negative_values=clip_to_zero")
     if config["cusum"]["persistence_bins"] < 1:
         raise ValueError("cusum.persistence_bins must be at least one")
+    if config["cusum"].get("primary_rule") not in PRIMARY_RULES:
+        raise ValueError(
+            "cusum.primary_rule must be one of: " + ", ".join(PRIMARY_RULES)
+        )
     hours = [float(value) for value in config["fixed_reporting_hours"]]
     if not hours or any(value <= 0 for value in hours):
         raise ValueError("fixed_reporting_hours must contain positive values")

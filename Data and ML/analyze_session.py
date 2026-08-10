@@ -2,7 +2,7 @@
 
 This stage deliberately does not combine sensors into a deterioration score.
 The control-calibrated Change Index and event detection are produced later by
-run_models.py using the single frozen weight set in experiment_config.json.
+run_models.py using an explicit versioned configuration in configs/.
 """
 
 from __future__ import annotations
@@ -68,9 +68,16 @@ def load_and_clean(session_dir: Path) -> tuple[pd.DataFrame, dict, dict]:
     valid &= logging[list(GAS_COLUMNS)].le(5.5).all(axis=1)
     valid &= logging["bme_gas_ohms"].gt(0)
     clean = logging.loc[valid].sort_values(["timestamp_iso", "elapsed_s"]).copy()
-    clean = clean.drop_duplicates(subset=["timestamp_iso", "elapsed_s"], keep="first")
-
     report["corrupt_or_invalid_rows_discarded"] = int(len(logging) - len(clean))
+    before_deduplication = len(clean)
+    # Camera/network work can briefly delay serial consumption. Buffered sensor
+    # lines may then receive the same rounded host timestamp and elapsed value
+    # even though they contain different measurements. Preserve those readings
+    # and remove only records that are exact duplicates across the measurement
+    # fields.
+    duplicate_fields = ["timestamp_iso", "phase", *NUMERIC_COLUMNS]
+    clean = clean.drop_duplicates(subset=duplicate_fields, keep="first")
+    report["exact_duplicate_rows_discarded"] = int(before_deduplication - len(clean))
     report["rows_kept"] = int(len(clean))
     if clean.empty:
         raise ValueError("No valid logging rows remain after cleaning")
@@ -223,7 +230,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("session_dir", type=Path, help="Folder containing session files")
     parser.add_argument("--output-dir", type=Path)
-    parser.add_argument("--config", type=Path, default=Path("experiment_config.json"))
+    parser.add_argument(
+        "--config", type=Path, default=Path("configs/house_a_v2_candidate.json")
+    )
     args = parser.parse_args()
     experiment = load_experiment_config(args.config)
     analyze(

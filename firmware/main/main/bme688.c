@@ -168,6 +168,24 @@ esp_err_t bme688_init(void) {
     return ESP_OK;
 }
 
+esp_err_t bme688_deinit(void) {
+    if (bme688_handle == NULL) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    esp_err_t result = i2c_master_bus_rm_device(bme688_handle);
+    if (result != ESP_OK) {
+        return result;
+    }
+
+    bme688_handle = NULL;
+    bme = (struct bme68x_dev){ 0 };
+    conf = (struct bme68x_conf){ 0 };
+    heater_conf = (struct bme68x_heatr_conf){ 0 };
+
+    return ESP_OK;
+}
+
 esp_err_t bme688_read(struct bme68x_data *data) {
     if (bme688_handle == NULL) {
         return ESP_ERR_INVALID_STATE;
@@ -202,4 +220,4 @@ esp_err_t bme688_read(struct bme68x_data *data) {
     }
 
     return ESP_OK;
-}   
+}

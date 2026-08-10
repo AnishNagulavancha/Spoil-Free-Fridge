@@ -1,0 +1,2 @@
+timestamp_iso,elapsed_s,image_number,image_filename,status,http_status,content_type,image_path
+2026-08-09T18:57:30,25.48,1,img_000001_20260809_185728.jpg,success,200,image/jpeg,C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data\house_A_pcb_A_S012_Anish_powertesttest_control_empty_20260809_185658\images\img_000001_20260809_185728.jpg

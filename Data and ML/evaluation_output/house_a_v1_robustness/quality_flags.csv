@@ -1,0 +1,4 @@
+session_id,quality_flags,flag_count,environment_out_of_domain_fraction,rapid_environmental_step_at_detection
+house_A_pcb_A_S012_Anish_chicken2_pilot_chicken_20260802_112823,"[""environment_outside_control_domain"", ""rapid_environmental_step_at_detection"", ""bme_leads_protein_group_by_at_least_30m""]",3,1.0,True
+house_A_pcb_A_S012_Anish_chicken3_confirmation_chicken_20260804_182348,"[""environment_outside_control_domain"", ""rapid_environmental_step_at_detection"", ""baseline_cv_above_1.5x_control_max:v_CH4""]",3,1.0,True
+house_A_pcb_A_S012_Anish_chicken4_confirmation_chicken_20260805_225737,"[""environment_outside_control_domain"", ""bme_leads_protein_group_by_at_least_30m"", ""baseline_cv_above_1.5x_control_max:v_NH3,v_H2S,v_CH4""]",3,1.0,False

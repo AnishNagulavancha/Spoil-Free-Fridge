@@ -1,4 +1,15 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
-.pytest_tmp/
+.pytest-tmp/
+pytest-cache-files-*/
+audit-pytest-temp/
+
+# Regenerable evaluation intermediates. Keep reports, plots, frozen configs,
+# and compact summary results under version control.
+evaluation_output/**/staged_sessions/
+evaluation_output/**/model/
+evaluation_output/**/features/
+evaluation_output/**/*.joblib
+evaluation_output/**/control_loo_residuals*.csv
+evaluation_output/**/sensor_change_metrics.csv

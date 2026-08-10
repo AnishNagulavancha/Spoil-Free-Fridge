@@ -13,8 +13,8 @@ ground truth.
 2. `analyze_session.py` — parsing, cleaning, timestamp indexing, one-minute
    aggregation, baselines, deltas, rolling slopes, volatility, and biological
    age.
-3. `experiment_config.json` and `experiment_config.py` — frozen experimental
-   choices and validation.
+3. `configs/house_a_v1.json`, `configs/house_a_v2_candidate.json`, and
+   `experiment_config.py` — versioned frozen choices and validation.
 4. `model_data.py` — loading and resampling complete sessions without treating
    adjacent rows as independent experiments.
 5. `unsupervised_models.py` — control drift correction, leave-one-control-out
@@ -113,10 +113,11 @@ signal when C_t > h
 required. Study NIST's
 [CUSUM control-chart explanation](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc323.htm)
 and [average run length](https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc3131.htm).
-This project chooses `h` using only empty controls and then freezes it before
-confirmation runs. Its primary event is `(NH3 or H2S) AND BME688`; CH4 is
-supporting evidence. This is evidence agreement, not proof that the channels
-are independent.
+This project calibrates CUSUM behavior using empty controls and freezes the rule
+before prospective scoring. HouseA_v1 uses `(NH3 or H2S) AND BME688`.
+HouseA_v2 uses `H2S AND BME688`, selected from the excluded pilot and
+cross-fitted controls. CH4 remains supporting evidence. This is evidence
+agreement, not proof that the channels are independent.
 
 Practice: implement the recurrence above in ten lines, feed it zero-mean noise,
 then add a small sustained shift. Compare how detection changes for different
@@ -140,10 +141,10 @@ The model is fitted to corrected control-null data, so its question is
 
 The 0-100 change index is a transparent engineered metric: each directed,
 control-corrected z-score is clipped to 0-1 using the frozen `full_scale_z`,
-then the channels are combined with the one weight set in
-`experiment_config.json`. Those weights are a documented protein-food
+then the channels are combined with the weight set in the selected versioned
+configuration. Those weights are a documented protein-food
 heuristic, not learned coefficients. They affect the index but not the primary
-CUSUM agreement event. AUC is integrated only over the fixed 0-4 hour window
+CUSUM agreement event. AUC is integrated only over the fixed 0-8 hour window
 and is invalidated when coverage rules fail. This keeps it comparable across
 complete sessions, but the index remains a prototype effect-size scale rather
 than a probability or percentage spoiled.

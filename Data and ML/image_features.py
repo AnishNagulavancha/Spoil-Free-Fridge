@@ -25,10 +25,21 @@ def _crop_array(image: Image.Image, roi: ROI | None, size: int = 224) -> np.ndar
     return np.asarray(image, dtype=np.float32) / 255.0
 
 
-def _load_rgb(path: Path, roi: ROI | None, size: int = 224) -> np.ndarray:
+def _load_arrays(
+    path: Path,
+    roi: ROI | None,
+    background_roi: ROI | None,
+    size: int = 224,
+) -> tuple[np.ndarray, np.ndarray]:
     with Image.open(path) as image:
         image = image.convert("RGB")
-        return _crop_array(image, roi, size)
+        analysis = _crop_array(image, roi, size)
+        background = (
+            analysis
+            if background_roi == roi
+            else _crop_array(image, background_roi, size)
+        )
+        return analysis, background
 
 
 def _laplacian_variance(gray: np.ndarray) -> float:
@@ -55,23 +66,35 @@ def _histogram(array: np.ndarray) -> np.ndarray:
 
 def extract_image_features(paths: Iterable[Path], roi: ROI | None = None,
                            background_roi: ROI | None = None) -> pd.DataFrame:
-    arrays = [_load_rgb(Path(path), roi) for path in paths]
-    quality_arrays = [_load_rgb(Path(path), background_roi) for path in paths]
-    if not arrays:
+    pairs = [_load_arrays(Path(path), roi, background_roi) for path in paths]
+    if not pairs:
         raise ValueError("At least one image is required")
+    arrays, quality_arrays = zip(*pairs)
     reference = arrays[0]
     reference_gray = reference.mean(axis=2)
     reference_hist = _histogram(reference)
     rows = []
     previous = reference
-    reference_quality_gray = quality_arrays[0].mean(axis=2)
+    reference_quality_gray = (
+        reference_gray
+        if quality_arrays[0] is reference
+        else quality_arrays[0].mean(axis=2)
+    )
     reference_laplacian = max(_laplacian_variance(reference_gray), 1e-12)
-    reference_background_laplacian = max(
-        _laplacian_variance(reference_quality_gray), 1e-12
+    reference_background_laplacian = (
+        reference_laplacian
+        if reference_quality_gray is reference_gray
+        else max(_laplacian_variance(reference_quality_gray), 1e-12)
     )
     for image, quality_image in zip(arrays, quality_arrays):
         gray = image.mean(axis=2)
-        quality_gray = quality_image.mean(axis=2)
+        quality_gray = gray if quality_image is image else quality_image.mean(axis=2)
+        laplacian_variance = _laplacian_variance(gray)
+        background_laplacian_variance = (
+            laplacian_variance
+            if quality_gray is gray
+            else _laplacian_variance(quality_gray)
+        )
         hsv = np.asarray(Image.fromarray((image * 255).astype(np.uint8), "RGB").convert("HSV"),
                          dtype=np.float32) / 255.0
         gradient_y, gradient_x = np.gradient(gray)
@@ -89,11 +112,11 @@ def extract_image_features(paths: Iterable[Path], roi: ROI | None = None,
             "gray_entropy": _entropy(gray),
             "edge_strength": float(np.hypot(gradient_x, gradient_y).mean()),
             "sharpness": float(gray.var()),
-            "laplacian_variance": _laplacian_variance(gray),
-            "laplacian_ratio": _laplacian_variance(gray) / reference_laplacian,
-            "background_laplacian_variance": _laplacian_variance(quality_gray),
+            "laplacian_variance": laplacian_variance,
+            "laplacian_ratio": laplacian_variance / reference_laplacian,
+            "background_laplacian_variance": background_laplacian_variance,
             "background_laplacian_ratio": (
-                _laplacian_variance(quality_gray) / reference_background_laplacian
+                background_laplacian_variance / reference_background_laplacian
             ),
             "background_contrast_ratio": float(
                 quality_gray.std() / max(reference_quality_gray.std(), 1e-12)

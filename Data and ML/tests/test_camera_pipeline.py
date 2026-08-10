@@ -36,6 +36,25 @@ def test_extract_image_features_uses_first_image_as_reference(tmp_path):
     assert np.isfinite(features.to_numpy()).all()
 
 
+def test_extract_image_features_opens_each_image_once(tmp_path, monkeypatch):
+    first = tmp_path / "first.jpg"
+    second = tmp_path / "second.jpg"
+    _save_pattern(first)
+    _save_pattern(second, offset=20)
+    original_open = Image.open
+    opened = []
+
+    def counted_open(*args, **kwargs):
+        opened.append(args[0])
+        return original_open(*args, **kwargs)
+
+    monkeypatch.setattr("image_features.Image.open", counted_open)
+
+    extract_image_features([first, second])
+
+    assert opened == [first, second]
+
+
 def test_extract_image_features_rejects_invalid_roi(tmp_path):
     image = tmp_path / "image.jpg"
     _save_pattern(image)

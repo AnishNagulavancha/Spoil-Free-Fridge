@@ -1,0 +1,17 @@
+{
+  "inference_unit": "session",
+  "confirmation_auc_range": [
+    206.48363521580393,
+    313.4750014666662
+  ],
+  "loo_control_auc_range": [
+    0.31427697633525853,
+    54.17771851138051
+  ],
+  "perfect_observed_ordering": true,
+  "hodges_lehmann_pairwise_location_difference": 238.19868557791366,
+  "theoretical_one_sided_exact_resolution_for_independent_3_vs_3": 0.05,
+  "theoretical_two_sided_exact_resolution_for_independent_3_vs_3": 0.1,
+  "formal_permutation_p_reported": false,
+  "reason": "The available controls define the calibration and are not untouched, exchangeable validation observations."
+}

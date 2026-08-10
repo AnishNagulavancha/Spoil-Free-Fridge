@@ -32,7 +32,9 @@ def main() -> None:
                         help="Normalized chicken crop: x1,y1,x2,y2 (for example .1,.2,.9,.9)")
     parser.add_argument("--background-roi", type=parse_roi,
                         help="Fixed background crop used to detect chamber/lens fog")
-    parser.add_argument("--config", type=Path, default=Path("experiment_config.json"))
+    parser.add_argument(
+        "--config", type=Path, default=Path("configs/house_a_v2_candidate.json")
+    )
     args = parser.parse_args()
 
     log = load_image_log(args.session)

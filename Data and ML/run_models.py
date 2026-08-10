@@ -91,7 +91,9 @@ def main() -> None:
     source.add_argument("--calibration", type=Path,
                         help="Reuse an existing frozen control_calibration.joblib")
     parser.add_argument("--targets", nargs="*", default=[], type=Path)
-    parser.add_argument("--config", type=Path, default=Path("experiment_config.json"))
+    parser.add_argument(
+        "--config", type=Path, default=Path("configs/house_a_v2_candidate.json")
+    )
     parser.add_argument("--output-dir", type=Path, default=Path("model_output"))
     parser.add_argument("--random-state", type=int, default=42)
     args = parser.parse_args()

@@ -81,9 +81,29 @@ def test_load_and_clean_discards_warmup_corruption_and_duplicates(tmp_path):
     assert report == {
         "rows_read": 4,
         "warmup_rows_discarded": 1,
-        "corrupt_or_invalid_rows_discarded": 2,
+        "corrupt_or_invalid_rows_discarded": 1,
+        "exact_duplicate_rows_discarded": 1,
         "rows_kept": 1,
     }
+
+
+def test_load_and_clean_preserves_buffered_measurements_with_same_host_time(tmp_path):
+    session = tmp_path / "session"
+    session.mkdir()
+    rows = [
+        _sensor_row("2026-01-01T00:01:00", "logging", 0, bme_gas_ohms=100000),
+        _sensor_row("2026-01-01T00:01:00", "logging", 0, bme_gas_ohms=101000),
+    ]
+    pd.DataFrame(rows).to_csv(session / "sensor_log.csv", index=False)
+    (session / "metadata.json").write_text(
+        json.dumps({"session_id": "S-buffered"}), encoding="utf-8"
+    )
+
+    clean, _, report = load_and_clean(session)
+
+    assert len(clean) == 2
+    assert report["corrupt_or_invalid_rows_discarded"] == 0
+    assert report["exact_duplicate_rows_discarded"] == 0
 
 
 def test_load_and_clean_requires_all_logger_columns(tmp_path):

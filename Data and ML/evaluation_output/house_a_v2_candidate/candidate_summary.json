@@ -1,0 +1,17 @@
+{
+  "analysis_version": "HouseA_v2_candidate",
+  "status": "frozen_candidate_awaiting_prospective_validation",
+  "parameters_frozen": true,
+  "selected_rule": "h2s_and_bme_voc",
+  "selection_used_confirmation_outcomes": false,
+  "development_eligible_rules": [
+    "h2s_and_bme"
+  ],
+  "pilot_detected": true,
+  "loo_control_events": 0,
+  "retrospective_confirmation_events": 3,
+  "parameter_sensitivity_strict_passes": 23,
+  "parameter_sensitivity_configurations": 23,
+  "prospective_validation_required": true,
+  "environmental_compensation_enabled": false
+}

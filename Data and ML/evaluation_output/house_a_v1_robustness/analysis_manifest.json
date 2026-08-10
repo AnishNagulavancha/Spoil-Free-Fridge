@@ -1,0 +1,39 @@
+{
+  "analysis_version": "HouseA_v1",
+  "config_path": "C:\\Users\\anish\\Documents\\GitHub\\Spoil-Free-Fridge\\Data and ML\\configs\\house_a_v1.json",
+  "config_sha256": "fd3766ac6650facd7cf0567dcdbf30f7dedcc3d5ee11b13e26b425b9f7e1d8b1",
+  "calibration_path": "C:\\Users\\anish\\Documents\\GitHub\\Spoil-Free-Fridge\\Data and ML\\evaluation_output\\full_stack_4runs_20260806\\model\\control_calibration.joblib",
+  "session_ids": [
+    {
+      "session_id": "house_A_pcb_A_S005_Anish_control_empty_20260724_125849",
+      "session_role": "control"
+    },
+    {
+      "session_id": "house_A_pcb_A_S006_Anish_control_empty_20260724_222032",
+      "session_role": "control"
+    },
+    {
+      "session_id": "house_A_pcb_A_S007_Anish_control_empty_20260727_212706",
+      "session_role": "control"
+    },
+    {
+      "session_id": "house_A_pcb_A_S010_Anish_chickenreal1_pilot_chicken_20260728_193932",
+      "session_role": "pilot"
+    },
+    {
+      "session_id": "house_A_pcb_A_S012_Anish_chicken2_pilot_chicken_20260802_112823",
+      "session_role": "confirmation"
+    },
+    {
+      "session_id": "house_A_pcb_A_S012_Anish_chicken3_confirmation_chicken_20260804_182348",
+      "session_role": "confirmation"
+    },
+    {
+      "session_id": "house_A_pcb_A_S012_Anish_chicken4_confirmation_chicken_20260805_225737",
+      "session_role": "confirmation"
+    }
+  ],
+  "primary_result_unchanged": true,
+  "camera_included": false,
+  "friend_house_included": false
+}

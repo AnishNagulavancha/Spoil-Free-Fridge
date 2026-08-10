@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-
 import numpy as np
 import pandas as pd
 from sklearn.decomposition import PCA
@@ -17,6 +15,7 @@ SENSOR_COLUMNS = {
     "CH4": "v_CH4_delta_pct",
     "BME": "bme_delta_log_inverted",
 }
+ENVIRONMENT_COLUMNS = ("humidity_pct", "temp_C")
 
 
 def _mad_scale(values: np.ndarray) -> float:
@@ -55,6 +54,29 @@ def _smooth_control_curve(training: pd.DataFrame, column: str,
     return curve.rolling(smoothing_bins, center=True, min_periods=1).mean()
 
 
+def _add_environment_changes(data: pd.DataFrame, baseline_minutes: float) -> pd.DataFrame:
+    """Center environmental predictors within each session's baseline."""
+    parts = []
+    for _, group in data.groupby("session_id", sort=False):
+        group = group.copy()
+        baseline = group.loc[group["session_minute"] <= float(baseline_minutes)]
+        if baseline.empty:
+            raise ValueError("Environmental-domain baseline is empty")
+        group["delta_RH"] = group["humidity_pct"] - baseline["humidity_pct"].mean()
+        group["delta_T"] = group["temp_C"] - baseline["temp_C"].mean()
+        parts.append(group)
+    return pd.concat(parts, ignore_index=True)
+
+
+def _environment_domain(data: pd.DataFrame, baseline_minutes: float) -> dict:
+    enriched = _add_environment_changes(data, baseline_minutes)
+    columns = (*ENVIRONMENT_COLUMNS, "delta_RH", "delta_T")
+    return {
+        column: [float(enriched[column].min()), float(enriched[column].max())]
+        for column in columns
+    }
+
+
 def _evaluate_curve(curve: pd.Series, bins: pd.Series) -> np.ndarray:
     return np.interp(bins.to_numpy(dtype=float), curve.index.to_numpy(dtype=float),
                      curve.to_numpy(dtype=float), left=float(curve.iloc[0]),
@@ -73,9 +95,16 @@ def _cusum_values(z: np.ndarray, k: float, h: float,
     return score, active
 
 
-def _primary_event(active: dict[str, np.ndarray]) -> np.ndarray:
-    protein = active["NH3"] | active["H2S"]
-    return protein & active["BME"]
+def _primary_event(
+    active: dict[str, np.ndarray],
+    rule: str = "protein_gas_and_bme_voc",
+) -> np.ndarray:
+    """Apply an explicitly versioned multichannel event rule."""
+    if rule == "protein_gas_and_bme_voc":
+        return (active["NH3"] | active["H2S"]) & active["BME"]
+    if rule == "h2s_and_bme_voc":
+        return active["H2S"] & active["BME"]
+    raise ValueError(f"Unsupported cusum.primary_rule: {rule!r}")
 
 
 def _bootstrap_h(loo: pd.DataFrame, candidates: list[float], config: dict,
@@ -86,6 +115,9 @@ def _bootstrap_h(loo: pd.DataFrame, candidates: list[float], config: dict,
     block = int(config["control"]["bootstrap_block_bins"])
     k = float(config["cusum"]["k"])
     persistence = int(config["cusum"]["persistence_bins"])
+    primary_rule = config["cusum"].get(
+        "primary_rule", "protein_gas_and_bme_voc"
+    )
     arrays = [g[[f"z_{s}" for s in SENSOR_COLUMNS]].to_numpy(dtype=float)
               for _, g in loo.groupby("session_id", sort=False)]
     event_counts = {float(h): 0 for h in candidates}
@@ -103,7 +135,9 @@ def _bootstrap_h(loo: pd.DataFrame, candidates: list[float], config: dict,
         for h in candidates:
             active = {sensor: _cusum_values(sample[:, i], k, h, persistence)[1]
                       for i, sensor in enumerate(SENSOR_COLUMNS)}
-            event_counts[float(h)] += bool(_primary_event(active).any())
+            event_counts[float(h)] += bool(
+                _primary_event(active, primary_rule).any()
+            )
     rates = {str(h): event_counts[float(h)] / count for h in candidates}
     target = float(config["control"]["target_false_session_rate"])
     valid = [float(h) for h in candidates if rates[str(h)] <= target]
@@ -175,6 +209,11 @@ def calibrate_controls(frame: pd.DataFrame, config: dict,
         "isolation_forest": isolation,
         "null_z_columns": z_columns,
         "control_sessions": sessions,
+        "environmental_domain": (
+            _environment_domain(controls, float(config["baseline_minutes"]))
+            if all(column in controls for column in ENVIRONMENT_COLUMNS)
+            else None
+        ),
         "loo_residuals": loo,
     }
 
@@ -220,8 +259,22 @@ def score_session(frame: pd.DataFrame, calibration: dict, config: dict) -> tuple
         data[f"cusum_{sensor}"] = score
         data[f"cusum_active_{sensor}"] = active[sensor]
     data["protein_gas_active"] = active["NH3"] | active["H2S"]
-    data["primary_event"] = _primary_event(active)
+    data["primary_event"] = _primary_event(
+        active,
+        config["cusum"].get("primary_rule", "protein_gas_and_bme_voc"),
+    )
     data["supporting_channel_count"] = np.column_stack(list(active.values())).sum(axis=1)
+
+    environmental_domain = calibration.get("environmental_domain")
+    environmental_outside_fraction = None
+    if environmental_domain:
+        data = _add_environment_changes(data, float(config["baseline_minutes"]))
+        outside = np.zeros(len(data), dtype=bool)
+        for column, bounds in environmental_domain.items():
+            low, high = (float(bounds[0]), float(bounds[1]))
+            outside |= ~data[column].between(low, high).to_numpy()
+        data["environment_outside_control_domain"] = outside
+        environmental_outside_fraction = float(outside.mean())
 
     z_columns = [f"z_{sensor}" for sensor in SENSOR_COLUMNS]
     x = calibration["scaler"].transform(data[z_columns])
@@ -258,6 +311,11 @@ def score_session(frame: pd.DataFrame, calibration: dict, config: dict) -> tuple
             data[[f"adjusted_{sensor}" for sensor in SENSOR_COLUMNS]].corr().to_dict()
         ),
         "supporting_channels_are_not_assumed_independent": True,
+        "environment_outside_control_domain_fraction": environmental_outside_fraction,
+        "environment_domain_warning": (
+            None if environmental_outside_fraction is None
+            else environmental_outside_fraction > 0.05
+        ),
     }
     for hour in config["fixed_reporting_hours"]:
         position = int((data["session_time_h"] - hour).abs().argmin())

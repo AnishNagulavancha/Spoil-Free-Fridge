@@ -20,10 +20,10 @@ void led_init(void)
 
 void led_on(void)
 {
-    gpio_set_level(LED_PIN, 0);
+    gpio_set_level(LED_PIN, 1);
 }
 
 void led_off(void)
 {
-    gpio_set_level(LED_PIN, 1);
+    gpio_set_level(LED_PIN, 0);
 }

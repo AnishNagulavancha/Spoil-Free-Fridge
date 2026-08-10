@@ -7,7 +7,9 @@ import pytest
 from experiment_config import SENSORS, load_experiment_config
 
 
-PROJECT_CONFIG = Path(__file__).parents[1] / "experiment_config.json"
+PROJECT_CONFIG = (
+    Path(__file__).parents[1] / "configs" / "house_a_v2_candidate.json"
+)
 
 
 def _write_config(tmp_path: Path, config: dict) -> Path:

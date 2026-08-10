@@ -16,7 +16,7 @@ BEFORE EACH RUN
        FOOD_CATEGORY = "poultry"
        FOOD_NAME = "chicken"
        LABEL = "Unlabeled"
-       LOG_MINUTES = 240
+       LOG_MINUTES = at least 480 for the frozen eight-hour analysis window
 5. Confirm that SAVE_ROOT has enough space and that the camera, LEDs, sensors,
    and ESP32 are powered. Do not move the camera or change lighting during a run.
 
@@ -47,7 +47,7 @@ AFTER THE RUN
 
 Timing is relative to chicken insertion for LOG_MINUTES and image scheduling.
 Warmup data is retained for diagnostics but excluded by analyze_session.py.
-Four hours at room temperature exceeds the normal consumer handling window.
+Eight hours at room temperature exceeds the normal consumer handling window.
 The sample remains experimental waste regardless of the model output. This
 prototype estimates deterioration-associated change; it is not a food-safety
 test.
@@ -77,17 +77,17 @@ SAVE_ROOT = Path(
     r"C:\Users\anish\Documents\GitHub\Spoil-Free-Fridge\Data logs\pcb_data"
 )
 
-SESSION_ID = "S012_Anish_chicken3"
+SESSION_ID = "S01_Anish_powertest1"
 SITE_ID = "house_A"
 PCB_DESIGN_ID = "spoil_free_pcb_v1"
 DEVICE_ID = "pcb_A"
 OPERATOR_ID = "operator_A"
 CONTAINER_ID = "chamber_A"
-SESSION_ROLE = "confirmation"  # control, pilot, or confirmation
+SESSION_ROLE = "control"  # control, pilot, or confirmation
 
 FOOD_CATEGORY = "poultry"
 FOOD_NAME = "chicken"
-SAMPLE_ID = "sample_003"
+SAMPLE_ID = "sample_004"
 SAMPLE_CUT = "breast"
 SAMPLE_MASS_G = 70     # replace with measured mass for chicken runs
 SOURCE_BATCH_ID = "batch_C"
@@ -95,7 +95,9 @@ LABEL = "Unlabeled"
 
 PREHEAT_MINUTES = 30
 FOOD_BASELINE_MINUTES = 30
-LOG_MINUTES = 1440          # 4 hours after the insertion/control prompt
+# Planned maximum after the prompt. You may stop manually after the required
+# eight-hour prospective window has completed.
+LOG_MINUTES = 120
 PROTOCOL_VERSION = "prototype_1_control_calibrated_4h_v2"
 
 EXPECTED_FIELDS = 10
@@ -107,7 +109,7 @@ EXPECTED_FIELDS = 10
 CAMERA_ENABLED = True
 
 # Use the IP printed by the combined ESP32 Serial Monitor
-CAMERA_CAPTURE_URL = "http://192.168.1.9/capture"
+CAMERA_CAPTURE_URL = "http://192.168.1.11/capture"
 
 # After chicken insertion, capture every 5 minutes.
 IMAGE_INTERVAL_SEC = 300

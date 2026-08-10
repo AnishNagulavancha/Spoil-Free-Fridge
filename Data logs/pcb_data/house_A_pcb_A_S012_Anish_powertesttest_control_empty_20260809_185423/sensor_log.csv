@@ -1,0 +1,9 @@
+timestamp_iso,elapsed_s,session_id,site_id,pcb_design_id,device_id,container_id,food_category,food_name,phase,adc_NH3,v_NH3,adc_CH4,v_CH4,adc_H2S,v_H2S,temp_C,pressure_Pa,humidity_pct,bme_gas_ohms,image_filename
+2026-08-09T18:54:29,1.73,S012_Anish_powertesttest,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,none,empty,Warmup,1021,0.127625,11797,1.474625,106,0.01325,29.03,94988.33,57.21,43567.0,none
+2026-08-09T18:54:31,3.73,S012_Anish_powertesttest,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,none,empty,Warmup,1030,0.12875,11793,1.474125,106,0.01325,29.08,94978.67,56.93,48836.0,none
+2026-08-09T18:54:33,5.73,S012_Anish_powertesttest,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,none,empty,Warmup,1036,0.1295,11876,1.4845,105,0.013125,29.1,94986.91,56.83,52567.0,none
+2026-08-09T18:54:55,27.74,S012_Anish_powertesttest,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,none,empty,Warmup,1024,0.128,12011,1.501375,102,0.01275,28.91,94983.24,58.33,43170.0,img_000001_20260809_185453.jpg
+2026-08-09T18:54:57,29.73,S012_Anish_powertesttest,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,none,empty,Warmup,1020,0.1275,12009,1.501125,102,0.01275,28.99,94984.92,58.21,46209.0,none
+2026-08-09T18:54:59,31.73,S012_Anish_powertesttest,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,none,empty,Warmup,1025,0.128125,12009,1.501125,103,0.012875,29.03,94982.41,58.05,50663.0,none
+2026-08-09T18:55:01,33.73,S012_Anish_powertesttest,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,none,empty,Warmup,1030,0.12875,12036,1.5045,102,0.01275,29.07,94990.97,57.88,53759.0,none
+2026-08-09T18:55:03,35.73,S012_Anish_powertesttest,house_A,spoil_free_pcb_v1,pcb_A,chamber_A,none,empty,Warmup,1033,0.129125,12069,1.508625,102,0.01275,29.09,94982.99,57.79,56650.0,none

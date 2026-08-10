@@ -16,13 +16,16 @@ from run_models import (
 from unsupervised_models import (
     SENSOR_COLUMNS,
     _cusum_values,
+    _primary_event,
     calibrate_controls,
     prepare_five_minute_sessions,
     score_session,
 )
 
 
-PROJECT_CONFIG = Path(__file__).parents[1] / "experiment_config.json"
+PROJECT_CONFIG = (
+    Path(__file__).parents[1] / "configs" / "house_a_v1.json"
+)
 
 
 class IdentityScaler:
@@ -129,6 +132,20 @@ def test_cusum_requires_configured_persistence_after_crossing_limit():
 
     assert score.tolist() == pytest.approx([1.5, 3.0, 4.5, 6.0])
     assert active.tolist() == [False, False, False, True]
+
+
+def test_configurable_primary_rule_preserves_v1_and_supports_v2_candidate():
+    active = {
+        "NH3": np.array([True, True, False]),
+        "H2S": np.array([False, True, True]),
+        "CH4": np.array([False, False, False]),
+        "BME": np.array([True, True, True]),
+    }
+
+    assert _primary_event(active, "protein_gas_and_bme_voc").tolist() == [True, True, True]
+    assert _primary_event(active, "h2s_and_bme_voc").tolist() == [False, True, True]
+    with pytest.raises(ValueError, match="Unsupported"):
+        _primary_event(active, "unknown")
 
 
 def test_score_session_maps_20_z_to_50_on_the_40_z_scale():

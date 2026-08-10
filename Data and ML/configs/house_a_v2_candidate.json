@@ -1,0 +1,59 @@
+{
+  "protocol_version": "prototype_1_control_calibrated_4h_v2",
+  "analysis_version": "HouseA_v2_candidate",
+  "analysis_status": "frozen_candidate_awaiting_prospective_validation",
+  "parameters_frozen": true,
+  "baseline_minutes": 30,
+  "aggregation_minutes": 5,
+  "primary_auc_hours": 8,
+  "fixed_reporting_hours": [1, 2, 3, 4, 6, 8],
+  "minimum_auc_coverage": 0.95,
+  "maximum_interpolation_gap_minutes": 10,
+  "control": {
+    "minimum_sessions": 3,
+    "drift_smoothing_bins": 5,
+    "loo_scale_method": "mad",
+    "bootstrap_sessions": 2000,
+    "bootstrap_block_bins": 6,
+    "target_false_session_rate": 0.05
+  },
+  "cusum": {
+    "k": 0.5,
+    "h_candidates": [30],
+    "persistence_bins": 3,
+    "primary_rule": "h2s_and_bme_voc",
+    "candidate_selection_source": "excluded_pilot_plus_full_leave_one_control_out_controls"
+  },
+  "index": {
+    "full_scale_z": 40.0,
+    "full_scale_source": "HouseA_v1_unchanged",
+    "negative_values": "clip_to_zero",
+    "weights_source": "HouseA_v1_unchanged",
+    "interpretation": "engineered_change_scale_not_spoilage_percentage",
+    "weights": {
+      "NH3": 0.30,
+      "H2S": 0.35,
+      "CH4": 0.10,
+      "BME": 0.25
+    }
+  },
+  "sensor_direction": {
+    "NH3": 1,
+    "H2S": 1,
+    "CH4": 1,
+    "BME": 1
+  },
+  "sensor_direction_source": "excluded_chicken_pilot",
+  "environmental_compensation": {
+    "enabled": false,
+    "reason": "delta_RH_plus_delta_T_was_worse_than_time_only_in_control_LOO",
+    "domain_policy": "diagnostic_flag_only"
+  },
+  "camera": {
+    "baseline_minutes": 30,
+    "persistence_frames": 5,
+    "laplacian_ratio_minimum": 0.5,
+    "background_laplacian_ratio_minimum": 0.5
+  },
+  "analysis_note": "Candidate selected from the excluded pilot and cross-fitted controls. Confirmation results are retrospective and cannot validate this revision; a new prospective run is required."
+}
