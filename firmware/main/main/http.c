@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <esp_log.h>
@@ -29,6 +30,7 @@
 #include "esp_system.h"
 #include "http.h"
 #include "esp_camera.h"
+#include "sensor_data.h"
 
 static const char *TAG = "HTTP_SERVER";
 static TimerHandle_t led_failsafe_timer;
@@ -115,6 +117,70 @@ static const httpd_uri_t capture = {
     .handler = capture_get_handler,
 };
 
+static esp_err_t sensor_data_get_handler(httpd_req_t *req)
+{
+    size_t count = sensor_data_count();
+    char count_header[16];
+    snprintf(count_header, sizeof(count_header), "%u", (unsigned int)count);
+
+    esp_err_t result = httpd_resp_set_type(req, "text/csv");
+    if (result == ESP_OK) {
+        result = httpd_resp_set_hdr(req, "Cache-Control", "no-store");
+    }
+    if (result == ESP_OK) {
+        result = httpd_resp_set_hdr(req, "X-Record-Count", count_header);
+    }
+    if (result != ESP_OK) {
+        return result;
+    }
+
+    for (size_t i = 0; i < count; i++) {
+        sensor_record_t record;
+        result = sensor_data_get(i, &record);
+        if (result != ESP_OK) {
+            return result;
+        }
+
+        char line[192];
+        int length = snprintf(
+            line,
+            sizeof(line),
+            "%d,%.6f,%d,%.6f,%d,%.6f,%.2f,%.2f,%.2f,%.0f\n",
+            record.adc_nh3, record.v_nh3,
+            record.adc_ch4, record.v_ch4,
+            record.adc_h2s, record.v_h2s,
+            record.temperature_c, record.pressure_pa,
+            record.humidity_pct, record.bme_gas_ohms);
+
+        if (length < 0 || (size_t)length >= sizeof(line)) {
+            return ESP_ERR_INVALID_SIZE;
+        }
+
+        result = httpd_resp_send_chunk(req, line, (size_t)length);
+        if (result != ESP_OK) {
+            ESP_LOGE(TAG, "Sensor-data response failed: %s",
+                     esp_err_to_name(result));
+            return result;
+        }
+    }
+
+    result = httpd_resp_send_chunk(req, NULL, 0);
+    if (result == ESP_OK && count > 0) {
+        result = sensor_data_discard(count);
+        if (result == ESP_OK) {
+            ESP_LOGI(TAG, "Transferred %u sensor records",
+                     (unsigned int)count);
+        }
+    }
+    return result;
+}
+
+static const httpd_uri_t sensor_data_uri = {
+    .uri = "/sensor-data",
+    .method = HTTP_GET,
+    .handler = sensor_data_get_handler,
+};
+
 
 httpd_handle_t start_webserver(void)
 {
@@ -147,10 +213,31 @@ httpd_handle_t start_webserver(void)
     if (httpd_start(&server, &config) == ESP_OK) {
         // Set URI handlers
         ESP_LOGI(TAG, "Registering URI handlers");
-        httpd_register_uri_handler(server, &capture);
+        if (httpd_register_uri_handler(server, &capture) != ESP_OK ||
+            httpd_register_uri_handler(server, &sensor_data_uri) != ESP_OK) {
+            ESP_LOGE(TAG, "Failed to register URI handlers");
+            httpd_stop(server);
+            return NULL;
+        }
         return server;
     }
 
+
     ESP_LOGI(TAG, "Error starting server!");
     return NULL;
+}
+
+esp_err_t stop_webserver(httpd_handle_t server) {
+    if (server == NULL) {
+        return ESP_ERR_INVALID_ARG;
+    }
+    esp_err_t result = httpd_stop(server);
+
+    if (result != ESP_OK) {
+        return result;
+    }
+
+    ESP_LOGI(TAG, "Successfully Stopped");
+
+    return ESP_OK;
 }

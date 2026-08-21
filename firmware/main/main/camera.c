@@ -61,4 +61,16 @@ esp_err_t init_camera(void)
 
     return ESP_OK;
 }
+
+esp_err_t deinit_camera(void) {
+    esp_err_t err = esp_camera_deinit();
+    if (err != ESP_OK)
+    {
+        ESP_LOGE(TAG, "Camera deinitialization Failed");
+        return err;
+    }
+
+    ESP_LOGI(TAG, "Camera deinitialized successfully");
+    return ESP_OK;
+}
 #endif

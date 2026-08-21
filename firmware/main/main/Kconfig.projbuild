@@ -13,4 +13,13 @@ config ESP_MAXIMUM_RETRY
     range 1 20
     default 5
 
+config SPOIL_FREE_ENABLE_LIGHT_SLEEP
+    bool "Use light sleep during inactive cycle period"
+    default y
+
+config SENSOR_TRANSFER_GRACE_MS
+    int "Maximum sensor-data transfer grace period (ms)"
+    range 0 60000
+    default 10000
+
 endmenu

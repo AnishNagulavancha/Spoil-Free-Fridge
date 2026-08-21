@@ -22,3 +22,4 @@
 #endif
 
 esp_err_t init_camera(void);
+esp_err_t deinit_camera(void);

@@ -7,6 +7,7 @@
    CONDITIONS OF ANY KIND, either express or implied.
 */
 #include <string.h>
+#include <stdbool.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
@@ -38,11 +39,12 @@ static EventGroupHandle_t s_wifi_event_group;
 #define WIFI_CONNECTED_BIT BIT0
 #define WIFI_FAIL_BIT      BIT1
 
-static void wifi_init_sta(void);
+static esp_err_t wifi_init_sta(void);
 
 static const char *TAG = "wifi station";
 
 static int s_retry_num = 0;
+static bool s_wifi_stopping;
 
 esp_err_t wifi_init(void) {
     esp_err_t ret = nvs_flash_init();
@@ -59,10 +61,55 @@ esp_err_t wifi_init(void) {
     }
 
     ESP_LOGI(TAG, "ESP_WIFI_MODE_STA");
-    wifi_init_sta();
+    return wifi_init_sta();
 
+}
+
+esp_err_t wifi_start(void)
+{
+    if (s_wifi_event_group == NULL) {
+        return ESP_ERR_INVALID_STATE;
+    }
+
+    s_retry_num = 0;
+    s_wifi_stopping = false;
+    xEventGroupClearBits(s_wifi_event_group,
+                         WIFI_CONNECTED_BIT | WIFI_FAIL_BIT);
+
+    esp_err_t result = esp_wifi_start();
+    if (result != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to start Wi-Fi: %s", esp_err_to_name(result));
+        return result;
+    }
+
+    EventBits_t bits = xEventGroupWaitBits(
+        s_wifi_event_group,
+        WIFI_CONNECTED_BIT | WIFI_FAIL_BIT,
+        pdFALSE,
+        pdFALSE,
+        portMAX_DELAY);
+
+    if (bits & WIFI_CONNECTED_BIT) {
+        ESP_LOGI(TAG, "Wi-Fi restarted and received an IP address");
+        return ESP_OK;
+    }
+
+    ESP_LOGE(TAG, "Wi-Fi restart failed after maximum retries");
+    return ESP_FAIL;
+}
+
+esp_err_t wifi_stop(void)
+{
+    s_wifi_stopping = true;
+    esp_err_t result = esp_wifi_stop();
+    if (result != ESP_OK) {
+        s_wifi_stopping = false;
+        ESP_LOGE(TAG, "Failed to stop Wi-Fi: %s", esp_err_to_name(result));
+        return result;
+    }
+
+    ESP_LOGI(TAG, "Wi-Fi stopped successfully");
     return ESP_OK;
-
 }
 
 
@@ -72,6 +119,9 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START) {
         esp_wifi_connect();
     } else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED) {
+        if (s_wifi_stopping) {
+            return;
+        }
         if (s_retry_num < EXAMPLE_ESP_MAXIMUM_RETRY) {
             esp_wifi_connect();
             s_retry_num++;
@@ -88,7 +138,7 @@ static void event_handler(void* arg, esp_event_base_t event_base,
     }
 }
 
-static void wifi_init_sta(void)
+static esp_err_t wifi_init_sta(void)
 {
     s_wifi_event_group = xEventGroupCreate();
 
@@ -149,10 +199,13 @@ static void wifi_init_sta(void)
     if (bits & WIFI_CONNECTED_BIT) {
         ESP_LOGI(TAG, "connected to ap SSID:%s",
                  EXAMPLE_ESP_WIFI_SSID);
+        return ESP_OK;
     } else if (bits & WIFI_FAIL_BIT) {
-        ESP_LOGI(TAG, "Failed to connect to SSID:%s",
+        ESP_LOGE(TAG, "Failed to connect to SSID:%s",
                  EXAMPLE_ESP_WIFI_SSID);
+        return ESP_FAIL;
     } else {
         ESP_LOGE(TAG, "UNEXPECTED EVENT");
+        return ESP_FAIL;
     }
 }

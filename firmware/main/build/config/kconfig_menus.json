@@ -6253,6 +6253,29 @@
                 ],
                 "title": "Maximum connection retries",
                 "type": "int"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": null,
+                "id": "SPOIL_FREE_ENABLE_LIGHT_SLEEP",
+                "name": "SPOIL_FREE_ENABLE_LIGHT_SLEEP",
+                "range": null,
+                "title": "Use light sleep during inactive cycle period",
+                "type": "bool"
+            },
+            {
+                "children": [],
+                "depends_on": null,
+                "help": null,
+                "id": "SENSOR_TRANSFER_GRACE_MS",
+                "name": "SENSOR_TRANSFER_GRACE_MS",
+                "range": [
+                    0,
+                    60000
+                ],
+                "title": "Maximum sensor-data transfer grace period (ms)",
+                "type": "int"
             }
         ],
         "depends_on": null,
